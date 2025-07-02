@@ -63,12 +63,12 @@ export default function TransactionFiltersComponent({ filters, onFiltersChange }
           </div>
 
           {/* Category Filter */}
-          <Select value={filters.category || ""} onValueChange={(value) => handleFilterChange("category", value)}>
+          <Select value={filters.category || "all"} onValueChange={(value) => handleFilterChange("category", value === "all" ? undefined : value)}>
             <SelectTrigger>
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Categories</SelectItem>
+              <SelectItem value="all">All Categories</SelectItem>
               {categories?.map((category) => (
                 <SelectItem key={category.id} value={category.id}>
                   {category.name}
@@ -78,12 +78,12 @@ export default function TransactionFiltersComponent({ filters, onFiltersChange }
           </Select>
 
           {/* Type Filter */}
-          <Select value={filters.type || ""} onValueChange={(value) => handleFilterChange("type", value)}>
+          <Select value={filters.type || "all"} onValueChange={(value) => handleFilterChange("type", value === "all" ? undefined : value)}>
             <SelectTrigger>
               <SelectValue placeholder="All Types" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Types</SelectItem>
+              <SelectItem value="all">All Types</SelectItem>
               <SelectItem value="income">Income</SelectItem>
               <SelectItem value="expense">Expense</SelectItem>
             </SelectContent>
