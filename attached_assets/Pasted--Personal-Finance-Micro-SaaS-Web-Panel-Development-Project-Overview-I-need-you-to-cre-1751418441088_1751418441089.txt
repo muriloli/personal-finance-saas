@@ -1,0 +1,290 @@
+# Personal Finance Micro SaaS - Web Panel Development
+
+## 🎯 Project Overview
+
+I need you to create a **complete web application** for a Personal Finance Micro SaaS system. This is a financial control system that operates primarily via WhatsApp AI bot, but I need you to focus **ONLY on the web panel interface** for now. The WhatsApp integration and AI bot will be developed separately later.
+
+The web panel serves as a comprehensive dashboard where users can view, manage, and analyze their financial data that they input through WhatsApp conversations with an AI assistant.
+
+## 🏗️ Technical Stack Required
+
+- **Framework**: Next.js 14 (App Router)
+- **Styling**: Tailwind CSS
+- **Database**: Supabase (PostgreSQL) - **READY TO CONNECT**
+- **UI Components**: Shadcn/ui (preferred) or custom Tailwind components
+- **Charts**: Recharts for data visualization
+- **Authentication**: Supabase Auth
+- **Icons**: Lucide React or Heroicons
+
+## 📊 Database Structure (Already Defined)
+
+### Tables Schema:
+
+```sql
+-- Users table
+users:
+- id (UUID, Primary Key)
+- name (VARCHAR 255, NOT NULL)
+- cpf (VARCHAR 11, UNIQUE, NOT NULL) 
+- phone (VARCHAR 20, UNIQUE, NOT NULL)
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+- is_active (BOOLEAN)
+
+-- Categories table
+categories:
+- id (UUID, Primary Key)
+- name (VARCHAR 100, NOT NULL)
+- type (income/expense, NOT NULL)
+- color (VARCHAR 7, hex color)
+- icon (VARCHAR 50)
+- is_default (BOOLEAN)
+- created_at (TIMESTAMP)
+
+-- Transactions table
+transactions:
+- id (UUID, Primary Key)
+- user_id (UUID, Foreign Key)
+- category_id (UUID, Foreign Key)
+- type (income/expense, NOT NULL)
+- amount (DECIMAL 12,2, NOT NULL)
+- description (TEXT)
+- transaction_date (DATE, NOT NULL)
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+- source (whatsapp/web, DEFAULT 'web')
+
+-- User Sessions table
+user_sessions:
+- id (UUID, Primary Key)
+- user_id (UUID, Foreign Key)
+- session_token (VARCHAR 255, UNIQUE)
+- expires_at (TIMESTAMP)
+- created_at (TIMESTAMP)
+- ip_address (INET)
+- user_agent (TEXT)
+
+-- User Settings table
+user_settings:
+- id (UUID, Primary Key)
+- user_id (UUID, Foreign Key)
+- daily_reminder (BOOLEAN)
+- reminder_time (TIME)
+- monthly_report (BOOLEAN)
+- expense_alerts (BOOLEAN)
+- expense_limit (DECIMAL 10,2)
+- default_currency (VARCHAR 3)
+- date_format (VARCHAR 10)
+- theme (light/dark/auto)
+- whatsapp_notifications (BOOLEAN)
+- auto_categorization (BOOLEAN)
+- created_at (TIMESTAMP)
+- updated_at (TIMESTAMP)
+
+-- System Logs table
+system_logs:
+- id (UUID, Primary Key)
+- user_id (UUID, Foreign Key, nullable)
+- level (info/warning/error)
+- source (whatsapp/web/api)
+- message (TEXT)
+- metadata (JSONB)
+- created_at (TIMESTAMP)
+```
+
+## 🎨 Required Pages & Features
+
+### 1. **Login Page** (`/login`)
+- **Authentication**: Login with CPF only (no password)
+- **Session Management**: 60-minute session expiration
+- **Design**: Modern, clean login form
+- **Validation**: CPF format validation
+- **Redirect**: After login, redirect to dashboard
+
+### 2. **Dashboard Page** (`/dashboard`) - **MAIN PAGE**
+- **Financial Overview Cards**:
+  - Total Income (current month)
+  - Total Expenses (current month)
+  - Current Balance
+  - Monthly savings
+- **Charts & Visualizations**:
+  - Income vs Expenses line chart (last 6 months)
+  - Expenses by category pie chart
+  - Monthly evolution bar chart
+- **Quick Stats**:
+  - Recent transactions (last 5)
+  - Top spending categories
+  - Alerts if expense limit exceeded
+- **Responsive Design**: Mobile-friendly layout
+
+### 3. **Transactions Page** (`/transactions`)
+- **Transaction List**: Paginated table with all transactions
+- **Filters**:
+  - Date range picker
+  - Category filter
+  - Type filter (income/expense)
+  - Amount range
+- **Actions**:
+  - Edit transaction (inline or modal)
+  - Delete transaction (with confirmation)
+  - Bulk operations
+- **Search**: Real-time search by description
+- **Export**: CSV export functionality
+
+### 4. **Manual Entry Page** (`/transactions/new`)
+- **Transaction Form**:
+  - Type selection (Income/Expense)
+  - Amount input (currency formatted)
+  - Category dropdown (filtered by type)
+  - Date picker (default: today)
+  - Description text area
+  - Source auto-set to 'web'
+- **Validation**: Client-side and server-side validation
+- **UX**: Real-time preview, success feedback
+
+### 5. **Settings Page** (`/settings`)
+- **User Profile**:
+  - Edit name
+  - View CPF (read-only)
+  - View phone (read-only)
+- **Preferences**:
+  - Daily reminder toggle
+  - Reminder time picker
+  - Monthly report toggle
+  - Expense alerts toggle
+  - Expense limit input
+  - Currency selection
+  - Date format selection  
+  - Theme selection (light/dark/auto)
+- **WhatsApp Settings**:
+  - Notification preferences
+  - Auto-categorization toggle
+- **Data Management**:
+  - Export all data
+  - Data retention settings
+
+### 6. **Help Page** (`/help`)
+- **FAQ Section**: Common questions about the system
+- **How-to Guides**: Step-by-step instructions
+- **Contact Information**: Support contact details
+- **System Status**: Basic system health indicators
+
+## 🎨 Design Requirements
+
+### Visual Identity:
+- **Modern & Clean**: Minimalist design approach
+- **Financial Theme**: Use colors that convey trust (blues, greens)
+- **Mobile-First**: Responsive design for all screen sizes
+- **Accessibility**: WCAG 2.1 AA compliance
+- **Dark Mode**: Support for theme switching
+
+### UI/UX Principles:
+- **Intuitive Navigation**: Clear sidebar or top navigation
+- **Quick Actions**: FABs for common tasks
+- **Data Visualization**: Charts should be interactive
+- **Loading States**: Skeleton loaders for better UX
+- **Error Handling**: User-friendly error messages
+- **Success Feedback**: Toast notifications for actions
+
+## 🔗 Supabase Integration Requirements
+
+### Authentication:
+```javascript
+// Example login flow
+const loginWithCPF = async (cpf) => {
+  // Custom auth logic with CPF lookup
+  // Create session in user_sessions table
+  // Set 60-minute expiration
+}
+```
+
+### Database Operations:
+- **Transactions CRUD**: Full create, read, update, delete
+- **Categories Management**: Fetch and manage categories
+- **User Settings**: Save and retrieve user preferences
+- **Analytics Queries**: Complex queries for dashboard charts
+- **Real-time Updates**: Use Supabase real-time for live data
+
+### Environment Variables Setup:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+```
+
+## 📋 Specific Implementation Requirements
+
+### Project Structure:
+```
+/app
+  /dashboard
+    page.tsx
+  /transactions
+    page.tsx
+    /new
+      page.tsx
+  /settings
+    page.tsx
+  /help
+    page.tsx
+  /login
+    page.tsx
+/components
+  /ui (shadcn components)
+  /charts
+  /forms
+  /layout
+/lib
+  /supabase
+  /utils
+  /types
+```
+
+### Data Flow:
+1. **User logs in** → Validate CPF → Create session → Redirect to dashboard
+2. **Dashboard loads** → Fetch user data → Calculate metrics → Render charts
+3. **Transactions** → CRUD operations → Real-time updates → Refresh dashboard
+4. **Settings** → Update preferences → Sync with database
+
+### Key Features to Implement:
+- ✅ **Session Management**: Auto-logout after 60 minutes
+- ✅ **Real-time Data**: Live updates when data changes
+- ✅ **Offline Support**: Basic offline functionality
+- ✅ **Data Validation**: Robust client and server validation
+- ✅ **Performance**: Optimized queries and caching
+- ✅ **Security**: SQL injection prevention, XSS protection
+
+## 🚀 What I Need You to Create
+
+**Please create the complete Next.js application with:**
+
+1. **Full project structure** with all necessary files
+2. **All 6 pages** with complete functionality
+3. **Supabase integration** ready to connect
+4. **Responsive design** with Tailwind CSS
+5. **TypeScript types** for all data structures
+6. **Error handling** and loading states
+7. **Modern UI components** with good UX
+8. **Chart implementations** for the dashboard
+9. **Form validations** and user feedback
+10. **Session management** and authentication flow
+
+## ⚠️ Important Notes
+
+- **FOCUS ONLY ON WEB INTERFACE** - No WhatsApp bot or AI integration needed
+- **Supabase-ready**: Code should be ready to connect to Supabase with minimal config
+- **Production-ready**: Clean, maintainable, and scalable code
+- **Default data**: Include sample categories and demo data for testing
+- **Mobile-responsive**: Must work perfectly on mobile devices
+- **Modern practices**: Use React hooks, TypeScript, and current Next.js patterns
+
+## 🎯 Success Criteria
+
+The application should be ready to:
+1. **Deploy immediately** to Vercel/Railway
+2. **Connect to Supabase** with just environment variables
+3. **Handle real users** with proper session management
+4. **Scale easily** with clean architecture
+5. **Integrate later** with the WhatsApp AI bot system
+
+This web panel will serve as the comprehensive interface for users to manage their finances, while the WhatsApp bot (to be developed separately) will handle quick data entry and queries.
