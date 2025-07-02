@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { loginSchema, transactionFormSchema, insertUserSettingsSchema } from "@shared/schema";
 import { z } from "zod";
+import { authenticateUser } from "./middleware/auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Authentication routes
@@ -36,19 +37,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/auth/me", async (req, res) => {
+  app.get("/api/auth/me", authenticateUser, async (req, res) => {
     try {
-      const sessionToken = req.headers.authorization?.replace("Bearer ", "");
-      if (!sessionToken) {
-        return res.status(401).json({ message: "No session token" });
-      }
-
-      const session = await storage.getSessionByToken(sessionToken);
-      if (!session || session.expiresAt < new Date()) {
-        return res.status(401).json({ message: "Invalid or expired session" });
-      }
-
-      const user = await storage.getUser(session.userId);
+      const user = await storage.getUser(req.session!.userId);
       if (!user) {
         return res.status(401).json({ message: "User not found" });
       }
@@ -60,30 +51,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Dashboard routes
-  app.get("/api/dashboard/overview", async (req, res) => {
+  app.get("/api/dashboard/overview", authenticateUser, async (req, res) => {
     try {
-      const sessionToken = req.headers.authorization?.replace("Bearer ", "");
-      const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session || session.expiresAt < new Date()) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-
-      const overview = await storage.getDashboardOverview(session.userId);
+      const overview = await storage.getDashboardOverview(req.session!.userId);
       res.json(overview);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch dashboard data" });
     }
   });
 
-  app.get("/api/dashboard/charts", async (req, res) => {
+  app.get("/api/dashboard/charts", authenticateUser, async (req, res) => {
     try {
-      const sessionToken = req.headers.authorization?.replace("Bearer ", "");
-      const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session || session.expiresAt < new Date()) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-
-      const charts = await storage.getChartData(session.userId);
+      const charts = await storage.getChartData(req.session!.userId);
       res.json(charts);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch chart data" });
@@ -91,14 +70,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Transaction routes
-  app.get("/api/transactions", async (req, res) => {
+  app.get("/api/transactions", authenticateUser, async (req, res) => {
     try {
-      const sessionToken = req.headers.authorization?.replace("Bearer ", "");
-      const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session || session.expiresAt < new Date()) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-
       const { page = "1", limit = "10", search, category, type, startDate, endDate } = req.query;
       
       const filters = {
@@ -110,7 +83,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
 
       const transactions = await storage.getTransactions(
-        session.userId,
+        req.session!.userId,
         parseInt(page as string),
         parseInt(limit as string),
         filters
@@ -122,19 +95,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/transactions", async (req, res) => {
+  app.post("/api/transactions", authenticateUser, async (req, res) => {
     try {
-      const sessionToken = req.headers.authorization?.replace("Bearer ", "");
-      const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session || session.expiresAt < new Date()) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-
       const validatedData = transactionFormSchema.parse(req.body);
       
       const transaction = await storage.createTransaction({
         ...validatedData,
-        userId: session.userId,
+        userId: req.session!.userId,
         amount: validatedData.amount.toString(),
       });
       
@@ -147,14 +114,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/transactions/:id", async (req, res) => {
+  app.put("/api/transactions/:id", authenticateUser, async (req, res) => {
     try {
-      const sessionToken = req.headers.authorization?.replace("Bearer ", "");
-      const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session || session.expiresAt < new Date()) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-
       const { id } = req.params;
       const validatedData = transactionFormSchema.parse(req.body);
       
@@ -176,16 +137,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/transactions/:id", async (req, res) => {
+  app.delete("/api/transactions/:id", authenticateUser, async (req, res) => {
     try {
-      const sessionToken = req.headers.authorization?.replace("Bearer ", "");
-      const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session || session.expiresAt < new Date()) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-
       const { id } = req.params;
-      const success = await storage.deleteTransaction(id, session.userId);
+      const success = await storage.deleteTransaction(id, req.session!.userId);
       
       if (!success) {
         return res.status(404).json({ message: "Transaction not found" });
@@ -209,31 +164,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Settings routes
-  app.get("/api/settings", async (req, res) => {
+  app.get("/api/settings", authenticateUser, async (req, res) => {
     try {
-      const sessionToken = req.headers.authorization?.replace("Bearer ", "");
-      const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session || session.expiresAt < new Date()) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-
-      const settings = await storage.getUserSettings(session.userId);
+      const settings = await storage.getUserSettings(req.session!.userId);
       res.json(settings);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch settings" });
     }
   });
 
-  app.put("/api/settings", async (req, res) => {
+  app.put("/api/settings", authenticateUser, async (req, res) => {
     try {
-      const sessionToken = req.headers.authorization?.replace("Bearer ", "");
-      const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session || session.expiresAt < new Date()) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-
       const validatedData = insertUserSettingsSchema.parse(req.body);
-      const settings = await storage.updateUserSettings(session.userId, validatedData);
+      const settings = await storage.updateUserSettings(req.session!.userId, validatedData);
       
       res.json(settings);
     } catch (error) {
@@ -245,15 +188,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Export routes
-  app.get("/api/export/transactions", async (req, res) => {
+  app.get("/api/export/transactions", authenticateUser, async (req, res) => {
     try {
-      const sessionToken = req.headers.authorization?.replace("Bearer ", "");
-      const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session || session.expiresAt < new Date()) {
-        return res.status(401).json({ message: "Unauthorized" });
-      }
-
-      const csvData = await storage.exportTransactionsCSV(session.userId);
+      const csvData = await storage.exportTransactionsCSV(req.session!.userId);
       
       res.setHeader("Content-Type", "text/csv");
       res.setHeader("Content-Disposition", "attachment; filename=transactions.csv");
