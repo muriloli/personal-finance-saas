@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/lib/i18n";
 import { apiRequest } from "@/lib/queryClient";
 import { insertUserSettingsSchema, UserSettings } from "@shared/schema";
 import { z } from "zod";
@@ -20,6 +21,7 @@ type SettingsFormData = z.infer<typeof insertUserSettingsSchema>;
 export default function Settings() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { t, language, setLanguage } = useI18n();
 
   const { data: settings, isLoading } = useQuery<UserSettings>({
     queryKey: ["/api/settings"],
@@ -134,7 +136,7 @@ export default function Settings() {
               {/* User Profile */}
               <Card>
                 <CardHeader>
-                  <CardTitle>User Profile</CardTitle>
+                  <CardTitle>{t("personalInfo")}</CardTitle>
                   <CardDescription>
                     Your basic account information.
                   </CardDescription>
@@ -166,7 +168,7 @@ export default function Settings() {
               {/* Preferences */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Preferences</CardTitle>
+                  <CardTitle>{t("preferences")}</CardTitle>
                   <CardDescription>
                     Customize your experience and display settings.
                   </CardDescription>
@@ -175,10 +177,38 @@ export default function Settings() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField
                       control={form.control}
+                      name="language"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t("language")}</FormLabel>
+                          <Select 
+                            onValueChange={(value) => {
+                              field.onChange(value);
+                              setLanguage(value as "pt-BR" | "en-US");
+                            }} 
+                            defaultValue={field.value || language}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder={`Select ${t("language").toLowerCase()}`} />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="pt-BR">{t("pt-BR-label")}</SelectItem>
+                              <SelectItem value="en-US">{t("en-US-label")}</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
                       name="defaultCurrency"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Currency</FormLabel>
+                          <FormLabel>{t("currency")}</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>

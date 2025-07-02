@@ -4,18 +4,20 @@ import { ChartLine, Home, CreditCard, Plus, Settings, HelpCircle, LogOut, User }
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
-
-const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: Home },
-  { name: "Transactions", href: "/transactions", icon: CreditCard },
-  { name: "Add Transaction", href: "/transactions/new", icon: Plus },
-  { name: "Settings", href: "/settings", icon: Settings },
-  { name: "Help", href: "/help", icon: HelpCircle },
-];
+import { useI18n } from "@/lib/i18n";
 
 export default function Sidebar() {
   const [location, setLocation] = useLocation();
   const { user, logout } = useAuth();
+  const { t } = useI18n();
+
+  const navigation = [
+    { name: t("dashboard"), href: "/dashboard", icon: Home },
+    { name: t("transactions"), href: "/transactions", icon: CreditCard },
+    { name: t("addTransaction"), href: "/transactions/new", icon: Plus },
+    { name: t("settings"), href: "/settings", icon: Settings },
+    { name: t("help"), href: "/help", icon: HelpCircle },
+  ];
 
   const handleLogout = () => {
     logout();
@@ -72,7 +74,7 @@ export default function Sidebar() {
                 className="text-xs text-muted-foreground hover:text-foreground p-0 h-auto"
               >
                 <LogOut className="mr-1 h-3 w-3" />
-                Sign out
+                {t("logout")}
               </Button>
             </div>
           </div>

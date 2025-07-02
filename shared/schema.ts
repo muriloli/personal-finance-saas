@@ -62,6 +62,7 @@ export const userSettings = pgTable("user_settings", {
   defaultCurrency: varchar("default_currency", { length: 3 }).default("BRL"),
   dateFormat: varchar("date_format", { length: 10 }).default("DD/MM/YYYY"),
   theme: varchar("theme", { length: 10 }).default("light"), // 'light', 'dark', 'auto'
+  language: varchar("language", { length: 5 }).default("pt-BR"), // 'pt-BR', 'en-US'
   whatsappNotifications: boolean("whatsapp_notifications").default(true),
   autoCategorization: boolean("auto_categorization").default(true),
   createdAt: timestamp("created_at").defaultNow(),
