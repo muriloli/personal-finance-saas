@@ -108,7 +108,7 @@ export class DatabaseStorage implements IStorage {
 
   async createSession(userId: string, ipAddress: string, userAgent: string): Promise<UserSession> {
     const sessionToken = this.generateSessionToken();
-    const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 60 minutes
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
     const [session] = await db
       .insert(userSessions)

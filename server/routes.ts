@@ -64,7 +64,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const sessionToken = req.headers.authorization?.replace("Bearer ", "");
       const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session) {
+      if (!session || session.expiresAt < new Date()) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
@@ -79,7 +79,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const sessionToken = req.headers.authorization?.replace("Bearer ", "");
       const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session) {
+      if (!session || session.expiresAt < new Date()) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
@@ -95,7 +95,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const sessionToken = req.headers.authorization?.replace("Bearer ", "");
       const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session) {
+      if (!session || session.expiresAt < new Date()) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
@@ -126,7 +126,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const sessionToken = req.headers.authorization?.replace("Bearer ", "");
       const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session) {
+      if (!session || session.expiresAt < new Date()) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
@@ -151,7 +151,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const sessionToken = req.headers.authorization?.replace("Bearer ", "");
       const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session) {
+      if (!session || session.expiresAt < new Date()) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
@@ -180,7 +180,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const sessionToken = req.headers.authorization?.replace("Bearer ", "");
       const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session) {
+      if (!session || session.expiresAt < new Date()) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
@@ -213,7 +213,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const sessionToken = req.headers.authorization?.replace("Bearer ", "");
       const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session) {
+      if (!session || session.expiresAt < new Date()) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
@@ -228,7 +228,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const sessionToken = req.headers.authorization?.replace("Bearer ", "");
       const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session) {
+      if (!session || session.expiresAt < new Date()) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
@@ -249,7 +249,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const sessionToken = req.headers.authorization?.replace("Bearer ", "");
       const session = await storage.getSessionByToken(sessionToken || "");
-      if (!session) {
+      if (!session || session.expiresAt < new Date()) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
