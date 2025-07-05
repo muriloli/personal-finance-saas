@@ -20,16 +20,16 @@ interface ChartData {
 const chartConfig = {
   income: {
     label: "Income",
-    color: "hsl(var(--success))",
+    color: "#10B981", // Green color for income
   },
   expenses: {
-    label: "Expenses",
-    color: "hsl(var(--destructive))",
+    label: "Expenses", 
+    color: "#EF4444", // Red color for expenses
   },
 };
 
 export default function Charts() {
-  const { data: chartData, isLoading } = useQuery<ChartData>({
+  const { data: rawChartData, isLoading } = useQuery<any>({
     queryKey: ["/api/dashboard/charts"],
   });
 
@@ -39,6 +39,20 @@ export default function Charts() {
       currency: "BRL",
     }).format(value);
   };
+
+  // Convert string values to numbers for proper chart rendering
+  const chartData: ChartData | undefined = rawChartData ? {
+    incomeVsExpenses: rawChartData.incomeVsExpenses.map((item: any) => ({
+      month: item.month,
+      income: parseFloat(item.income) || 0,
+      expenses: parseFloat(item.expenses) || 0,
+    })),
+    expensesByCategory: rawChartData.expensesByCategory.map((item: any) => ({
+      name: item.name,
+      value: parseFloat(item.value) || 0,
+      color: item.color,
+    })),
+  } : undefined;
 
   if (isLoading) {
     return (
@@ -98,16 +112,16 @@ export default function Charts() {
                 <Line
                   type="monotone"
                   dataKey="income"
-                  stroke="var(--color-income)"
+                  stroke="#10B981"
                   strokeWidth={2}
-                  dot={{ fill: "var(--color-income)" }}
+                  dot={{ fill: "#10B981" }}
                 />
                 <Line
                   type="monotone"
                   dataKey="expenses"
-                  stroke="var(--color-expenses)"
+                  stroke="#EF4444"
                   strokeWidth={2}
-                  dot={{ fill: "var(--color-expenses)" }}
+                  dot={{ fill: "#EF4444" }}
                 />
               </LineChart>
             </ResponsiveContainer>
