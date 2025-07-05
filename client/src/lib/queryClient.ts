@@ -51,9 +51,24 @@ export const getQueryFn: <T>(options: {
     // Build URL with query parameters
     let url = queryKey[0] as string;
     if (queryKey[1]) {
-      const queryParams = queryKey[1] as string;
-      if (queryParams && queryParams.trim() !== "") {
-        url += `?${queryParams}`;
+      const params = queryKey[1];
+      if (typeof params === "string") {
+        // Handle string parameters (legacy format)
+        if (params.trim() !== "") {
+          url += `?${params}`;
+        }
+      } else if (typeof params === "object" && params !== null) {
+        // Handle object parameters (new format)
+        const queryParams = new URLSearchParams();
+        Object.entries(params).forEach(([key, value]) => {
+          if (value !== undefined && value !== null && value !== "") {
+            queryParams.append(key, String(value));
+          }
+        });
+        const queryString = queryParams.toString();
+        if (queryString) {
+          url += `?${queryString}`;
+        }
       }
     }
     

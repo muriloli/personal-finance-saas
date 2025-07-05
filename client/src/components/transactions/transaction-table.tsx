@@ -36,16 +36,22 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
   const queryClient = useQueryClient();
   const [, setLocation] = useLocation();
 
-  const queryParams = new URLSearchParams({
-    page: page.toString(),
-    limit: limit.toString(),
-    ...Object.fromEntries(
-      Object.entries(filters).filter(([_, value]) => value !== undefined && value !== "")
-    ),
-  });
+  // Create a more reliable query key that React Query can track properly
+  const queryKey = [
+    "/api/transactions",
+    {
+      page: page.toString(),
+      limit: limit.toString(),
+      search: filters.search || "",
+      category: filters.category || "",
+      type: filters.type || "",
+      startDate: filters.startDate || "",
+      endDate: filters.endDate || "",
+    },
+  ];
 
   const { data, isLoading } = useQuery<TransactionsResponse>({
-    queryKey: ["/api/transactions", queryParams.toString()],
+    queryKey,
   });
 
   const deleteMutation = useMutation({
