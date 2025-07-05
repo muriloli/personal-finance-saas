@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Search, Calendar } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { Category } from "@shared/schema";
 import { TransactionFilters } from "@/pages/transactions";
 
@@ -24,6 +24,21 @@ export default function TransactionFiltersComponent({ filters, onFiltersChange }
     queryKey: ["/api/categories"],
   });
 
+  // Sync local date state with filters prop
+  useEffect(() => {
+    if (filters.startDate) {
+      setStartDate(parseISO(filters.startDate));
+    } else {
+      setStartDate(undefined);
+    }
+    
+    if (filters.endDate) {
+      setEndDate(parseISO(filters.endDate));
+    } else {
+      setEndDate(undefined);
+    }
+  }, [filters.startDate, filters.endDate]);
+
   const handleFilterChange = (key: keyof TransactionFilters, value: string | undefined) => {
     onFiltersChange({
       ...filters,
@@ -33,18 +48,15 @@ export default function TransactionFiltersComponent({ filters, onFiltersChange }
 
   const handleDateChange = (type: "start" | "end", date: Date | undefined) => {
     if (type === "start") {
-      setStartDate(date);
       handleFilterChange("startDate", date ? format(date, "yyyy-MM-dd") : undefined);
     } else {
-      setEndDate(date);
       handleFilterChange("endDate", date ? format(date, "yyyy-MM-dd") : undefined);
     }
   };
 
   const clearFilters = () => {
-    setStartDate(undefined);
-    setEndDate(undefined);
     onFiltersChange({});
+    // The useEffect will handle clearing the local state
   };
 
   return (
