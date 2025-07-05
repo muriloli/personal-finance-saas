@@ -1,0 +1,107 @@
+# Transaction Form Debug Issue - Need Help
+
+## Problem Description
+I have a **critical bug** in my Personal Finance SaaS application where the "Add Transaction" form is not creating records in the Supabase database, even though all form fields are properly filled out. However, when I manually execute the same API call through the browser console, it works perfectly and creates the record.
+
+## Current Setup
+- **Frontend**: React + TypeScript + Tailwind CSS
+- **Backend**: Node.js + Express + TypeScript
+- **Database**: PostgreSQL (Supabase)
+- **ORM**: Drizzle
+- **Form Library**: React Hook Form + Zod validation
+- **State Management**: TanStack Query
+
+## What's Working vs What's Not
+
+### ✅ Working (Browser Console)
+```javascript
+// This works perfectly when executed in browser console
+const TransactionService = {
+  create: async (data) => {
+    const token = localStorage.getItem('sessionToken');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const transactionData = {
+      userId: user.id,
+      amount: data.amount.toString(),
+      type: data.type,
+      categoryId: data.categoryId,
+      description: data.description || 'No description',
+      transactionDate: data.transactionDate,
+      source: data.source || 'web'
+    };
+    
+    return fetch('/api/transactions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(transactionData),
+    });
+  }
+};
+
+// Test call that WORKS
+TransactionService.create({
+  amount: 100,
+  type: 'expense',
+  categoryId: 'f207116e-c221-4a13-9e6d-869b91475b53',
+  description: 'Test',
+  transactionDate: '2025-01-07'
+}).then(r => r.json()).then(result => console.log('Result:', result));
+```
+
+### ❌ Not Working (React Form)
+The transaction form at `/transactions/new` page doesn't create database records despite:
+- All form validation passing
+- No console errors
+- Form submission appearing successful
+- Using the same API endpoint
+
+## Current Form Implementation
+
+The form uses:
+1. **React Hook Form** with Zod schema validation
+2. **useMutation** from TanStack Query
+3. **apiRequest** helper function
+4. **authenticateUser** middleware on backend
+
+### Form Flow:
+```
+User fills form → Form validation passes → useMutation triggers → 
+apiRequest called → Backend receives request → ??? (fails silently) → 
+No database record created
+```
+
+### Backend Flow:
+```
+POST /api/transactions → authenticateUser middleware → 
+transactionFormSchema validation → storage.createTransaction → 
+Database insert
+```
+
+## Suspected Issues
+1. **Authentication middleware failing silently**
+2. **Form data not matching expected schema**
+3. **userId not being set correctly from session**
+4. **Transaction data transformation issue**
+5. **Database connection/transaction problem**
+
+## What I Need Help With
+
+1. **Debug the authentication flow** - Why does console work but form doesn't?
+2. **Compare data payloads** - What's different between working vs non-working requests?
+3. **Identify middleware issues** - Is the authenticateUser middleware properly setting req.session?
+4. **Fix the form submission** - Make the React form work like the console version
+
+## Key Files Involved
+- `/client/src/components/forms/transaction-form.tsx` - The problematic form
+- `/server/routes.ts` - API endpoint definition
+- `/server/middleware/auth.ts` - Authentication middleware
+- `/client/src/lib/queryClient.ts` - API request helper
+- `/shared/schema.ts` - Validation schemas
+
+## Expected Outcome
+The transaction form should create database records just like the console version does, with proper error handling and user feedback.
+
+Can you help me debug this step by step and identify why the form submission isn't working while the manual console execution works perfectly?

@@ -48,11 +48,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
 
   const createMutation = useMutation({
     mutationFn: async (data: TransactionFormData) => {
-      const token = localStorage.getItem("sessionToken");
-      return apiRequest("POST", "/api/transactions", {
-        ...data,
-        userId: "", // Will be set by server from session
-      });
+      return apiRequest("POST", "/api/transactions", data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });

@@ -176,7 +176,9 @@ export const loginSchema = z.object({
   cpf: z.string().regex(/^\d{11}$/, "CPF must be 11 digits"),
 });
 
-export const transactionFormSchema = insertTransactionSchema.extend({
+export const transactionFormSchema = insertTransactionSchema.omit({
+  userId: true,
+}).extend({
   amount: z.string().min(1, "Amount is required"),
   description: z.string().min(1, "Description is required"),
   transactionDate: z.string().min(1, "Date is required"),
