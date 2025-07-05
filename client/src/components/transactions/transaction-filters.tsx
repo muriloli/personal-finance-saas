@@ -48,9 +48,29 @@ export default function TransactionFiltersComponent({ filters, onFiltersChange }
 
   const handleDateChange = (type: "start" | "end", date: Date | undefined) => {
     if (type === "start") {
-      handleFilterChange("startDate", date ? format(date, "yyyy-MM-dd") : undefined);
+      const formattedDate = date ? format(date, "yyyy-MM-dd") : undefined;
+      // When setting start date, if there's an end date and start date is after end date, clear end date
+      if (formattedDate && filters.endDate && formattedDate > filters.endDate) {
+        onFiltersChange({
+          ...filters,
+          startDate: formattedDate,
+          endDate: undefined
+        });
+      } else {
+        handleFilterChange("startDate", formattedDate);
+      }
     } else {
-      handleFilterChange("endDate", date ? format(date, "yyyy-MM-dd") : undefined);
+      const formattedDate = date ? format(date, "yyyy-MM-dd") : undefined;
+      // When setting end date, if there's a start date and end date is before start date, clear start date
+      if (formattedDate && filters.startDate && formattedDate < filters.startDate) {
+        onFiltersChange({
+          ...filters,
+          startDate: undefined,
+          endDate: formattedDate
+        });
+      } else {
+        handleFilterChange("endDate", formattedDate);
+      }
     }
   };
 
@@ -114,6 +134,10 @@ export default function TransactionFiltersComponent({ filters, onFiltersChange }
                 mode="single"
                 selected={startDate}
                 onSelect={(date) => handleDateChange("start", date)}
+                disabled={(date) => {
+                  // Disable dates after end date if end date is set
+                  return endDate ? date > endDate : false;
+                }}
                 initialFocus
               />
             </PopoverContent>
@@ -132,11 +156,29 @@ export default function TransactionFiltersComponent({ filters, onFiltersChange }
                 mode="single"
                 selected={endDate}
                 onSelect={(date) => handleDateChange("end", date)}
+                disabled={(date) => {
+                  // Disable dates before start date if start date is set
+                  return startDate ? date < startDate : false;
+                }}
                 initialFocus
               />
             </PopoverContent>
           </Popover>
         </div>
+
+        {/* Date Range Display */}
+        {(filters.startDate || filters.endDate) && (
+          <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+            <Calendar className="h-4 w-4" />
+            <span>
+              {filters.startDate && filters.endDate
+                ? `From ${format(parseISO(filters.startDate), "MMM dd, yyyy")} to ${format(parseISO(filters.endDate), "MMM dd, yyyy")}`
+                : filters.startDate
+                ? `From ${format(parseISO(filters.startDate), "MMM dd, yyyy")} onwards`
+                : `Up to ${format(parseISO(filters.endDate!), "MMM dd, yyyy")}`}
+            </span>
+          </div>
+        )}
 
         {/* Clear Filters */}
         {(filters.search || filters.category || filters.type || filters.startDate || filters.endDate) && (
