@@ -12,12 +12,8 @@ export default function Dashboard() {
   const { theme, setTheme } = useTheme();
   const [, setLocation] = useLocation();
 
-  // Debug: log user data
-  console.log("Dashboard - user data:", user);
-
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
-    console.log("Toggling theme from", theme, "to", newTheme);
     setTheme(newTheme);
   };
 
