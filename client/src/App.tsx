@@ -12,6 +12,7 @@ import Login from "@/pages/login";
 import Dashboard from "@/pages/dashboard";
 import Transactions from "@/pages/transactions.tsx";
 import NewTransaction from "@/pages/new-transaction";
+import EditTransaction from "@/pages/edit-transaction";
 import Settings from "@/pages/settings";
 import Help from "@/pages/help";
 import NotFound from "@/pages/not-found";
@@ -42,6 +43,7 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/transactions" component={Transactions} />
       <Route path="/transactions/new" component={NewTransaction} />
+      <Route path="/transactions/edit/:id" component={EditTransaction} />
       <Route path="/settings" component={Settings} />
       <Route path="/help" component={Help} />
       <Route component={NotFound} />

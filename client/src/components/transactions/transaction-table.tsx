@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Edit, Trash2, MoreHorizontal, ArrowUpDown } from "lucide-react";
+import { useLocation } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -33,6 +34,7 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
   const [limit] = useState(10);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [, setLocation] = useLocation();
 
   const queryParams = new URLSearchParams({
     page: page.toString(),
@@ -81,6 +83,10 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
 
   const handleDelete = (id: string) => {
     deleteMutation.mutate(id);
+  };
+
+  const handleEdit = (id: string) => {
+    setLocation(`/transactions/edit/${id}`);
   };
 
   if (isLoading) {
@@ -231,7 +237,7 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleEdit(transaction.id)}>
                             <Edit className="mr-2 h-4 w-4" />
                             Edit
                           </DropdownMenuItem>

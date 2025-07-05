@@ -95,6 +95,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/transactions/:id", authenticateUser, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const transaction = await storage.getTransaction(id, req.session!.userId);
+      
+      if (!transaction) {
+        return res.status(404).json({ message: "Transaction not found" });
+      }
+      
+      res.json(transaction);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch transaction" });
+    }
+  });
+
   app.post("/api/transactions", authenticateUser, async (req, res) => {
     try {
       const validatedData = transactionFormSchema.parse(req.body);
@@ -122,6 +137,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const transaction = await storage.updateTransaction(id, {
         ...validatedData,
+        userId: req.session!.userId,
         amount: validatedData.amount.toString(),
       });
       
@@ -135,6 +151,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid data", errors: error.errors });
       }
       res.status(500).json({ message: "Failed to update transaction" });
+    }
+  });
+
+  app.delete("/api/transactions/:id", authenticateUser, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteTransaction(id, req.session!.userId);
+      
+      if (!success) {
+        return res.status(404).json({ message: "Transaction not found" });
+      }
+      
+      res.json({ message: "Transaction deleted successfully" });
+    } catch (error) {
+      console.error("Transaction deletion error:", error);
+      res.status(500).json({ message: "Failed to delete transaction" });
     }
   });
 

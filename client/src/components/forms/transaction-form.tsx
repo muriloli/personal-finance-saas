@@ -36,6 +36,17 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     queryKey: ["/api/categories"],
   });
 
+  // Fetch existing transaction data for editing
+  const { data: existingTransaction } = useQuery({
+    queryKey: ["/api/transactions", transactionId],
+    queryFn: async () => {
+      if (!transactionId) return null;
+      const response = await apiRequest("GET", `/api/transactions/${transactionId}`);
+      return response.json();
+    },
+    enabled: !!transactionId,
+  });
+
   const form = useForm<TransactionFormData>({
     resolver: zodResolver(transactionFormSchema),
     defaultValues: {
@@ -74,8 +85,38 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     },
   });
 
+  const editMutation = useMutation({
+    mutationFn: async (data: TransactionFormData) => {
+      return apiRequest("PUT", `/api/transactions/${transactionId}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
+      toast({
+        title: "Success!",
+        description: "Transaction updated successfully.",
+      });
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        setLocation("/transactions");
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update transaction. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
   const onSubmit = (data: TransactionFormData) => {
-    createMutation.mutate(data);
+    if (transactionId) {
+      editMutation.mutate(data);
+    } else {
+      createMutation.mutate(data);
+    }
   };
 
   const watchedValues = form.watch();
@@ -92,6 +133,22 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     });
     return () => subscription.unsubscribe();
   }, [form]);
+
+  // Populate form with existing transaction data when editing
+  useEffect(() => {
+    if (existingTransaction) {
+      const transaction = existingTransaction;
+      form.reset({
+        type: transaction.type,
+        amount: transaction.amount,
+        description: transaction.description || "",
+        transactionDate: transaction.transactionDate,
+        categoryId: transaction.categoryId,
+        source: transaction.source || "web",
+      });
+      setSelectedType(transaction.type);
+    }
+  }, [existingTransaction, form]);
 
   const formatCurrency = (value: string) => {
     const numericValue = parseFloat(value) || 0;
@@ -304,22 +361,22 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
                 type="button" 
                 variant="outline"
                 onClick={() => setLocation("/transactions")}
-                disabled={createMutation.isPending}
+                disabled={createMutation.isPending || editMutation.isPending}
               >
                 Cancel
               </Button>
               <Button 
                 type="submit" 
-                disabled={createMutation.isPending}
+                disabled={createMutation.isPending || editMutation.isPending}
                 className="min-w-[120px]"
               >
-                {createMutation.isPending ? (
+                {(createMutation.isPending || editMutation.isPending) ? (
                   <>
                     <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                    Adding...
+                    {transactionId ? "Updating..." : "Adding..."}
                   </>
                 ) : (
-                  "Add Transaction"
+                  transactionId ? "Update Transaction" : "Add Transaction"
                 )}
               </Button>
             </div>

@@ -30,6 +30,7 @@ export interface IStorage {
   deleteSession(token: string): Promise<void>;
 
   // Transaction methods
+  getTransaction(id: string, userId: string): Promise<(Transaction & { category: Category }) | undefined>;
   getTransactions(
     userId: string, 
     page: number, 
@@ -134,6 +135,29 @@ export class DatabaseStorage implements IStorage {
 
   async deleteSession(token: string): Promise<void> {
     await db.delete(userSessions).where(eq(userSessions.sessionToken, token));
+  }
+
+  async getTransaction(id: string, userId: string): Promise<(Transaction & { category: Category }) | undefined> {
+    const result = await db
+      .select({
+        id: transactions.id,
+        userId: transactions.userId,
+        categoryId: transactions.categoryId,
+        type: transactions.type,
+        amount: transactions.amount,
+        description: transactions.description,
+        transactionDate: transactions.transactionDate,
+        createdAt: transactions.createdAt,
+        updatedAt: transactions.updatedAt,
+        source: transactions.source,
+        category: categories
+      })
+      .from(transactions)
+      .innerJoin(categories, eq(transactions.categoryId, categories.id))
+      .where(and(eq(transactions.id, id), eq(transactions.userId, userId)))
+      .limit(1);
+    
+    return result[0] || undefined;
   }
 
   async getTransactions(
@@ -265,14 +289,14 @@ export class DatabaseStorage implements IStorage {
     const result = await db
       .delete(transactions)
       .where(and(eq(transactions.id, id), eq(transactions.userId, userId)));
-    return result.rowCount > 0;
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
   async getCategories(type?: "income" | "expense"): Promise<Category[]> {
-    let query = db.select().from(categories);
+    const query = db.select().from(categories);
     
     if (type) {
-      query = query.where(eq(categories.type, type));
+      return await query.where(eq(categories.type, type)).orderBy(asc(categories.name));
     }
     
     return await query.orderBy(asc(categories.name));
