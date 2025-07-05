@@ -176,13 +176,13 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      className="grid grid-cols-2 gap-4 mt-3"
+                      className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-3"
                     >
                       <div className="relative">
                         <RadioGroupItem value="income" id="income" className="sr-only" />
                         <Label
                           htmlFor="income"
-                          className={`flex items-center justify-center p-4 text-sm font-medium rounded-lg cursor-pointer border-2 transition-colors ${
+                          className={`flex items-center justify-center p-3 sm:p-4 text-sm font-medium rounded-lg cursor-pointer border-2 transition-colors ${
                             watchedValues.type === "income"
                               ? "border-green-500 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300"
                               : "border-border bg-background hover:bg-muted"
@@ -196,7 +196,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
                         <RadioGroupItem value="expense" id="expense" className="sr-only" />
                         <Label
                           htmlFor="expense"
-                          className={`flex items-center justify-center p-4 text-sm font-medium rounded-lg cursor-pointer border-2 transition-colors ${
+                          className={`flex items-center justify-center p-3 sm:p-4 text-sm font-medium rounded-lg cursor-pointer border-2 transition-colors ${
                             watchedValues.type === "expense"
                               ? "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300"
                               : "border-border bg-background hover:bg-muted"
@@ -223,13 +223,13 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
                   <FormControl>
                     <div className="relative">
                       <DollarSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <span className="absolute left-8 top-3 text-muted-foreground">R$</span>
+                      <span className="absolute left-8 top-3 text-muted-foreground text-sm">R$</span>
                       <Input
                         {...field}
                         type="number"
                         step="0.01"
                         placeholder="0.00"
-                        className="pl-16 text-lg py-3"
+                        className="pl-14 sm:pl-16 text-base sm:text-lg py-3"
                       />
                     </div>
                   </FormControl>

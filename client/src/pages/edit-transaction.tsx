@@ -17,13 +17,13 @@ export default function EditTransaction() {
               variant="ghost"
               size="icon"
               onClick={() => setLocation("/transactions")}
-              className="mr-4"
+              className="mr-3 sm:mr-4 shrink-0"
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">Edit Transaction</h1>
-              <p className="mt-1 text-sm text-muted-foreground">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-lg sm:text-2xl font-bold text-foreground">Edit Transaction</h1>
+              <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
                 Update the transaction details.
               </p>
             </div>

@@ -22,10 +22,10 @@ export default function Dashboard() {
       {/* Header */}
       <header className="bg-card shadow-sm border-b border-border">
         <div className="px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-              <p className="mt-1 text-sm text-muted-foreground">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center py-4 gap-4">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground">Dashboard</h1>
+              <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
                 {user?.name ? (
                   `Welcome back, ${user.name}! Here's your financial overview.`
                 ) : (
@@ -33,21 +33,21 @@ export default function Dashboard() {
                 )}
               </p>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4 w-full sm:w-auto">
               <Button 
                 variant="outline" 
                 size="icon" 
                 onClick={toggleTheme}
-                className="relative h-9 w-9 rounded-md border border-border hover:bg-accent hover:text-accent-foreground transition-colors"
+                className="relative h-9 w-9 rounded-md border border-border hover:bg-accent hover:text-accent-foreground transition-colors shrink-0"
                 title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
               >
                 <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 <span className="sr-only">Toggle theme</span>
               </Button>
-              <Button onClick={() => setLocation("/transactions/new")}>
+              <Button onClick={() => setLocation("/transactions/new")} className="flex-1 sm:flex-none">
                 <Plus className="mr-2 h-4 w-4" />
-                Add Transaction
+                <span className="sm:inline">Add Transaction</span>
               </Button>
             </div>
           </div>

@@ -33,10 +33,10 @@ export default function FinancialCards() {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
         {[...Array(4)].map((_, i) => (
           <Card key={i}>
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <div className="flex items-center">
                 <Skeleton className="h-10 w-10 rounded-lg mr-4" />
                 <div className="flex-1">
@@ -97,32 +97,32 @@ export default function FinancialCards() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
       {cards.map((card, index) => {
         const Icon = card.icon;
         return (
           <Card key={index} className="hover:shadow-md transition-shadow">
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <div className="flex items-center">
-                <div className={`flex-shrink-0 ${card.iconBg} rounded-lg p-3`}>
-                  <Icon className={`h-6 w-6 ${card.iconColor}`} />
+                <div className={`flex-shrink-0 ${card.iconBg} rounded-lg p-2 sm:p-3`}>
+                  <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${card.iconColor}`} />
                 </div>
-                <div className="ml-4 flex-1">
-                  <p className="text-sm font-medium text-muted-foreground">
+                <div className="ml-3 sm:ml-4 flex-1 min-w-0">
+                  <p className="text-xs sm:text-sm font-medium text-muted-foreground truncate">
                     {card.title}
                   </p>
-                  <p className="text-2xl font-bold text-foreground">
+                  <p className="text-lg sm:text-2xl font-bold text-foreground">
                     {formatCurrency(card.value)}
                   </p>
                 </div>
               </div>
-              <div className="mt-4">
-                <div className="flex items-center text-sm">
-                  <span className={`flex items-center ${card.changeColor}`}>
+              <div className="mt-3 sm:mt-4">
+                <div className="flex flex-col sm:flex-row sm:items-center text-xs sm:text-sm">
+                  <span className={`flex items-center ${card.changeColor} mb-1 sm:mb-0`}>
                     <ArrowUpIcon className="mr-1 h-3 w-3" />
                     {formatPercentage(card.change)}
                   </span>
-                  <span className="ml-2 text-muted-foreground">
+                  <span className="text-muted-foreground sm:ml-2">
                     from last month {card.suffix && `• ${card.suffix}`}
                   </span>
                 </div>

@@ -56,23 +56,23 @@ export default function Charts() {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mb-8">
         <Card>
-          <CardHeader>
+          <CardHeader className="pb-4">
             <Skeleton className="h-6 w-40" />
             <Skeleton className="h-4 w-32" />
           </CardHeader>
           <CardContent>
-            <Skeleton className="h-64 w-full" />
+            <Skeleton className="h-48 sm:h-64 w-full" />
           </CardContent>
         </Card>
         <Card>
-          <CardHeader>
+          <CardHeader className="pb-4">
             <Skeleton className="h-6 w-40" />
             <Skeleton className="h-4 w-32" />
           </CardHeader>
           <CardContent>
-            <Skeleton className="h-64 w-full" />
+            <Skeleton className="h-48 sm:h-64 w-full" />
           </CardContent>
         </Card>
       </div>
@@ -82,28 +82,30 @@ export default function Charts() {
   if (!chartData) return null;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mb-8">
       {/* Income vs Expenses Chart */}
       <Card>
-        <CardHeader>
-          <CardTitle>Income vs Expenses</CardTitle>
-          <CardDescription>Last 6 months comparison</CardDescription>
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg sm:text-xl">Income vs Expenses</CardTitle>
+          <CardDescription className="text-sm">Last 6 months comparison</CardDescription>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className="h-64">
+          <ChartContainer config={chartConfig} className="h-48 sm:h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={chartData.incomeVsExpenses}>
+              <LineChart data={chartData.incomeVsExpenses} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
                 <XAxis 
                   dataKey="month" 
-                  fontSize={12}
+                  fontSize={10}
                   tickLine={false}
                   axisLine={false}
+                  interval={0}
                 />
                 <YAxis
-                  fontSize={12}
+                  fontSize={10}
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(value) => `R$${(value / 1000).toFixed(0)}k`}
+                  width={50}
                 />
                 <ChartTooltip 
                   content={<ChartTooltipContent />}
@@ -114,14 +116,14 @@ export default function Charts() {
                   dataKey="income"
                   stroke="#10B981"
                   strokeWidth={2}
-                  dot={{ fill: "#10B981" }}
+                  dot={{ fill: "#10B981", strokeWidth: 2, r: 3 }}
                 />
                 <Line
                   type="monotone"
                   dataKey="expenses"
                   stroke="#EF4444"
                   strokeWidth={2}
-                  dot={{ fill: "#EF4444" }}
+                  dot={{ fill: "#EF4444", strokeWidth: 2, r: 3 }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -131,20 +133,20 @@ export default function Charts() {
 
       {/* Expenses by Category Chart */}
       <Card>
-        <CardHeader>
-          <CardTitle>Expenses by Category</CardTitle>
-          <CardDescription>Current month breakdown</CardDescription>
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg sm:text-xl">Expenses by Category</CardTitle>
+          <CardDescription className="text-sm">Current month breakdown</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-64">
+          <div className="h-48 sm:h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={chartData.expensesByCategory}
                   cx="50%"
                   cy="50%"
-                  innerRadius={60}
-                  outerRadius={100}
+                  innerRadius={40}
+                  outerRadius={80}
                   paddingAngle={5}
                   dataKey="value"
                 >
@@ -158,8 +160,8 @@ export default function Charts() {
                       const data = payload[0].payload;
                       return (
                         <div className="bg-background border border-border rounded-lg p-2 shadow-md">
-                          <p className="font-medium">{data.name}</p>
-                          <p className="text-primary">{formatCurrency(data.value)}</p>
+                          <p className="font-medium text-sm">{data.name}</p>
+                          <p className="text-primary text-sm">{formatCurrency(data.value)}</p>
                         </div>
                       );
                     }
@@ -171,11 +173,11 @@ export default function Charts() {
           </div>
           
           {/* Legend */}
-          <div className="mt-4 grid grid-cols-2 gap-2">
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
             {chartData.expensesByCategory.map((item, index) => (
-              <div key={index} className="flex items-center text-sm">
+              <div key={index} className="flex items-center text-xs sm:text-sm">
                 <div 
-                  className="w-3 h-3 rounded-full mr-2" 
+                  className="w-3 h-3 rounded-full mr-2 shrink-0" 
                   style={{ backgroundColor: item.color }}
                 />
                 <span className="text-muted-foreground truncate">{item.name}</span>

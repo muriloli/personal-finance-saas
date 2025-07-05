@@ -41,7 +41,7 @@ export default function RecentTransactions() {
 
   // Transform the data to match expected format
   const data: DashboardData = {
-    recentTransactions: transactionsData?.transactions || [],
+    recentTransactions: (transactionsData as any)?.transactions || [],
     topCategories: [],
   };
 
@@ -72,21 +72,21 @@ export default function RecentTransactions() {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         <div className="lg:col-span-2">
           <Card>
-            <CardHeader>
+            <CardHeader className="pb-4">
               <Skeleton className="h-6 w-40" />
             </CardHeader>
             <CardContent className="space-y-4">
               {[...Array(5)].map((_, i) => (
-                <div key={i} className="flex items-center space-x-4">
-                  <Skeleton className="h-8 w-8 rounded-full" />
-                  <div className="flex-1">
+                <div key={i} className="flex items-center space-x-3 sm:space-x-4">
+                  <Skeleton className="h-8 w-8 rounded-full shrink-0" />
+                  <div className="flex-1 min-w-0">
                     <Skeleton className="h-4 w-32 mb-1" />
                     <Skeleton className="h-3 w-20" />
                   </div>
-                  <div className="text-right">
+                  <div className="text-right shrink-0">
                     <Skeleton className="h-4 w-16 mb-1" />
                     <Skeleton className="h-3 w-12" />
                   </div>
@@ -95,9 +95,9 @@ export default function RecentTransactions() {
             </CardContent>
           </Card>
         </div>
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           <Card>
-            <CardHeader>
+            <CardHeader className="pb-4">
               <Skeleton className="h-6 w-32" />
             </CardHeader>
             <CardContent className="space-y-4">
@@ -120,20 +120,21 @@ export default function RecentTransactions() {
   if (!data) return null;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
       {/* Recent Transactions */}
       <div className="lg:col-span-2">
         <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>Recent Transactions</CardTitle>
-                <CardDescription>Your latest financial activity</CardDescription>
+          <CardHeader className="pb-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex-1 min-w-0">
+                <CardTitle className="text-lg sm:text-xl">Recent Transactions</CardTitle>
+                <CardDescription className="text-sm">Your latest financial activity</CardDescription>
               </div>
               <Button 
                 variant="ghost" 
                 size="sm"
                 onClick={() => setLocation("/transactions")}
+                className="shrink-0"
               >
                 View all
                 <ArrowUpRight className="ml-1 h-4 w-4" />
@@ -141,10 +142,10 @@ export default function RecentTransactions() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {data.recentTransactions.length === 0 ? (
                 <div className="text-center py-8">
-                  <p className="text-muted-foreground">No transactions yet</p>
+                  <p className="text-muted-foreground text-sm">No transactions yet</p>
                   <Button 
                     variant="outline" 
                     size="sm" 
@@ -160,7 +161,7 @@ export default function RecentTransactions() {
                   const isIncome = transaction.type === "income";
                   
                   return (
-                    <div key={transaction.id} className="flex items-center space-x-4">
+                    <div key={transaction.id} className="flex items-center space-x-3 sm:space-x-4">
                       <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
                         isIncome 
                           ? "bg-green-100 dark:bg-green-900/20" 
@@ -176,7 +177,7 @@ export default function RecentTransactions() {
                         <p className="text-sm font-medium text-foreground truncate">
                           {transaction.description}
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-xs sm:text-sm text-muted-foreground">
                           {transaction.category.name}
                         </p>
                       </div>
@@ -202,12 +203,12 @@ export default function RecentTransactions() {
       </div>
 
       {/* Sidebar */}
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         {/* Top Categories */}
         <Card>
-          <CardHeader>
-            <CardTitle>Top Categories</CardTitle>
-            <CardDescription>This month's spending</CardDescription>
+          <CardHeader className="pb-4">
+            <CardTitle className="text-lg sm:text-xl">Top Categories</CardTitle>
+            <CardDescription className="text-sm">This month's spending</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {data.topCategories.length === 0 ? (
@@ -219,10 +220,10 @@ export default function RecentTransactions() {
                 <div key={index} className="flex items-center justify-between">
                   <div className="flex items-center">
                     <div 
-                      className="w-3 h-3 rounded-full mr-3" 
+                      className="w-3 h-3 rounded-full mr-3 shrink-0" 
                       style={{ backgroundColor: category.color }}
                     />
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-sm text-muted-foreground truncate">
                       {category.name}
                     </span>
                   </div>
@@ -238,14 +239,14 @@ export default function RecentTransactions() {
         {/* Budget Alert */}
         {data.budgetAlert && (
           <Card className="border-orange-200 dark:border-orange-800 bg-orange-50 dark:bg-orange-900/20">
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <div className="flex items-start space-x-3">
                 <div className="flex-shrink-0">
                   <div className="w-6 h-6 bg-orange-100 dark:bg-orange-900/40 rounded-full flex items-center justify-center">
                     <span className="text-orange-600 dark:text-orange-400 text-sm">!</span>
                   </div>
                 </div>
-                <div>
+                <div className="flex-1 min-w-0">
                   <h3 className="text-sm font-medium text-orange-800 dark:text-orange-200">
                     Budget Alert
                   </h3>

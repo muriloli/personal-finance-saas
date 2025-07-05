@@ -62,14 +62,14 @@ export default function Login() {
   return (
     <div className="min-h-screen flex">
       {/* Left side - Login form */}
-      <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+      <div className="flex-1 flex flex-col justify-center py-8 sm:py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
-          <div className="mb-8">
-            <div className="flex items-center mb-8">
-              <ChartLine className="h-8 w-8 text-primary mr-3" />
-              <h1 className="text-3xl font-bold text-foreground">FinanceFlow</h1>
+          <div className="mb-6 sm:mb-8">
+            <div className="flex items-center mb-6 sm:mb-8">
+              <ChartLine className="h-6 w-6 sm:h-8 sm:w-8 text-primary mr-2 sm:mr-3" />
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground">FinanceFlow</h1>
             </div>
-            <h2 className="text-3xl font-bold text-foreground">Sign in to your account</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Sign in to your account</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               Enter your CPF to access your financial dashboard
             </p>
