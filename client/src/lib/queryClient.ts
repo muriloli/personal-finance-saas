@@ -48,7 +48,16 @@ export const getQueryFn: <T>(options: {
   async ({ queryKey }) => {
     const headers = getAuthHeaders();
     
-    const res = await fetch(queryKey[0] as string, {
+    // Build URL with query parameters
+    let url = queryKey[0] as string;
+    if (queryKey[1]) {
+      const queryParams = queryKey[1] as string;
+      if (queryParams && queryParams.trim() !== "") {
+        url += `?${queryParams}`;
+      }
+    }
+    
+    const res = await fetch(url, {
       headers,
       // REMOVIDO: credentials: "include"
     });
