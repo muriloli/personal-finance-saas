@@ -112,6 +112,7 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
   - Set up PostgreSQL database with proper schema and seeding
   - Fixed transaction form schema to exclude userId field from frontend validation
   - Resolved authentication middleware integration
+  - Connected to user's Supabase database for persistent data storage
   - All components now working correctly in standard Replit environment
 - July 02, 2025. Initial setup
 
