@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Download, Plus } from "lucide-react";
+import { Download, Plus, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import TransactionFilters from "@/components/transactions/transaction-filters";
@@ -55,6 +55,10 @@ export default function Transactions() {
               </p>
             </div>
             <div className="flex items-center space-x-4">
+              <Button variant="outline" onClick={() => setLocation("/dashboard")}>
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Dashboard
+              </Button>
               <Button variant="outline" onClick={handleExport}>
                 <Download className="mr-2 h-4 w-4" />
                 Export CSV
