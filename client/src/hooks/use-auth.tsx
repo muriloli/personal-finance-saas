@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { AuthService, User } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { clearAllAuthData } from "@/utils/clear-auth";
 
 interface AuthContextType {
   user: User | null;
@@ -64,30 +65,32 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setIsInitialized(true);
   }, []);
 
-  // 🔧 CORREÇÃO: Atualizar user quando query retorna dados
+  // Atualizar user quando query retorna dados válidos
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && !error) {
       console.log("Query retornou user:", currentUser);
       setUser(currentUser);
       AuthService.setStoredUser(currentUser);
     }
-  }, [currentUser]);
+  }, [currentUser, error]);
 
   // Lidar com erros de autenticação e redirecionar para login
   useEffect(() => {
-    if (error && !isLoading && hasToken) {
+    if (error && !isLoading) {
       console.error("Auth error:", error);
       
       // Limpar sessão em caso de erro 401 ou token inválido
       if (error.message?.includes('401') || 
           error.message?.includes('404') ||
           error.message?.includes('Unauthorized') ||
+          error.message?.includes('Session not found') ||
           error.message?.includes('No session token') ||
           error.message?.includes('Failed to fetch')) {
         console.log("Erro de autenticação, fazendo logout automático");
         
         // Fazer logout automático
         AuthService.clearSession();
+        clearAllAuthData();
         setUser(null);
         setHasToken(false);
         
@@ -101,10 +104,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
         // Redirecionar para login
         setTimeout(() => {
           setLocation("/login");
-        }, 1000);
+        }, 1500);
       }
     }
-  }, [error, isLoading, hasToken, setLocation, toast]);
+  }, [error, isLoading, setLocation, toast]);
 
   const login = async (cpf: string): Promise<void> => {
     try {
@@ -141,6 +144,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       
       // Limpar sessão
       AuthService.logout();
+      clearAllAuthData();
       
       // Atualizar estados
       setUser(null);

@@ -8,7 +8,7 @@ import { useTheme } from "@/components/layout/theme-provider";
 import { useLocation } from "wouter";
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
   const [, setLocation] = useLocation();
 
@@ -35,6 +35,14 @@ export default function Dashboard() {
               <Button onClick={() => setLocation("/transactions/new")}>
                 <Plus className="mr-2 h-4 w-4" />
                 Add Transaction
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={logout}
+                className="text-red-600 hover:text-red-700"
+              >
+                Logout Teste
               </Button>
             </div>
           </div>
