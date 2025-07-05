@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { transactionFormSchema, Category } from "@shared/schema";
+import { useAuth } from "@/hooks/use-auth";
 import { z } from "zod";
 
 type TransactionFormData = z.infer<typeof transactionFormSchema>;
@@ -29,6 +30,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [selectedType, setSelectedType] = useState<"income" | "expense">("expense");
+  const { isAuthenticated, user } = useAuth();
 
   const { data: categories } = useQuery<Category[]>({
     queryKey: ["/api/categories"],
