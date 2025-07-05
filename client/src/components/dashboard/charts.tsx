@@ -104,8 +104,14 @@ export default function Charts() {
                   fontSize={10}
                   tickLine={false}
                   axisLine={false}
-                  tickFormatter={(value) => `R$${(value / 1000).toFixed(0)}k`}
+                  tickFormatter={(value) => {
+                    if (value >= 1000) {
+                      return `R$${(value / 1000).toFixed(0)}k`;
+                    }
+                    return `R$${value.toFixed(0)}`;
+                  }}
                   width={50}
+                  domain={['dataMin - 100', 'dataMax + 100']}
                 />
                 <ChartTooltip 
                   content={<ChartTooltipContent />}
