@@ -20,12 +20,16 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(AuthService.getStoredUser());
+  const [user, setUser] = useState<User | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Query to fetch current user - CORRIGIDO para não executar imediatamente
+  // 🔧 CORREÇÃO PRINCIPAL: Fazer hasToken reativo
+  const [hasToken, setHasToken] = useState(false);
+
+  // Query to fetch current user
   const {
     data: currentUser,
     isLoading,
@@ -34,50 +38,77 @@ export function AuthProvider({ children }: AuthProviderProps) {
   } = useQuery({
     queryKey: ["/api/auth/me"],
     queryFn: AuthService.getCurrentUser,
-    enabled: false, // ← CORREÇÃO: Não executa automaticamente
-    retry: false,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    enabled: hasToken && isInitialized, // ✅ Só executa se tem token E está inicializado
+    retry: 1,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 
-  // Update user state when query data changes - CORRIGIDO
-  useEffect(() => {
-    if (currentUser) {
-      setUser(currentUser);
-    } else if (error && !isLoading) {
-      // ✅ CORREÇÃO: Só limpar se realmente não há token
-      const token = AuthService.getSessionToken();
-      if (!token) {
-        setUser(null);
-        AuthService.clearSession();
-      }
-      // Se tem token, não limpar - pode ser erro temporário da API
-    }
-  }, [currentUser, error, isLoading]);
-
-  // Check authentication status on mount - CORRIGIDO
+  // 🔧 CORREÇÃO: Inicializar estado uma única vez
   useEffect(() => {
     const token = AuthService.getSessionToken();
     const storedUser = AuthService.getStoredUser();
     
+    console.log("Inicializando AuthProvider:");
+    console.log("Token encontrado:", !!token);
+    console.log("User encontrado:", !!storedUser);
+    
     if (token && storedUser) {
-      // ✅ CORREÇÃO: Se tem token E user, definir como autenticado
       setUser(storedUser);
-      // Opcionalmente, refetch user data
-      refetchUser();
+      setHasToken(true);
     } else {
-      // Só limpar se realmente não tem nada
       setUser(null);
-      AuthService.clearSession();
+      setHasToken(false);
     }
-  }, [refetchUser]);
+    
+    setIsInitialized(true);
+  }, []);
+
+  // 🔧 CORREÇÃO: Atualizar user quando query retorna dados
+  useEffect(() => {
+    if (currentUser) {
+      console.log("Query retornou user:", currentUser);
+      setUser(currentUser);
+      AuthService.setStoredUser(currentUser);
+    }
+  }, [currentUser]);
+
+  // 🔧 CORREÇÃO: Lidar com erros de autenticação
+  useEffect(() => {
+    if (error && !isLoading && hasToken) {
+      console.error("Auth error:", error);
+      
+      // Só limpar em caso de erro 401, 404 ou token inválido
+      if (error.message?.includes('401') || 
+          error.message?.includes('404') ||
+          error.message?.includes('Unauthorized') ||
+          error.message?.includes('No session token') ||
+          error.message?.includes('Failed to fetch')) {
+        console.log("Erro de autenticação, mas mantendo usuário logado localmente");
+        // NÃO fazer logout automático - manter dados locais
+        // AuthService.clearSession();
+        // setUser(null);
+        // setHasToken(false);
+        // setLocation("/login");
+      }
+    }
+  }, [error, isLoading, hasToken, setLocation]);
 
   const login = async (cpf: string): Promise<void> => {
     try {
-      const { user: loggedInUser, sessionToken } = await AuthService.login(cpf);
-      setUser(loggedInUser);
+      console.log("Iniciando login para CPF:", cpf);
       
-      // Invalidate all queries and refetch user data
-      queryClient.invalidateQueries();
+      const { user: loggedInUser, sessionToken } = await AuthService.login(cpf);
+      
+      console.log("Login bem-sucedido:", loggedInUser);
+      console.log("Token salvo:", !!sessionToken);
+      
+      // Atualizar estados
+      setUser(loggedInUser);
+      setHasToken(true);
+      
+      // Invalidar queries para forçar refetch
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/me"] });
       
       toast({
         title: "Welcome back!",
@@ -91,11 +122,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = () => {
     try {
-      AuthService.logout();
-      setUser(null);
+      console.log("Fazendo logout");
       
-      // Clear all cached data
+      // Limpar cache primeiro
       queryClient.clear();
+      
+      // Limpar sessão
+      AuthService.logout();
+      
+      // Atualizar estados
+      setUser(null);
+      setHasToken(false);
       
       toast({
         title: "Logged out",
@@ -105,18 +142,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setLocation("/login");
     } catch (error) {
       console.error("Logout error:", error);
-      // Force logout even if API call fails
+      // Force logout mesmo se der erro
+      queryClient.clear();
       AuthService.clearSession();
       setUser(null);
-      queryClient.clear();
+      setHasToken(false);
       setLocation("/login");
     }
   };
 
   const value: AuthContextType = {
     user,
-    isLoading,
-    isAuthenticated: !!user && AuthService.isAuthenticated(),
+    isLoading: isLoading || !isInitialized,
+    isAuthenticated: !!user && !!AuthService.getSessionToken(),
     login,
     logout,
     refetchUser,
@@ -133,18 +171,14 @@ export function useAuth(): AuthContextType {
   return context;
 }
 
-// Hook for protecting routes - CORRIGIDO
+// Hook for protecting routes
 export function useRequireAuth() {
   const { isAuthenticated, isLoading } = useAuth();
   const [, setLocation] = useLocation();
 
   useEffect(() => {
-    // ✅ CORREÇÃO: Só redirecionar se realmente não autenticado E não carregando
     if (!isLoading && !isAuthenticated) {
-      const token = AuthService.getSessionToken();
-      if (!token) {
-        setLocation("/login");
-      }
+      setLocation("/login");
     }
   }, [isAuthenticated, isLoading, setLocation]);
 
