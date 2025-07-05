@@ -10,7 +10,7 @@ import { queryClient } from "./lib/queryClient";
 // Pages
 import Login from "@/pages/login";
 import Dashboard from "@/pages/dashboard";
-import Transactions from "@/pages/transactions";
+import Transactions from "@/pages/transactions.tsx";
 import NewTransaction from "@/pages/new-transaction";
 import Settings from "@/pages/settings";
 import Help from "@/pages/help";
