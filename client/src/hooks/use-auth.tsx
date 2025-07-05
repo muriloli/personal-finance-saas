@@ -25,7 +25,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Query to fetch current user
+  // Query to fetch current user - CORRIGIDO para não executar imediatamente
   const {
     data: currentUser,
     isLoading,
@@ -34,31 +34,42 @@ export function AuthProvider({ children }: AuthProviderProps) {
   } = useQuery({
     queryKey: ["/api/auth/me"],
     queryFn: AuthService.getCurrentUser,
-    enabled: AuthService.isAuthenticated(),
+    enabled: false, // ← CORREÇÃO: Não executa automaticamente
     retry: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
-  // Update user state when query data changes
+  // Update user state when query data changes - CORRIGIDO
   useEffect(() => {
     if (currentUser) {
       setUser(currentUser);
-    } else if (error) {
-      setUser(null);
-      AuthService.clearSession();
+    } else if (error && !isLoading) {
+      // ✅ CORREÇÃO: Só limpar se realmente não há token
+      const token = AuthService.getSessionToken();
+      if (!token) {
+        setUser(null);
+        AuthService.clearSession();
+      }
+      // Se tem token, não limpar - pode ser erro temporário da API
     }
-  }, [currentUser, error]);
+  }, [currentUser, error, isLoading]);
 
-  // Check authentication status on mount
+  // Check authentication status on mount - CORRIGIDO
   useEffect(() => {
     const token = AuthService.getSessionToken();
     const storedUser = AuthService.getStoredUser();
     
-    if (!token || !storedUser) {
+    if (token && storedUser) {
+      // ✅ CORREÇÃO: Se tem token E user, definir como autenticado
+      setUser(storedUser);
+      // Opcionalmente, refetch user data
+      refetchUser();
+    } else {
+      // Só limpar se realmente não tem nada
       setUser(null);
       AuthService.clearSession();
     }
-  }, []);
+  }, [refetchUser]);
 
   const login = async (cpf: string): Promise<void> => {
     try {
@@ -122,14 +133,18 @@ export function useAuth(): AuthContextType {
   return context;
 }
 
-// Hook for protecting routes
+// Hook for protecting routes - CORRIGIDO
 export function useRequireAuth() {
   const { isAuthenticated, isLoading } = useAuth();
   const [, setLocation] = useLocation();
 
   useEffect(() => {
+    // ✅ CORREÇÃO: Só redirecionar se realmente não autenticado E não carregando
     if (!isLoading && !isAuthenticated) {
-      setLocation("/login");
+      const token = AuthService.getSessionToken();
+      if (!token) {
+        setLocation("/login");
+      }
     }
   }, [isAuthenticated, isLoading, setLocation]);
 
