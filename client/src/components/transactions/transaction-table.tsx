@@ -50,6 +50,9 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
     },
   ];
 
+  // Debug logging to track what dates are being sent
+  console.log("Transaction filters:", filters);
+
   const { data, isLoading } = useQuery<TransactionsResponse>({
     queryKey,
   });

@@ -49,6 +49,7 @@ export default function TransactionFiltersComponent({ filters, onFiltersChange }
   const handleDateChange = (type: "start" | "end", date: Date | undefined) => {
     if (type === "start") {
       const formattedDate = date ? format(date, "yyyy-MM-dd") : undefined;
+      console.log(`Setting ${type} date:`, date, "formatted:", formattedDate);
       // When setting start date, if there's an end date and start date is after end date, clear end date
       if (formattedDate && filters.endDate && formattedDate > filters.endDate) {
         onFiltersChange({
@@ -61,6 +62,7 @@ export default function TransactionFiltersComponent({ filters, onFiltersChange }
       }
     } else {
       const formattedDate = date ? format(date, "yyyy-MM-dd") : undefined;
+      console.log(`Setting ${type} date:`, date, "formatted:", formattedDate);
       // When setting end date, if there's a start date and end date is before start date, clear start date
       if (formattedDate && filters.startDate && formattedDate < filters.startDate) {
         onFiltersChange({
