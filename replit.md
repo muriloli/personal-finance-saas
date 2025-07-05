@@ -115,6 +115,9 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
   - Connected to user's Supabase database for persistent data storage
   - Implemented complete edit and delete functionality for transactions
   - Fixed query parameter handling in React Query client for filters to work properly
+  - Implemented automatic redirect system for unauthenticated users
+  - Enhanced light mode with softer, eye-friendly colors (warm grays instead of harsh whites)
+  - Improved theme toggle button with smooth animations and better visual feedback
   - All components now working correctly in standard Replit environment
   - **Migration completed**: All required packages installed, workflow running successfully, database connected
 - July 02, 2025. Initial setup

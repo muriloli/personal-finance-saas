@@ -16,7 +16,9 @@ export default function Dashboard() {
   console.log("Dashboard - user data:", user);
 
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    const newTheme = theme === "dark" ? "light" : "dark";
+    console.log("Toggling theme from", theme, "to", newTheme);
+    setTheme(newTheme);
   };
 
   return (
@@ -36,14 +38,21 @@ export default function Dashboard() {
               </p>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="icon" onClick={toggleTheme}>
-                {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              <Button 
+                variant="outline" 
+                size="icon" 
+                onClick={toggleTheme}
+                className="relative h-9 w-9 rounded-md border border-border hover:bg-accent hover:text-accent-foreground transition-colors"
+                title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              >
+                <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
               </Button>
               <Button onClick={() => setLocation("/transactions/new")}>
                 <Plus className="mr-2 h-4 w-4" />
                 Add Transaction
               </Button>
-
             </div>
           </div>
         </div>
