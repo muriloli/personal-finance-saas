@@ -29,12 +29,27 @@ interface TransactionsResponse {
   totalPages: number;
 }
 
+type SortField = "description" | "transactionDate" | "amount";
+type SortDirection = "asc" | "desc";
+
 export default function TransactionTable({ filters }: TransactionTableProps) {
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
+  const [sortField, setSortField] = useState<SortField>("transactionDate");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [, setLocation] = useLocation();
+
+  // Handle sorting
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortDirection("asc");
+    }
+  };
 
   // Create a more reliable query key that React Query can track properly
   const queryKey = [
@@ -47,11 +62,10 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
       type: filters.type || "",
       startDate: filters.startDate || "",
       endDate: filters.endDate || "",
+      sortField,
+      sortDirection,
     },
   ];
-
-  // Debug logging to track what dates are being sent
-  console.log("Transaction filters:", filters);
 
   const { data, isLoading } = useQuery<TransactionsResponse>({
     queryKey,
@@ -159,22 +173,37 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
             <TableHeader>
               <TableRow>
                 <TableHead>
-                  <Button variant="ghost" size="sm" className="h-auto p-0 font-medium">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="h-auto p-0 font-medium hover:bg-transparent" 
+                    onClick={() => handleSort("description")}
+                  >
                     Transaction
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                    <ArrowUpDown className={`ml-2 h-4 w-4 ${sortField === "description" ? "text-primary" : ""}`} />
                   </Button>
                 </TableHead>
                 <TableHead>Category</TableHead>
                 <TableHead>
-                  <Button variant="ghost" size="sm" className="h-auto p-0 font-medium">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="h-auto p-0 font-medium hover:bg-transparent" 
+                    onClick={() => handleSort("transactionDate")}
+                  >
                     Date
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                    <ArrowUpDown className={`ml-2 h-4 w-4 ${sortField === "transactionDate" ? "text-primary" : ""}`} />
                   </Button>
                 </TableHead>
                 <TableHead>
-                  <Button variant="ghost" size="sm" className="h-auto p-0 font-medium">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="h-auto p-0 font-medium hover:bg-transparent" 
+                    onClick={() => handleSort("amount")}
+                  >
                     Amount
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                    <ArrowUpDown className={`ml-2 h-4 w-4 ${sortField === "amount" ? "text-primary" : ""}`} />
                   </Button>
                 </TableHead>
                 <TableHead>Source</TableHead>

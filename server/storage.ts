@@ -41,7 +41,9 @@ export interface IStorage {
       type?: "income" | "expense";
       startDate?: string;
       endDate?: string;
-    }
+    },
+    sortField?: string,
+    sortDirection?: string
   ): Promise<{
     transactions: (Transaction & { category: Category })[];
     total: number;
@@ -170,7 +172,9 @@ export class DatabaseStorage implements IStorage {
       type?: "income" | "expense";
       startDate?: string;
       endDate?: string;
-    }
+    },
+    sortField: string = "transactionDate",
+    sortDirection: string = "desc"
   ) {
     let query = db
       .select({
@@ -230,6 +234,13 @@ export class DatabaseStorage implements IStorage {
 
     const total = totalResult.count;
 
+    // Apply sorting
+    const sortColumn = sortField === "description" ? transactions.description 
+                     : sortField === "amount" ? transactions.amount
+                     : transactions.transactionDate;
+    
+    const orderFunction = sortDirection === "asc" ? asc : desc;
+
     // Get paginated results
     const results = await db
       .select({
@@ -256,7 +267,7 @@ export class DatabaseStorage implements IStorage {
       .from(transactions)
       .innerJoin(categories, eq(transactions.categoryId, categories.id))
       .where(and(...conditions))
-      .orderBy(desc(transactions.transactionDate), desc(transactions.createdAt))
+      .orderBy(orderFunction(sortColumn), desc(transactions.createdAt))
       .limit(limit)
       .offset((page - 1) * limit);
 

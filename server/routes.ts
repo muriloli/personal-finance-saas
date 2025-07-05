@@ -72,7 +72,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Transaction routes
   app.get("/api/transactions", authenticateUser, async (req, res) => {
     try {
-      const { page = "1", limit = "10", search, category, type, startDate, endDate } = req.query;
+      const { 
+        page = "1", 
+        limit = "10", 
+        search, 
+        category, 
+        type, 
+        startDate, 
+        endDate,
+        sortField = "transactionDate",
+        sortDirection = "desc"
+      } = req.query;
       
       const filters = {
         search: search as string,
@@ -86,7 +96,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         req.session!.userId,
         parseInt(page as string),
         parseInt(limit as string),
-        filters
+        filters,
+        sortField as string,
+        sortDirection as string
       );
       
       res.json(transactions);
