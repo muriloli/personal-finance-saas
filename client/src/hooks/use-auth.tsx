@@ -71,8 +71,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
       console.log("Query retornou user:", currentUser);
       setUser(currentUser);
       AuthService.setStoredUser(currentUser);
+    } else if (error && !currentUser && hasToken) {
+      // Se há token mas falha na query, usar dados locais por enquanto
+      const storedUser = AuthService.getStoredUser();
+      if (storedUser) {
+        console.warn("API call failed with status 401, using stored user data");
+        setUser(storedUser);
+      }
     }
-  }, [currentUser, error]);
+  }, [currentUser, error, hasToken]);
 
   // Lidar com erros de autenticação e redirecionar para login
   useEffect(() => {
@@ -121,6 +128,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       // Atualizar estados
       setUser(loggedInUser);
       setHasToken(true);
+      
+      // Salvar usuário no localStorage
+      AuthService.setStoredUser(loggedInUser);
       
       // Invalidar queries para forçar refetch
       queryClient.invalidateQueries({ queryKey: ["/api/auth/me"] });

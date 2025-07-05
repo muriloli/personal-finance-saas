@@ -12,6 +12,9 @@ export default function Dashboard() {
   const { theme, setTheme } = useTheme();
   const [, setLocation] = useLocation();
 
+  // Debug: log user data
+  console.log("Dashboard - user data:", user);
+
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
@@ -25,7 +28,11 @@ export default function Dashboard() {
             <div>
               <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
               <p className="mt-1 text-sm text-muted-foreground">
-                Welcome back, {user?.name}! Here's your financial overview.
+                {user?.name ? (
+                  `Welcome back, ${user.name}! Here's your financial overview.`
+                ) : (
+                  "Welcome back! Here's your financial overview."
+                )}
               </p>
             </div>
             <div className="flex items-center space-x-4">
@@ -36,14 +43,7 @@ export default function Dashboard() {
                 <Plus className="mr-2 h-4 w-4" />
                 Add Transaction
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={logout}
-                className="text-red-600 hover:text-red-700"
-              >
-                Logout Teste
-              </Button>
+
             </div>
           </div>
         </div>
