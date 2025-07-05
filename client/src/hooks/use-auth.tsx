@@ -73,26 +73,38 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [currentUser]);
 
-  // 🔧 CORREÇÃO: Lidar com erros de autenticação
+  // Lidar com erros de autenticação e redirecionar para login
   useEffect(() => {
     if (error && !isLoading && hasToken) {
       console.error("Auth error:", error);
       
-      // Só limpar em caso de erro 401, 404 ou token inválido
+      // Limpar sessão em caso de erro 401 ou token inválido
       if (error.message?.includes('401') || 
           error.message?.includes('404') ||
           error.message?.includes('Unauthorized') ||
           error.message?.includes('No session token') ||
           error.message?.includes('Failed to fetch')) {
-        console.log("Erro de autenticação, mas mantendo usuário logado localmente");
-        // NÃO fazer logout automático - manter dados locais
-        // AuthService.clearSession();
-        // setUser(null);
-        // setHasToken(false);
-        // setLocation("/login");
+        console.log("Erro de autenticação, fazendo logout automático");
+        
+        // Fazer logout automático
+        AuthService.clearSession();
+        setUser(null);
+        setHasToken(false);
+        
+        // Mostrar mensagem de erro
+        toast({
+          title: "Sessão expirada",
+          description: "Você precisa fazer login novamente",
+          variant: "destructive",
+        });
+        
+        // Redirecionar para login
+        setTimeout(() => {
+          setLocation("/login");
+        }, 1000);
       }
     }
-  }, [error, isLoading, hasToken, setLocation]);
+  }, [error, isLoading, hasToken, setLocation, toast]);
 
   const login = async (cpf: string): Promise<void> => {
     try {

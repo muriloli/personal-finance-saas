@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,8 +15,15 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function Login() {
   const [, setLocation] = useLocation();
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+
+  // Redirecionar se já estiver logado
+  useEffect(() => {
+    if (isAuthenticated) {
+      setLocation("/dashboard");
+    }
+  }, [isAuthenticated, setLocation]);
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
