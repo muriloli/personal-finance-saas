@@ -39,10 +39,43 @@ export default function RecentTransactions() {
     queryKey: ["/api/transactions", "page=1&limit=5"],
   });
 
+  // Get all transactions to calculate top categories
+  const { data: allTransactionsData } = useQuery({
+    queryKey: ["/api/transactions", "page=1&limit=1000"],
+  });
+
+  // Calculate top categories from all transactions
+  const calculateTopCategories = (): TopCategory[] => {
+    const transactions = (allTransactionsData as any)?.transactions || [];
+    const categoryMap = new Map<string, { amount: number; color: string; name: string }>();
+    
+    transactions.forEach((transaction: any) => {
+      if (transaction.type === 'expense') {
+        const categoryName = transaction.category.name;
+        const amount = parseFloat(transaction.amount);
+        
+        if (categoryMap.has(categoryName)) {
+          categoryMap.get(categoryName)!.amount += amount;
+        } else {
+          categoryMap.set(categoryName, {
+            name: categoryName,
+            amount: amount,
+            color: transaction.category.color || '#8B5CF6'
+          });
+        }
+      }
+    });
+    
+    // Convert to array and sort by amount (descending)
+    return Array.from(categoryMap.values())
+      .sort((a, b) => b.amount - a.amount)
+      .slice(0, 5); // Top 5 categories
+  };
+
   // Transform the data to match expected format
   const data: DashboardData = {
     recentTransactions: (transactionsData as any)?.transactions || [],
-    topCategories: [],
+    topCategories: calculateTopCategories(),
   };
 
   const formatCurrency = (value: number) => {
