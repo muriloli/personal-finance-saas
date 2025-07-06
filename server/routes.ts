@@ -271,6 +271,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get all users (admin only)
+  app.get("/api/users", authenticateUser, async (req, res) => {
+    try {
+      const users = await storage.getAllUsers();
+      res.json(users);
+    } catch (error) {
+      console.error("Get users error:", error);
+      res.status(500).json({ message: "Failed to get users" });
+    }
+  });
+
   // User Registration route
   app.post("/api/users/register", authenticateUser, async (req, res) => {
     try {
@@ -300,6 +311,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("User registration error:", error);
       res.status(500).json({ message: "Failed to register user" });
+    }
+  });
+
+  // Update user
+  app.put("/api/users/:id", authenticateUser, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, cpf, phone } = req.body;
+      
+      const updatedUser = await storage.updateUser(id, {
+        name,
+        cpf,
+        phone,
+      });
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      res.json({ message: "User updated successfully", user: updatedUser });
+    } catch (error) {
+      console.error("Update user error:", error);
+      res.status(500).json({ message: "Failed to update user" });
+    }
+  });
+
+  // Delete user
+  app.delete("/api/users/:id", authenticateUser, async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      const deleted = await storage.deleteUser(id);
+      
+      if (!deleted) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      res.json({ message: "User deleted successfully" });
+    } catch (error) {
+      console.error("Delete user error:", error);
+      res.status(500).json({ message: "Failed to delete user" });
     }
   });
 

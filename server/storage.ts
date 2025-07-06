@@ -23,6 +23,9 @@ export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByCpf(cpf: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  getAllUsers(): Promise<User[]>;
+  updateUser(id: string, user: Partial<InsertUser>): Promise<User | undefined>;
+  deleteUser(id: string): Promise<boolean>;
 
   // Session methods
   createSession(userId: string, ipAddress: string, userAgent: string): Promise<UserSession>;
@@ -107,6 +110,30 @@ export class DatabaseStorage implements IStorage {
       .values(insertUser)
       .returning();
     return user;
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    const allUsers = await db
+      .select()
+      .from(users)
+      .orderBy(desc(users.createdAt));
+    return allUsers;
+  }
+
+  async updateUser(id: string, updateData: Partial<InsertUser>): Promise<User | undefined> {
+    const [updatedUser] = await db
+      .update(users)
+      .set(updateData)
+      .where(eq(users.id, id))
+      .returning();
+    return updatedUser || undefined;
+  }
+
+  async deleteUser(id: string): Promise<boolean> {
+    const result = await db
+      .delete(users)
+      .where(eq(users.id, id));
+    return (result.rowCount || 0) > 0;
   }
 
   async createSession(userId: string, ipAddress: string, userAgent: string): Promise<UserSession> {
