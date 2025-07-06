@@ -10,6 +10,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { format, parseISO } from "date-fns";
 import { Category } from "@shared/schema";
 import { TransactionFilters } from "@/pages/transactions";
+import { useI18n } from "@/lib/i18n";
 
 interface TransactionFiltersProps {
   filters: TransactionFilters;
@@ -17,6 +18,7 @@ interface TransactionFiltersProps {
 }
 
 export default function TransactionFiltersComponent({ filters, onFiltersChange }: TransactionFiltersProps) {
+  const { t } = useI18n();
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
 
@@ -89,7 +91,7 @@ export default function TransactionFiltersComponent({ filters, onFiltersChange }
           <div className="relative">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search transactions..."
+              placeholder={t("searchTransactions")}
               className="pl-10"
               value={filters.search || ""}
               onChange={(e) => handleFilterChange("search", e.target.value)}
@@ -99,10 +101,10 @@ export default function TransactionFiltersComponent({ filters, onFiltersChange }
           {/* Category Filter */}
           <Select value={filters.category || "all"} onValueChange={(value) => handleFilterChange("category", value === "all" ? undefined : value)}>
             <SelectTrigger>
-              <SelectValue placeholder="All Categories" />
+              <SelectValue placeholder={t("allCategories")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
+              <SelectItem value="all">{t("allCategories")}</SelectItem>
               {categories?.map((category) => (
                 <SelectItem key={category.id} value={category.id}>
                   {category.name}
@@ -114,12 +116,12 @@ export default function TransactionFiltersComponent({ filters, onFiltersChange }
           {/* Type Filter */}
           <Select value={filters.type || "all"} onValueChange={(value) => handleFilterChange("type", value === "all" ? undefined : value)}>
             <SelectTrigger>
-              <SelectValue placeholder="All Types" />
+              <SelectValue placeholder={t("allTypes")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Types</SelectItem>
-              <SelectItem value="income">Income</SelectItem>
-              <SelectItem value="expense">Expense</SelectItem>
+              <SelectItem value="all">{t("allTypes")}</SelectItem>
+              <SelectItem value="income">{t("income")}</SelectItem>
+              <SelectItem value="expense">{t("expense")}</SelectItem>
             </SelectContent>
           </Select>
 
@@ -128,7 +130,7 @@ export default function TransactionFiltersComponent({ filters, onFiltersChange }
             <PopoverTrigger asChild>
               <Button variant="outline" className="justify-start text-left">
                 <Calendar className="mr-2 h-4 w-4" />
-                {startDate ? format(startDate, "MMM dd, yyyy") : "Start Date"}
+                {startDate ? format(startDate, "MMM dd, yyyy") : t("startDate")}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
@@ -150,7 +152,7 @@ export default function TransactionFiltersComponent({ filters, onFiltersChange }
             <PopoverTrigger asChild>
               <Button variant="outline" className="justify-start text-left">
                 <Calendar className="mr-2 h-4 w-4" />
-                {endDate ? format(endDate, "MMM dd, yyyy") : "End Date"}
+                {endDate ? format(endDate, "MMM dd, yyyy") : t("endDate")}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">

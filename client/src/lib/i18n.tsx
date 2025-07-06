@@ -59,6 +59,36 @@ const translations = {
     failedCreate: "Falha ao criar transação. Tente novamente.",
     failedUpdate: "Falha ao atualizar transação. Tente novamente.",
 
+    // Transactions Page
+    transactionsTitle: "Transações",
+    manageTransactions: "Gerencie e visualize todas as suas transações financeiras.",
+    backToDashboard: "Voltar ao Dashboard",
+    exportCSV: "Exportar CSV",
+    searchTransactions: "Buscar transações...",
+    allCategories: "Todas as Categorias",
+    allTypes: "Todos os Tipos",
+    startDate: "Data Início",
+    endDate: "Data Fim",
+    transaction: "Transação",
+    actions: "Ações",
+    source: "Origem",
+    web: "Web",
+    
+    // Financial Cards
+    totalIncome: "Receita Total",
+    totalExpenses: "Despesas Totais",
+    currentBalance: "Saldo Atual",
+    monthlySavings: "Economia Mensal",
+    fromLastMonth: "do mês passado",
+    savingsRate: "taxa de economia",
+
+    // Transaction table messages
+    transactionDeleted: "Transação excluída",
+    transactionDeletedDesc: "A transação foi removida com sucesso.",
+    failedDelete: "Falha ao excluir transação. Tente novamente.",
+    edit: "Editar",
+    delete: "Excluir",
+
     // Settings
     personalInfo: "Informações Pessoais",
     name: "Nome",
@@ -169,6 +199,36 @@ const translations = {
     failedCreate: "Failed to create transaction. Please try again.",
     failedUpdate: "Failed to update transaction. Please try again.",
 
+    // Transactions Page
+    transactionsTitle: "Transactions",
+    manageTransactions: "Manage and view all your financial transactions.",
+    backToDashboard: "Back to Dashboard",
+    exportCSV: "Export CSV",
+    searchTransactions: "Search transactions...",
+    allCategories: "All Categories",
+    allTypes: "All Types",
+    startDate: "Start Date",
+    endDate: "End Date",
+    transaction: "Transaction",
+    actions: "Actions",
+    source: "Source",
+    web: "Web",
+    
+    // Financial Cards
+    totalIncome: "Total Income",
+    totalExpenses: "Total Expenses",
+    currentBalance: "Current Balance",
+    monthlySavings: "Monthly Savings",
+    fromLastMonth: "from last month",
+    savingsRate: "savings rate",
+
+    // Transaction table messages
+    transactionDeleted: "Transaction deleted",
+    transactionDeletedDesc: "The transaction has been removed successfully.",
+    failedDelete: "Failed to delete transaction. Please try again.",
+    edit: "Edit",
+    delete: "Delete",
+
     // Settings
     personalInfo: "Personal Information",
     name: "Name",
@@ -278,6 +338,36 @@ const translations = {
     errorTitle: "Error",
     failedCreate: "Error al crear transacción. Inténtalo de nuevo.",
     failedUpdate: "Error al actualizar transacción. Inténtalo de nuevo.",
+
+    // Transactions Page
+    transactionsTitle: "Transacciones",
+    manageTransactions: "Gestiona y visualiza todas tus transacciones financieras.",
+    backToDashboard: "Volver al Dashboard",
+    exportCSV: "Exportar CSV",
+    searchTransactions: "Buscar transacciones...",
+    allCategories: "Todas las Categorías",
+    allTypes: "Todos los Tipos",
+    startDate: "Fecha Inicio",
+    endDate: "Fecha Fin",
+    transaction: "Transacción",
+    actions: "Acciones",
+    source: "Origen",
+    web: "Web",
+    
+    // Financial Cards
+    totalIncome: "Ingresos Totales",
+    totalExpenses: "Gastos Totales",
+    currentBalance: "Saldo Actual",
+    monthlySavings: "Ahorro Mensual",
+    fromLastMonth: "del mes pasado",
+    savingsRate: "tasa de ahorro",
+
+    // Transaction table messages
+    transactionDeleted: "Transacción eliminada",
+    transactionDeletedDesc: "La transacción ha sido eliminada exitosamente.",
+    failedDelete: "Error al eliminar transacción. Inténtalo de nuevo.",
+    edit: "Editar",
+    delete: "Eliminar",
 
     // Settings
     personalInfo: "Información Personal",

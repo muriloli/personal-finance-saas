@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Transaction, Category } from "@shared/schema";
 import { TransactionFilters } from "@/pages/transactions";
 import { apiRequest } from "@/lib/queryClient";
+import { useI18n } from "@/lib/i18n";
 
 interface TransactionWithCategory extends Transaction {
   category: Category;
@@ -33,6 +34,7 @@ type SortField = "description" | "transactionDate" | "amount";
 type SortDirection = "asc" | "desc";
 
 export default function TransactionTable({ filters }: TransactionTableProps) {
+  const { t } = useI18n();
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
   const [sortField, setSortField] = useState<SortField>("transactionDate");
@@ -80,14 +82,14 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
       queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
       queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
       toast({
-        title: "Transaction deleted",
-        description: "The transaction has been removed successfully.",
+        title: t("transactionDeleted"),
+        description: t("transactionDeletedDesc"),
       });
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to delete transaction. Please try again.",
+        title: t("errorTitle"),
+        description: t("failedDelete"),
         variant: "destructive",
       });
     },

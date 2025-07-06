@@ -94,7 +94,7 @@ export default function FinancialCards() {
       iconBg: "bg-orange-100 dark:bg-orange-900/20",
       iconColor: "text-orange-600 dark:text-orange-400",
       changeColor: "text-green-600 dark:text-green-400",
-      suffix: "savings rate",
+      suffix: t("savingsRate"),
     },
   ];
 
@@ -125,7 +125,7 @@ export default function FinancialCards() {
                     {formatPercentage(card.change)}
                   </span>
                   <span className="text-muted-foreground sm:ml-2">
-                    from last month {card.suffix && `• ${card.suffix}`}
+{t("fromLastMonth")} {card.suffix && `• ${card.suffix}`}
                   </span>
                 </div>
               </div>

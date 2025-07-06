@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import TransactionFilters from "@/components/transactions/transaction-filters";
 import TransactionTable from "@/components/transactions/transaction-table";
+import { useI18n } from "@/lib/i18n";
 
 export interface TransactionFilters {
   search?: string;
@@ -14,6 +15,7 @@ export interface TransactionFilters {
 }
 
 export default function Transactions() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
   const [filters, setFilters] = useState<TransactionFilters>({});
 
@@ -49,25 +51,25 @@ export default function Transactions() {
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center py-4 gap-4">
             <div className="flex-1 min-w-0">
-              <h1 className="text-xl sm:text-2xl font-bold text-foreground">Transactions</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground">{t("transactionsTitle")}</h1>
               <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                Manage and view all your financial transactions.
+                {t("manageTransactions")}
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-4 w-full sm:w-auto">
               <Button variant="outline" onClick={() => setLocation("/dashboard")} className="flex-1 sm:flex-none">
                 <ArrowLeft className="mr-1 sm:mr-2 h-4 w-4" />
-                <span className="hidden sm:inline">Back to Dashboard</span>
+                <span className="hidden sm:inline">{t("backToDashboard")}</span>
                 <span className="sm:hidden">Dashboard</span>
               </Button>
               <Button variant="outline" onClick={handleExport} className="flex-1 sm:flex-none">
                 <Download className="mr-1 sm:mr-2 h-4 w-4" />
-                <span className="hidden sm:inline">Export CSV</span>
+                <span className="hidden sm:inline">{t("exportCSV")}</span>
                 <span className="sm:hidden">Export</span>
               </Button>
               <Button onClick={() => setLocation("/transactions/new")} className="flex-1 sm:flex-none">
                 <Plus className="mr-1 sm:mr-2 h-4 w-4" />
-                <span className="hidden sm:inline">Add Transaction</span>
+                <span className="hidden sm:inline">{t("addTransactionTitle")}</span>
                 <span className="sm:hidden">Add</span>
               </Button>
             </div>
