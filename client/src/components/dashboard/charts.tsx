@@ -66,7 +66,7 @@ export default function Charts() {
             <Skeleton className="h-4 w-32" />
           </CardHeader>
           <CardContent>
-            <Skeleton className="h-48 sm:h-64 w-full" />
+            <Skeleton className="h-40 sm:h-48 md:h-64 xl:h-80 2xl:h-96 w-full" />
           </CardContent>
         </Card>
         <Card>
@@ -75,7 +75,7 @@ export default function Charts() {
             <Skeleton className="h-4 w-32" />
           </CardHeader>
           <CardContent>
-            <Skeleton className="h-48 sm:h-64 w-full" />
+            <Skeleton className="h-40 sm:h-48 md:h-64 xl:h-80 2xl:h-96 w-full" />
           </CardContent>
         </Card>
       </div>
@@ -95,7 +95,7 @@ export default function Charts() {
               <CardDescription className="text-sm">{t("lastSixMonths")}</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col">
-              <ChartContainer config={chartConfig} className="h-40 sm:h-48 md:h-64 flex-1">
+              <ChartContainer config={chartConfig} className="h-40 sm:h-48 md:h-64 xl:h-80 2xl:h-96 flex-1">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={chartData.incomeVsExpenses} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
                     <XAxis 
@@ -151,15 +151,15 @@ export default function Charts() {
               <CardDescription className="text-sm">{t("currentMonthBreakdown")}</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col">
-              <div className="h-40 sm:h-48 md:h-64 flex-1 flex items-center justify-center">
+              <div className="h-40 sm:h-48 md:h-64 xl:h-80 2xl:h-96 flex-1 flex items-center justify-center">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
                       data={chartData.expensesByCategory}
                       cx="50%"
                       cy="50%"
-                      innerRadius={25}
-                      outerRadius={60}
+                      innerRadius="25%"
+                      outerRadius="70%"
                       paddingAngle={3}
                       dataKey="value"
                     >
