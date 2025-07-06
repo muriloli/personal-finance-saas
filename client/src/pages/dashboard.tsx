@@ -2,23 +2,16 @@ import { useAuth } from "@/hooks/use-auth";
 import FinancialCards from "@/components/dashboard/financial-cards";
 import Charts from "@/components/dashboard/charts";
 import RecentTransactions from "@/components/dashboard/recent-transactions";
-import { Plus, Moon, Sun } from "lucide-react";
+import UserProfileDropdown from "@/components/UserProfileDropdown";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useTheme } from "@/components/layout/theme-provider";
 import { useLocation } from "wouter";
-import LanguageSelector from "@/components/LanguageSelector";
 import { useI18n } from "@/lib/i18n";
 
 export default function Dashboard() {
-  const { user, logout } = useAuth();
-  const { theme, setTheme } = useTheme();
+  const { user } = useAuth();
   const [, setLocation] = useLocation();
   const { t } = useI18n();
-
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-  };
 
   return (
     <>
@@ -37,25 +30,12 @@ export default function Dashboard() {
               </p>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-4 w-full sm:w-auto">
-              <div className="w-48">
-                <LanguageSelector />
-              </div>
-              <Button 
-                variant="outline" 
-                size="icon" 
-                onClick={toggleTheme}
-                className="relative h-9 w-9 rounded-md border border-border hover:bg-accent hover:text-accent-foreground transition-colors shrink-0"
-                title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              >
-                <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                <span className="sr-only">Toggle theme</span>
-              </Button>
               <Button onClick={() => setLocation("/transactions/new")} className="flex-1 sm:flex-none">
                 <Plus className="mr-2 h-4 w-4" />
                 <span className="xl:hidden">Add</span>
                 <span className="hidden xl:inline">{t("addTransaction")}</span>
               </Button>
+              <UserProfileDropdown />
             </div>
           </div>
         </div>

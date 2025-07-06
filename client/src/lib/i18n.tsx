@@ -92,6 +92,8 @@ const translations = {
     // User Profile
     language: "Idioma",
     logout: "Sair",
+    lightMode: "Modo Claro",
+    darkMode: "Modo Escuro",
 
     // Settings
     personalInfo: "Informações Pessoais",
@@ -236,6 +238,8 @@ const translations = {
     // User Profile
     language: "Language",
     logout: "Logout",
+    lightMode: "Light Mode",
+    darkMode: "Dark Mode",
 
     // Settings
     personalInfo: "Personal Information",
@@ -380,6 +384,8 @@ const translations = {
     // User Profile
     language: "Idioma",
     logout: "Cerrar sesión",
+    lightMode: "Modo Claro",
+    darkMode: "Modo Oscuro",
 
     // Settings
     personalInfo: "Información Personal",

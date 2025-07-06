@@ -1,4 +1,7 @@
-import { User, LogOut, Globe, ChevronDown } from "lucide-react";
+import { useState } from "react";
+import { useAuth } from "@/hooks/use-auth";
+import { useTheme } from "@/components/layout/theme-provider";
+import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -6,87 +9,123 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useAuth } from "@/hooks/use-auth";
-import { useI18n } from "@/lib/i18n";
+import { Moon, Sun, Globe, LogOut, User } from "lucide-react";
+import { getInitials } from "@/lib/utils";
 
 export default function UserProfileDropdown() {
   const { user, logout } = useAuth();
-  const { t, language, setLanguage } = useI18n();
+  const { theme, setTheme } = useTheme();
+  const { language, setLanguage, t } = useI18n();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+  };
+
+  const handleLanguageChange = (newLanguage: "pt-BR" | "en-US" | "es-ES") => {
+    setLanguage(newLanguage);
+  };
+
+  const getLanguageLabel = (lang: string) => {
+    switch (lang) {
+      case "pt-BR":
+        return "Português";
+      case "en-US":
+        return "English";
+      case "es-ES":
+        return "Español";
+      default:
+        return "Português";
+    }
+  };
 
   if (!user) return null;
 
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(word => word[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  };
-
-  const languages = [
-    { code: "pt-BR", label: "Português", flag: "🇧🇷" },
-    { code: "en-US", label: "English", flag: "🇺🇸" },
-    { code: "es-ES", label: "Español", flag: "🇪🇸" },
-  ];
-
-  const currentLanguage = languages.find(lang => lang.code === language);
-
   return (
-    <DropdownMenu>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-          <Avatar className="h-10 w-10">
-            <AvatarFallback className="bg-primary text-primary-foreground">
+        <Button
+          variant="ghost"
+          className="relative h-8 w-8 rounded-full hover:bg-accent"
+        >
+          <Avatar className="h-8 w-8">
+            <AvatarFallback className="bg-primary text-primary-foreground text-sm font-medium">
               {getInitials(user.name)}
             </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-64" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user.name}</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              {user.phone || user.cpf}
-            </p>
-          </div>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>
-            <Globe className="mr-2 h-4 w-4" />
-            <span>{t("language")}</span>
-            <div className="ml-auto flex items-center">
-              <span className="mr-1">{currentLanguage?.flag}</span>
-              <ChevronDown className="h-4 w-4" />
+      <DropdownMenuContent className="w-80" align="end" forceMount>
+        {/* User Info Section */}
+        <div className="flex flex-col space-y-1 p-4">
+          <div className="flex items-center space-x-3">
+            <Avatar className="h-12 w-12">
+              <AvatarFallback className="bg-primary text-primary-foreground text-lg font-medium">
+                {getInitials(user.name)}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col space-y-1">
+              <p className="text-sm font-medium leading-none">{user.name}</p>
+              <p className="text-xs text-muted-foreground">{user.cpf}</p>
+              {user.phone && (
+                <p className="text-xs text-muted-foreground">{user.phone}</p>
+              )}
             </div>
-          </DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            {languages.map((lang) => (
-              <DropdownMenuItem
-                key={lang.code}
-                onClick={() => setLanguage(lang.code as any)}
-                className={language === lang.code ? "bg-accent" : ""}
-              >
-                <span className="mr-2">{lang.flag}</span>
-                {lang.label}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
-        
+          </div>
+        </div>
+
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={logout} className="text-red-600 focus:text-red-600">
-          <LogOut className="mr-2 h-4 w-4" />
-          {t("logout")}
+
+        {/* Theme Toggle */}
+        <DropdownMenuItem onClick={toggleTheme} className="cursor-pointer">
+          <div className="flex items-center space-x-3 w-full">
+            {theme === "dark" ? (
+              <Sun className="h-4 w-4" />
+            ) : (
+              <Moon className="h-4 w-4" />
+            )}
+            <span className="flex-1">
+              {theme === "dark" ? t("lightMode") || "Modo Claro" : t("darkMode") || "Modo Escuro"}
+            </span>
+          </div>
+        </DropdownMenuItem>
+
+        {/* Language Selector */}
+        <div className="px-2 py-1">
+          <div className="flex items-center space-x-3 px-2 py-1.5">
+            <Globe className="h-4 w-4" />
+            <div className="flex-1">
+              <Select value={language} onValueChange={handleLanguageChange}>
+                <SelectTrigger className="w-full h-8 text-sm">
+                  <SelectValue placeholder="Select language" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="pt-BR">Português (Brasil)</SelectItem>
+                  <SelectItem value="en-US">English (US)</SelectItem>
+                  <SelectItem value="es-ES">Español</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+
+        <DropdownMenuSeparator />
+
+        {/* Logout */}
+        <DropdownMenuItem onClick={logout} className="cursor-pointer text-red-600 dark:text-red-400">
+          <LogOut className="mr-3 h-4 w-4" />
+          <span>{t("logout")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
