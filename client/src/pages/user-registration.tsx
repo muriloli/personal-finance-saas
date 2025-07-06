@@ -14,6 +14,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useToast } from "@/hooks/use-toast";
 import { ChartLine, Loader2, Users, Search, Edit, Trash2, Plus } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
+import UserProfileDropdown from "@/components/UserProfileDropdown";
 
 const userRegistrationSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -176,9 +177,12 @@ export default function UserRegistration() {
                 <p className="text-sm text-muted-foreground">Admin Panel</p>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
-              <Users className="h-5 w-5 text-muted-foreground" />
-              <span className="text-sm font-medium">User Management</span>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <Users className="h-5 w-5 text-muted-foreground" />
+                <span className="text-sm font-medium">User Management</span>
+              </div>
+              <UserProfileDropdown />
             </div>
           </div>
         </div>
@@ -189,8 +193,7 @@ export default function UserRegistration() {
         <div className="space-y-6">
           {/* Actions Bar */}
           <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
-            <div className="flex items-center space-x-2">
-              <Search className="h-5 w-5 text-muted-foreground" />
+            <div>
               <Input
                 placeholder="Search by name or CPF..."
                 value={searchTerm}
