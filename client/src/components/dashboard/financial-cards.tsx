@@ -107,8 +107,8 @@ export default function FinancialCards() {
           return (
             <StaggerItem key={index}>
               <ScaleOnHover>
-                <Card className="hover:shadow-md transition-shadow">
-            <CardContent className="p-4 sm:p-6">
+                <Card className="hover:shadow-md transition-shadow h-full">
+            <CardContent className="p-4 sm:p-6 h-full flex flex-col">
               <div className="flex items-center">
                 <div className={`flex-shrink-0 ${card.iconBg} rounded-lg p-2 sm:p-3`}>
                   <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${card.iconColor}`} />
@@ -122,21 +122,21 @@ export default function FinancialCards() {
                   </p>
                 </div>
               </div>
-              <div className="mt-3 sm:mt-4">
-                <div className="flex items-center justify-between text-xs sm:text-sm">
+              <div className="mt-3 sm:mt-4 flex-1 flex flex-col justify-end">
+                <div className="flex items-start justify-between text-xs sm:text-sm">
                   <span className={`flex items-center ${card.changeColor}`}>
                     <ArrowUpIcon className="mr-1 h-3 w-3" />
                     {formatPercentage(card.change)}
                   </span>
-                  <span className="text-muted-foreground text-right">
-                    {t("fromLastMonth")}
-                  </span>
-                </div>
-                {card.suffix && (
-                  <div className="mt-1 text-xs text-muted-foreground text-right">
-                    {card.suffix}
+                  <div className="text-muted-foreground text-right max-w-[120px]">
+                    <div>{t("fromLastMonth")}</div>
+                    {card.suffix && (
+                      <div className="mt-0.5 text-xs">
+                        {card.suffix}
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             </CardContent>
                 </Card>
