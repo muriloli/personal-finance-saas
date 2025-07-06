@@ -6,6 +6,7 @@ import { Plus, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/layout/theme-provider";
 import { useLocation } from "wouter";
+import LanguageSelector from "@/components/LanguageSelector";
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -34,6 +35,9 @@ export default function Dashboard() {
               </p>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-4 w-full sm:w-auto">
+              <div className="w-48">
+                <LanguageSelector />
+              </div>
               <Button 
                 variant="outline" 
                 size="icon" 
