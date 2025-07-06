@@ -271,6 +271,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // User Registration route
+  app.post("/api/users/register", authenticateUser, async (req, res) => {
+    try {
+      const { name, cpf, phone } = req.body;
+      
+      // Validate required fields
+      if (!name || !cpf || !phone) {
+        return res.status(400).json({ message: "Name, CPF, and phone are required" });
+      }
+
+      // Check if user already exists
+      const existingUser = await storage.getUserByCpf(cpf);
+      if (existingUser) {
+        return res.status(400).json({ message: "User with this CPF already exists" });
+      }
+
+      // Create new user
+      const newUser = await storage.createUser({
+        name,
+        cpf,
+        phone,
+        isActive: true,
+        admin: false
+      });
+
+      res.status(201).json({ message: "User registered successfully", user: newUser });
+    } catch (error) {
+      console.error("User registration error:", error);
+      res.status(500).json({ message: "Failed to register user" });
+    }
+  });
+
   // Export routes
   app.get("/api/export/transactions", authenticateUser, async (req, res) => {
     try {

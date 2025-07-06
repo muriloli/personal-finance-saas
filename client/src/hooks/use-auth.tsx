@@ -180,18 +180,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  const isAdminValue = user ? user.admin || false : false;
-  
-  // Debug logging
-  console.log("useAuth - user:", user);
-  console.log("useAuth - user.admin:", user?.admin);
-  console.log("useAuth - isAdminValue:", isAdminValue);
-
   const value: AuthContextType = {
     user,
     isLoading: isLoading || !isInitialized,
     isAuthenticated: !!user && !!AuthService.getSessionToken(),
-    isAdmin: isAdminValue,
+    isAdmin: user ? user.admin || false : false,
     login,
     logout,
     refetchUser,

@@ -44,9 +44,6 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
 
 function Router() {
   const { isAuthenticated, isLoading, isAdmin } = useAuth();
-  
-  // Debug logging
-  console.log("Router - isAuthenticated:", isAuthenticated, "isAdmin:", isAdmin);
 
   // Mostrar loading enquanto verifica autenticação
   if (isLoading) {
