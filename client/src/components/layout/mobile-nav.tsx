@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
-import LanguageSelector from "@/components/LanguageSelector";
+import UserProfileDropdown from "@/components/UserProfileDropdown";
 
 export default function MobileNav() {
   const [location, setLocation] = useLocation();
@@ -34,7 +34,7 @@ export default function MobileNav() {
         </div>
         
         <div className="flex items-center gap-2">
-          <LanguageSelector />
+          <UserProfileDropdown />
           <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon">

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import { useI18n } from "@/lib/i18n";
-import LanguageSelector from "@/components/LanguageSelector";
+
 
 export default function Sidebar() {
   const [location, setLocation] = useLocation();

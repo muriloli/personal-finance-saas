@@ -21,6 +21,7 @@ import Unauthorized from "@/pages/unauthorized";
 // Layout
 import Sidebar from "@/components/layout/sidebar";
 import MobileNav from "@/components/layout/mobile-nav";
+import Header from "@/components/layout/header";
 
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -28,7 +29,8 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
       <Sidebar />
       <div className="lg:pl-64 flex flex-col flex-1">
         <MobileNav />
-        <div className="pt-16 lg:pt-0 flex-1">
+        <Header />
+        <div className="pt-16 lg:pt-16 flex-1">
           {children}
         </div>
       </div>

@@ -89,6 +89,10 @@ const translations = {
     edit: "Editar",
     delete: "Excluir",
 
+    // User Profile
+    language: "Idioma",
+    logout: "Sair",
+
     // Settings
     personalInfo: "Informações Pessoais",
     name: "Nome",
@@ -229,6 +233,10 @@ const translations = {
     edit: "Edit",
     delete: "Delete",
 
+    // User Profile
+    language: "Language",
+    logout: "Logout",
+
     // Settings
     personalInfo: "Personal Information",
     name: "Name",
@@ -368,6 +376,10 @@ const translations = {
     failedDelete: "Error al eliminar transacción. Inténtalo de nuevo.",
     edit: "Editar",
     delete: "Eliminar",
+
+    // User Profile
+    language: "Idioma",
+    logout: "Cerrar sesión",
 
     // Settings
     personalInfo: "Información Personal",
