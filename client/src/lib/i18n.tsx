@@ -48,50 +48,31 @@ const translations = {
     addNote: "Adicione uma nota sobre esta transação...",
     transactionPreview: "Visualização da Transação",
     newTransaction: "Nova Transação",
-    updating: "Atualizando...",
-    adding: "Adicionando...",
-    updateTransaction: "Atualizar Transação",
-    addTransaction: "Adicionar Transação",
-    successTitle: "Sucesso!",
-    transactionAdded: "Transação adicionada com sucesso.",
-    transactionUpdated: "Transação atualizada com sucesso.",
-    errorTitle: "Erro",
-    failedCreate: "Falha ao criar transação. Tente novamente.",
-    failedUpdate: "Falha ao atualizar transação. Tente novamente.",
 
-    // Transactions Page
-    transactionsTitle: "Transações",
-    manageTransactions: "Gerencie e visualize todas as suas transações financeiras.",
-    backToDashboard: "Voltar ao Dashboard",
-    exportCSV: "Exportar CSV",
-    searchTransactions: "Buscar transações...",
-    allCategories: "Todas as Categorias",
-    allTypes: "Todos os Tipos",
-    startDate: "Data Início",
-    endDate: "Data Fim",
-    transaction: "Transação",
-    actions: "Ações",
-    source: "Origem",
-    web: "Web",
-    
-    // Financial Cards
-    totalIncome: "Receita Total",
-    totalExpenses: "Despesas Totais",
-    currentBalance: "Saldo Atual",
-    monthlySavings: "Economia Mensal",
-    fromLastMonth: "do mês passado",
-    savingsRate: "taxa de economia",
-
-    // Transaction table messages
-    transactionDeleted: "Transação excluída",
-    transactionDeletedDesc: "A transação foi removida com sucesso.",
-    failedDelete: "Falha ao excluir transação. Tente novamente.",
+    // Transaction List
+    all: "Todas",
+    incomeOnly: "Receitas",
+    expenseOnly: "Despesas",
+    filter: "Filtrar",
+    search: "Buscar",
     edit: "Editar",
     delete: "Excluir",
+    deleteConfirm: "Tem certeza que deseja excluir esta transação?",
+    confirmDelete: "Confirmar Exclusão",
+    deleteMessage: "Esta ação não pode ser desfeita.",
+    successDelete: "Transação excluída com sucesso!",
+    failedDelete: "Erro ao excluir transação. Tente novamente.",
+    noTransactionsFound: "Nenhuma transação encontrada",
+    showingTransactions: "Exibindo transações",
+    lastUpdated: "Última atualização",
+    loadingTransactions: "Carregando transações...",
+    successCreate: "Transação criada com sucesso!",
+    failedCreate: "Erro ao criar transação. Tente novamente.",
+    successEdit: "Transação editada com sucesso!",
+    failedEdit: "Erro ao editar transação. Tente novamente.",
 
     // User Profile
     language: "Idioma",
-    logout: "Sair",
     lightMode: "Modo Claro",
     darkMode: "Modo Escuro",
 
@@ -101,58 +82,48 @@ const translations = {
     cpf: "CPF",
     phone: "Telefone",
     preferences: "Preferências",
-    language: "Idioma",
+    notifications: "Notificações",
+    privacy: "Privacidade",
+    about: "Sobre",
+    version: "Versão",
     theme: "Tema",
     currency: "Moeda",
-    dateFormat: "Formato de Data",
-    notifications: "Notificações",
-    dailyReminder: "Lembrete Diário",
-    monthlyReport: "Relatório Mensal",
-    expenseAlerts: "Alertas de Gastos",
-    whatsappNotifications: "Notificações WhatsApp",
-    dataManagement: "Gerenciamento de Dados",
-    exportData: "Exportar Dados",
-    downloadCSV: "Baixar CSV",
-
-    // Common
-    search: "Pesquisar",
-    filter: "Filtrar",
-    clear: "Limpar",
-    apply: "Aplicar",
-    edit: "Editar",
-    delete: "Excluir",
-    confirm: "Confirmar",
-    loading: "Carregando...",
-    error: "Erro",
-    success: "Sucesso",
-
-    // Language options
-    "pt-BR-label": "Português (Brasil)",
-    "en-US-label": "English (US)",
-    "es-ES-label": "Español (España)",
-
-    // Theme options
-    light: "Claro",
-    dark: "Escuro",
-    auto: "Automático",
-
+    export: "Exportar",
+    backup: "Backup",
+    
     // Login
-    loginTitle: "Entrar no Sistema",
-    enterCPF: "Digite seu CPF",
     login: "Entrar",
-    invalidCPF: "CPF inválido ou usuário não encontrado",
-
-    // Help
-    helpTitle: "Central de Ajuda",
-    faq: "Perguntas Frequentes",
-    guides: "Guias",
-    support: "Suporte",
+    loginTitle: "Entre em sua conta",
+    loginSubtitle: "Digite seu CPF para acessar sua conta",
+    cpfPlaceholder: "Digite seu CPF",
+    enterCpf: "Digite seu CPF",
+    loginError: "Erro ao fazer login. Verifique seu CPF e tente novamente.",
+    loginSuccess: "Login realizado com sucesso!",
+    loggingIn: "Entrando...",
+    invalidCpf: "CPF inválido",
+    cpfRequired: "CPF é obrigatório",
+    
+    // Common
+    loading: "Carregando...",
+    saving: "Salvando...",
+    deleting: "Excluindo...",
+    updating: "Atualizando...",
+    creating: "Criando...",
+    editing: "Editando...",
+    searching: "Buscando...",
+    filtering: "Filtrando...",
+    processing: "Processando...",
+    errorOccurred: "Ocorreu um erro",
+    tryAgain: "Tente novamente",
+    somethingWentWrong: "Algo deu errado",
+    networkError: "Erro de rede",
+    serverError: "Erro do servidor",
   },
-  "en-US": {
+  "en": {
     // Navigation
     dashboard: "Dashboard",
     transactions: "Transactions",
-    addTransaction: "New Transaction",
+    addTransaction: "Add Transaction",
     settings: "Settings",
     help: "Help",
     logout: "Logout",
@@ -194,50 +165,31 @@ const translations = {
     addNote: "Add a note about this transaction...",
     transactionPreview: "Transaction Preview",
     newTransaction: "New Transaction",
-    updating: "Updating...",
-    adding: "Adding...",
-    updateTransaction: "Update Transaction",
-    addTransaction: "Add Transaction",
-    successTitle: "Success!",
-    transactionAdded: "Transaction added successfully.",
-    transactionUpdated: "Transaction updated successfully.",
-    errorTitle: "Error",
-    failedCreate: "Failed to create transaction. Please try again.",
-    failedUpdate: "Failed to update transaction. Please try again.",
 
-    // Transactions Page
-    transactionsTitle: "Transactions",
-    manageTransactions: "Manage and view all your financial transactions.",
-    backToDashboard: "Back to Dashboard",
-    exportCSV: "Export CSV",
-    searchTransactions: "Search transactions...",
-    allCategories: "All Categories",
-    allTypes: "All Types",
-    startDate: "Start Date",
-    endDate: "End Date",
-    transaction: "Transaction",
-    actions: "Actions",
-    source: "Source",
-    web: "Web",
-    
-    // Financial Cards
-    totalIncome: "Total Income",
-    totalExpenses: "Total Expenses",
-    currentBalance: "Current Balance",
-    monthlySavings: "Monthly Savings",
-    fromLastMonth: "from last month",
-    savingsRate: "savings rate",
-
-    // Transaction table messages
-    transactionDeleted: "Transaction deleted",
-    transactionDeletedDesc: "The transaction has been removed successfully.",
-    failedDelete: "Failed to delete transaction. Please try again.",
+    // Transaction List
+    all: "All",
+    incomeOnly: "Income",
+    expenseOnly: "Expenses",
+    filter: "Filter",
+    search: "Search",
     edit: "Edit",
     delete: "Delete",
+    deleteConfirm: "Are you sure you want to delete this transaction?",
+    confirmDelete: "Confirm Delete",
+    deleteMessage: "This action cannot be undone.",
+    successDelete: "Transaction deleted successfully!",
+    failedDelete: "Failed to delete transaction. Please try again.",
+    noTransactionsFound: "No transactions found",
+    showingTransactions: "Showing transactions",
+    lastUpdated: "Last updated",
+    loadingTransactions: "Loading transactions...",
+    successCreate: "Transaction created successfully!",
+    failedCreate: "Failed to create transaction. Please try again.",
+    successEdit: "Transaction updated successfully!",
+    failedEdit: "Failed to update transaction. Please try again.",
 
     // User Profile
     language: "Language",
-    logout: "Logout",
     lightMode: "Light Mode",
     darkMode: "Dark Mode",
 
@@ -247,61 +199,51 @@ const translations = {
     cpf: "CPF",
     phone: "Phone",
     preferences: "Preferences",
-    language: "Language",
+    notifications: "Notifications",
+    privacy: "Privacy",
+    about: "About",
+    version: "Version",
     theme: "Theme",
     currency: "Currency",
-    dateFormat: "Date Format",
-    notifications: "Notifications",
-    dailyReminder: "Daily Reminder",
-    monthlyReport: "Monthly Report",
-    expenseAlerts: "Expense Alerts",
-    whatsappNotifications: "WhatsApp Notifications",
-    dataManagement: "Data Management",
-    exportData: "Export Data",
-    downloadCSV: "Download CSV",
-
-    // Common
-    search: "Search",
-    filter: "Filter",
-    clear: "Clear",
-    apply: "Apply",
-    edit: "Edit",
-    delete: "Delete",
-    confirm: "Confirm",
-    loading: "Loading...",
-    error: "Error",
-    success: "Success",
-
-    // Language options
-    "pt-BR-label": "Português (Brasil)",
-    "en-US-label": "English (US)",
-    "es-ES-label": "Español (España)",
-
-    // Theme options
-    light: "Light",
-    dark: "Dark",
-    auto: "Auto",
-
+    export: "Export",
+    backup: "Backup",
+    
     // Login
-    loginTitle: "Login to System",
-    enterCPF: "Enter your CPF",
     login: "Login",
-    invalidCPF: "Invalid CPF or user not found",
-
-    // Help
-    helpTitle: "Help Center",
-    faq: "FAQ",
-    guides: "Guides",
-    support: "Support",
+    loginTitle: "Login to your account",
+    loginSubtitle: "Enter your CPF to access your account",
+    cpfPlaceholder: "Enter your CPF",
+    enterCpf: "Enter your CPF",
+    loginError: "Login failed. Please check your CPF and try again.",
+    loginSuccess: "Login successful!",
+    loggingIn: "Logging in...",
+    invalidCpf: "Invalid CPF",
+    cpfRequired: "CPF is required",
+    
+    // Common
+    loading: "Loading...",
+    saving: "Saving...",
+    deleting: "Deleting...",
+    updating: "Updating...",
+    creating: "Creating...",
+    editing: "Editing...",
+    searching: "Searching...",
+    filtering: "Filtering...",
+    processing: "Processing...",
+    errorOccurred: "An error occurred",
+    tryAgain: "Try again",
+    somethingWentWrong: "Something went wrong",
+    networkError: "Network error",
+    serverError: "Server error",
   },
-  "es-ES": {
+  "es": {
     // Navigation
     dashboard: "Panel",
     transactions: "Transacciones",
     addTransaction: "Nueva Transacción",
     settings: "Configuraciones",
     help: "Ayuda",
-    logout: "Salir",
+    logout: "Cerrar sesión",
 
     // Dashboard
     totalIncome: "Ingresos Totales",
@@ -337,53 +279,34 @@ const translations = {
     editTransactionTitle: "Editar Transacción",
     recordNewTransaction: "Registra una nueva transacción de ingreso o gasto",
     selectCategory: "Selecciona una categoría",
-    addNote: "Añade una nota sobre esta transacción...",
-    transactionPreview: "Vista Previa de Transacción",
+    addNote: "Agrega una nota sobre esta transacción...",
+    transactionPreview: "Vista previa de la transacción",
     newTransaction: "Nueva Transacción",
-    updating: "Actualizando...",
-    adding: "Agregando...",
-    updateTransaction: "Actualizar Transacción",
-    addTransaction: "Agregar Transacción",
-    successTitle: "¡Éxito!",
-    transactionAdded: "Transacción agregada exitosamente.",
-    transactionUpdated: "Transacción actualizada exitosamente.",
-    errorTitle: "Error",
-    failedCreate: "Error al crear transacción. Inténtalo de nuevo.",
-    failedUpdate: "Error al actualizar transacción. Inténtalo de nuevo.",
 
-    // Transactions Page
-    transactionsTitle: "Transacciones",
-    manageTransactions: "Gestiona y visualiza todas tus transacciones financieras.",
-    backToDashboard: "Volver al Dashboard",
-    exportCSV: "Exportar CSV",
-    searchTransactions: "Buscar transacciones...",
-    allCategories: "Todas las Categorías",
-    allTypes: "Todos los Tipos",
-    startDate: "Fecha Inicio",
-    endDate: "Fecha Fin",
-    transaction: "Transacción",
-    actions: "Acciones",
-    source: "Origen",
-    web: "Web",
-    
-    // Financial Cards
-    totalIncome: "Ingresos Totales",
-    totalExpenses: "Gastos Totales",
-    currentBalance: "Saldo Actual",
-    monthlySavings: "Ahorro Mensual",
-    fromLastMonth: "del mes pasado",
-    savingsRate: "tasa de ahorro",
-
-    // Transaction table messages
-    transactionDeleted: "Transacción eliminada",
-    transactionDeletedDesc: "La transacción ha sido eliminada exitosamente.",
-    failedDelete: "Error al eliminar transacción. Inténtalo de nuevo.",
+    // Transaction List
+    all: "Todas",
+    incomeOnly: "Ingresos",
+    expenseOnly: "Gastos",
+    filter: "Filtrar",
+    search: "Buscar",
     edit: "Editar",
     delete: "Eliminar",
+    deleteConfirm: "¿Estás seguro de que quieres eliminar esta transacción?",
+    confirmDelete: "Confirmar Eliminación",
+    deleteMessage: "Esta acción no se puede deshacer.",
+    successDelete: "¡Transacción eliminada exitosamente!",
+    failedDelete: "Error al eliminar transacción. Inténtalo de nuevo.",
+    noTransactionsFound: "No se encontraron transacciones",
+    showingTransactions: "Mostrando transacciones",
+    lastUpdated: "Última actualización",
+    loadingTransactions: "Cargando transacciones...",
+    successCreate: "¡Transacción creada exitosamente!",
+    failedCreate: "Error al crear transacción. Inténtalo de nuevo.",
+    successEdit: "¡Transacción actualizada exitosamente!",
+    failedEdit: "Error al actualizar transacción. Inténtalo de nuevo.",
 
     // User Profile
     language: "Idioma",
-    logout: "Cerrar sesión",
     lightMode: "Modo Claro",
     darkMode: "Modo Oscuro",
 
@@ -393,51 +316,44 @@ const translations = {
     cpf: "CPF",
     phone: "Teléfono",
     preferences: "Preferencias",
+    notifications: "Notificaciones",
+    privacy: "Privacidad",
+    about: "Acerca de",
+    version: "Versión",
     theme: "Tema",
     currency: "Moneda",
-    dateFormat: "Formato de Fecha",
-    notifications: "Notificaciones",
-    dailyReminder: "Recordatorio Diario",
-    monthlyReport: "Informe Mensual",
-    expenseAlerts: "Alertas de Gastos",
-    whatsappNotifications: "Notificaciones WhatsApp",
-    dataManagement: "Gestión de Datos",
-    exportData: "Exportar Datos",
-    downloadCSV: "Descargar CSV",
-
-    // Common
-    search: "Buscar",
-    filter: "Filtrar",
-    clear: "Limpiar",
-    apply: "Aplicar",
-    confirm: "Confirmar",
-    loading: "Cargando...",
-    error: "Error",
-    success: "Éxito",
-
-    // Language options
-    "pt-BR-label": "Português (Brasil)",
-    "en-US-label": "English (US)",
-    "es-ES-label": "Español (España)",
-
-    // Theme options
-    light: "Claro",
-    dark: "Oscuro",
-    auto: "Automático",
-
+    export: "Exportar",
+    backup: "Respaldo",
+    
     // Login
-    loginTitle: "Iniciar Sesión",
-    enterCPF: "Ingrese su CPF",
     login: "Iniciar Sesión",
-    invalidCPF: "CPF inválido o usuario no encontrado",
-
-    // Help
-    helpTitle: "Centro de Ayuda",
-    faq: "Preguntas Frecuentes",
-    guides: "Guías",
-    support: "Soporte",
+    loginTitle: "Inicia sesión en tu cuenta",
+    loginSubtitle: "Ingresa tu CPF para acceder a tu cuenta",
+    cpfPlaceholder: "Ingresa tu CPF",
+    enterCpf: "Ingresa tu CPF",
+    loginError: "Error al iniciar sesión. Verifica tu CPF e inténtalo de nuevo.",
+    loginSuccess: "¡Inicio de sesión exitoso!",
+    loggingIn: "Iniciando sesión...",
+    invalidCpf: "CPF inválido",
+    cpfRequired: "CPF es requerido",
+    
+    // Common
+    loading: "Cargando...",
+    saving: "Guardando...",
+    deleting: "Eliminando...",
+    updating: "Actualizando...",
+    creating: "Creando...",
+    editing: "Editando...",
+    searching: "Buscando...",
+    filtering: "Filtrando...",
+    processing: "Procesando...",
+    errorOccurred: "Ocurrió un error",
+    tryAgain: "Inténtalo de nuevo",
+    somethingWentWrong: "Algo salió mal",
+    networkError: "Error de red",
+    serverError: "Error del servidor",
   },
-};
+} as const;
 
 type Language = keyof typeof translations;
 type TranslationKey = keyof typeof translations["pt-BR"];
@@ -457,15 +373,10 @@ interface I18nProviderProps {
 
 export function I18nProvider({ children, defaultLanguage = "pt-BR" }: I18nProviderProps) {
   const [language, setLanguage] = useState<Language>(() => {
-    // Try to get language from localStorage first
     const stored = localStorage.getItem("language");
-    if (stored && Object.keys(translations).includes(stored)) {
-      return stored as Language;
-    }
-    return defaultLanguage;
+    return (stored as Language) || defaultLanguage;
   });
 
-  // Save language to localStorage when it changes
   useEffect(() => {
     localStorage.setItem("language", language);
   }, [language]);
@@ -480,51 +391,34 @@ export function I18nProvider({ children, defaultLanguage = "pt-BR" }: I18nProvid
     t,
   };
 
-  return (
-    <I18nContext.Provider value={value}>
-      {children}
-    </I18nContext.Provider>
-  );
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
 
 export function useI18n(): I18nContextType {
   const context = useContext(I18nContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useI18n must be used within an I18nProvider");
   }
   return context;
 }
 
-// Helper function to format currency based on language
 export function formatCurrency(amount: number, language: Language = "pt-BR"): string {
-  if (language === "en-US") {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(amount);
-  } else {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(amount);
-  }
+  const locale = language === "pt-BR" ? "pt-BR" : language === "en" ? "en-US" : "es-ES";
+  const currency = language === "pt-BR" ? "BRL" : language === "en" ? "USD" : "EUR";
+  
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: currency,
+  }).format(amount);
 }
 
-// Helper function to format date based on language
 export function formatDate(date: Date | string, language: Language = "pt-BR"): string {
+  const locale = language === "pt-BR" ? "pt-BR" : language === "en" ? "en-US" : "es-ES";
   const dateObj = typeof date === "string" ? new Date(date) : date;
   
-  if (language === "en-US") {
-    return dateObj.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  } else {
-    return dateObj.toLocaleDateString("pt-BR", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  }
+  return new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  }).format(dateObj);
 }
