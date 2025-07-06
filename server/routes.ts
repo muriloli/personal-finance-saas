@@ -50,6 +50,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // User registration route (admin only in real implementation)
+  app.post("/api/users/register", authenticateUser, async (req, res) => {
+    try {
+      const { name, cpf, phone } = req.body;
+      
+      // Validate required fields
+      if (!name || !cpf || !phone) {
+        return res.status(400).json({ message: "Name, CPF, and phone are required" });
+      }
+
+      // Validate CPF format (11 digits)
+      if (!/^\d{11}$/.test(cpf)) {
+        return res.status(400).json({ message: "CPF must be 11 digits" });
+      }
+
+      // Check if user already exists
+      const existingUser = await storage.getUserByCpf(cpf);
+      if (existingUser) {
+        return res.status(409).json({ message: "User with this CPF already exists" });
+      }
+
+      // Create new user
+      const newUser = await storage.createUser({
+        name,
+        cpf,
+        phone,
+        isActive: true,
+      });
+
+      res.status(201).json({ 
+        message: "User registered successfully",
+        user: newUser 
+      });
+    } catch (error: any) {
+      console.error("User registration error:", error);
+      res.status(500).json({ message: "Failed to register user" });
+    }
+  });
+
   // Dashboard routes
   app.get("/api/dashboard/overview", authenticateUser, async (req, res) => {
     try {

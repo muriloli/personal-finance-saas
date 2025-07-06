@@ -154,6 +154,15 @@ const translations = {
     somethingWentWrong: "Algo deu errado",
     networkError: "Erro de rede",
     serverError: "Erro do servidor",
+    
+    // User Registration
+    userRegistration: "Cadastro de Usuários",
+    registerNewUser: "Cadastrar Novo Usuário",
+    registerUserDescription: "Adicione um novo usuário ao sistema",
+    fullName: "Nome Completo",
+    enterFullName: "Digite o nome completo",
+    registering: "Cadastrando",
+    registerUser: "Cadastrar Usuário",
   },
   "en": {
     // Navigation
@@ -308,6 +317,15 @@ const translations = {
     somethingWentWrong: "Something went wrong",
     networkError: "Network error",
     serverError: "Server error",
+    
+    // User Registration
+    userRegistration: "User Registration",
+    registerNewUser: "Register New User",
+    registerUserDescription: "Add a new user to the system",
+    fullName: "Full Name",
+    enterFullName: "Enter full name",
+    registering: "Registering",
+    registerUser: "Register User",
   },
   "es": {
     // Navigation
@@ -462,6 +480,15 @@ const translations = {
     somethingWentWrong: "Algo salió mal",
     networkError: "Error de red",
     serverError: "Error del servidor",
+    
+    // User Registration
+    userRegistration: "Registro de Usuario",
+    registerNewUser: "Registrar Nuevo Usuario",
+    registerUserDescription: "Agregar un nuevo usuario al sistema",
+    fullName: "Nombre Completo",
+    enterFullName: "Ingrese nombre completo",
+    registering: "Registrando",
+    registerUser: "Registrar Usuario",
   },
 } as const;
 

@@ -17,6 +17,7 @@ import Settings from "@/pages/settings";
 import Help from "@/pages/help";
 import NotFound from "@/pages/not-found";
 import Unauthorized from "@/pages/unauthorized";
+import UserRegistration from "@/pages/user-registration";
 
 // Layout
 import Sidebar from "@/components/layout/sidebar";
@@ -42,7 +43,7 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
 }
 
 function Router() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, isAdmin } = useAuth();
 
   // Mostrar loading enquanto verifica autenticação
   if (isLoading) {
@@ -62,8 +63,10 @@ function Router() {
       <Route path="/unauthorized" component={Unauthorized} />
       {isAuthenticated ? (
         <>
-          <Route path="/" component={Dashboard} />
+          {/* Admin users go to user registration page instead of dashboard */}
+          <Route path="/" component={isAdmin ? UserRegistration : Dashboard} />
           <Route path="/dashboard" component={Dashboard} />
+          <Route path="/user-registration" component={UserRegistration} />
           <Route path="/transactions" component={Transactions} />
           <Route path="/transactions/new" component={NewTransaction} />
           <Route path="/transactions/edit/:id" component={EditTransaction} />

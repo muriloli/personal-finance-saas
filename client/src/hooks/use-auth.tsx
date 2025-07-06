@@ -9,12 +9,21 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   isAuthenticated: boolean;
+  isAdmin: boolean;
   login: (cpf: string) => Promise<void>;
   logout: () => void;
   refetchUser: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// Admin CPFs - in a real app, this would be stored in the database
+const ADMIN_CPFS = ["00000000001", "12345678900"]; // Example admin CPFs
+
+// Função para verificar se um CPF é de admin
+function isAdminCpf(cpf: string): boolean {
+  return ADMIN_CPFS.includes(cpf);
+}
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -181,6 +190,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     user,
     isLoading: isLoading || !isInitialized,
     isAuthenticated: !!user && !!AuthService.getSessionToken(),
+    isAdmin: user ? isAdminCpf(user.cpf) : false,
     login,
     logout,
     refetchUser,
