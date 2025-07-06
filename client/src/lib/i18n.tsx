@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
-// Translation objects
 const translations = {
   "pt-BR": {
     // Navigation
@@ -46,8 +45,10 @@ const translations = {
     recordNewTransaction: "Registre uma nova transação de receita ou despesa",
     selectCategory: "Selecione uma categoria",
     addNote: "Adicione uma nota sobre esta transação...",
-    transactionPreview: "Visualização da Transação",
+    transactionPreview: "Prévia da Transação",
     newTransaction: "Nova Transação",
+    updateTransaction: "Atualizar Transação",
+    adding: "Adicionando...",
 
     // Transaction List
     all: "Todas",
@@ -57,19 +58,35 @@ const translations = {
     search: "Buscar",
     edit: "Editar",
     delete: "Excluir",
-    deleteConfirm: "Tem certeza que deseja excluir esta transação?",
+    deleteConfirm: "Tem certeza de que deseja excluir esta transação?",
     confirmDelete: "Confirmar Exclusão",
     deleteMessage: "Esta ação não pode ser desfeita.",
     successDelete: "Transação excluída com sucesso!",
-    failedDelete: "Erro ao excluir transação. Tente novamente.",
+    failedDelete: "Falha ao excluir transação. Tente novamente.",
     noTransactionsFound: "Nenhuma transação encontrada",
-    showingTransactions: "Exibindo transações",
+    showingTransactions: "Mostrando transações",
     lastUpdated: "Última atualização",
     loadingTransactions: "Carregando transações...",
     successCreate: "Transação criada com sucesso!",
-    failedCreate: "Erro ao criar transação. Tente novamente.",
-    successEdit: "Transação editada com sucesso!",
-    failedEdit: "Erro ao editar transação. Tente novamente.",
+    failedCreate: "Falha ao criar transação. Tente novamente.",
+    successEdit: "Transação atualizada com sucesso!",
+    failedEdit: "Falha ao atualizar transação. Tente novamente.",
+
+    // Transaction Page
+    transactionsTitle: "Transações",
+    manageTransactions: "Gerencie suas transações financeiras",
+    backToDashboard: "Voltar ao Painel",
+    exportCSV: "Exportar CSV",
+    searchTransactions: "Buscar transações",
+    allCategories: "Todas as Categorias",
+    allTypes: "Todos os Tipos",
+    startDate: "Data Inicial",
+    endDate: "Data Final",
+
+    // Transaction Table
+    transactionDeleted: "Transação excluída",
+    transactionDeletedDesc: "A transação foi excluída com sucesso",
+    errorTitle: "Erro",
 
     // User Profile
     language: "Idioma",
@@ -102,7 +119,7 @@ const translations = {
     loggingIn: "Entrando...",
     invalidCpf: "CPF inválido",
     cpfRequired: "CPF é obrigatório",
-    
+
     // Common
     loading: "Carregando...",
     saving: "Salvando...",
@@ -165,6 +182,8 @@ const translations = {
     addNote: "Add a note about this transaction...",
     transactionPreview: "Transaction Preview",
     newTransaction: "New Transaction",
+    updateTransaction: "Update Transaction",
+    adding: "Adding...",
 
     // Transaction List
     all: "All",
@@ -187,6 +206,22 @@ const translations = {
     failedCreate: "Failed to create transaction. Please try again.",
     successEdit: "Transaction updated successfully!",
     failedEdit: "Failed to update transaction. Please try again.",
+
+    // Transaction Page
+    transactionsTitle: "Transactions",
+    manageTransactions: "Manage your financial transactions",
+    backToDashboard: "Back to Dashboard",
+    exportCSV: "Export CSV",
+    searchTransactions: "Search transactions",
+    allCategories: "All Categories",
+    allTypes: "All Types",
+    startDate: "Start Date",
+    endDate: "End Date",
+
+    // Transaction Table
+    transactionDeleted: "Transaction deleted",
+    transactionDeletedDesc: "Transaction has been deleted successfully",
+    errorTitle: "Error",
 
     // User Profile
     language: "Language",
@@ -219,7 +254,7 @@ const translations = {
     loggingIn: "Logging in...",
     invalidCpf: "Invalid CPF",
     cpfRequired: "CPF is required",
-    
+
     // Common
     loading: "Loading...",
     saving: "Saving...",
@@ -280,8 +315,10 @@ const translations = {
     recordNewTransaction: "Registra una nueva transacción de ingreso o gasto",
     selectCategory: "Selecciona una categoría",
     addNote: "Agrega una nota sobre esta transacción...",
-    transactionPreview: "Vista previa de la transacción",
+    transactionPreview: "Vista Previa de Transacción",
     newTransaction: "Nueva Transacción",
+    updateTransaction: "Actualizar Transacción",
+    adding: "Agregando...",
 
     // Transaction List
     all: "Todas",
@@ -304,6 +341,22 @@ const translations = {
     failedCreate: "Error al crear transacción. Inténtalo de nuevo.",
     successEdit: "¡Transacción actualizada exitosamente!",
     failedEdit: "Error al actualizar transacción. Inténtalo de nuevo.",
+
+    // Transaction Page
+    transactionsTitle: "Transacciones",
+    manageTransactions: "Gestiona tus transacciones financieras",
+    backToDashboard: "Volver al Panel",
+    exportCSV: "Exportar CSV",
+    searchTransactions: "Buscar transacciones",
+    allCategories: "Todas las Categorías",
+    allTypes: "Todos los Tipos",
+    startDate: "Fecha Inicial",
+    endDate: "Fecha Final",
+
+    // Transaction Table
+    transactionDeleted: "Transacción eliminada",
+    transactionDeletedDesc: "La transacción se eliminó con éxito",
+    errorTitle: "Error",
 
     // User Profile
     language: "Idioma",
@@ -336,7 +389,7 @@ const translations = {
     loggingIn: "Iniciando sesión...",
     invalidCpf: "CPF inválido",
     cpfRequired: "CPF es requerido",
-    
+
     // Common
     loading: "Cargando...",
     saving: "Guardando...",
@@ -413,12 +466,8 @@ export function formatCurrency(amount: number, language: Language = "pt-BR"): st
 }
 
 export function formatDate(date: Date | string, language: Language = "pt-BR"): string {
-  const locale = language === "pt-BR" ? "pt-BR" : language === "en" ? "en-US" : "es-ES";
   const dateObj = typeof date === "string" ? new Date(date) : date;
+  const locale = language === "pt-BR" ? "pt-BR" : language === "en" ? "en-US" : "es-ES";
   
-  return new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  }).format(dateObj);
+  return dateObj.toLocaleDateString(locale);
 }
