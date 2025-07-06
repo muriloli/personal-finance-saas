@@ -107,8 +107,14 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
 - **Session Configuration**: Database-backed session storage
 
 ## Changelog
+- July 06, 2025. Fixed theme toggle and language switching bugs after user feedback
+  - Fixed theme toggle showing incorrect state (now correctly shows target theme name)
+  - Resolved language switching causing black screen issue by fixing language code mismatches
+  - Updated i18n system to use consistent language codes (pt-BR, en, es)
+  - Enhanced theme detection to properly handle "system" theme setting
+  - All translation keys now properly display in Portuguese and Spanish
 - July 06, 2025. Successfully migrated from Replit Agent to standard Replit environment
-  - Fixed package.json script compatibility for Linux environment
+  - Fixed package.json script compatibility for Linux environment  
   - Resolved i18n translation file with duplicate key issues
   - Enhanced chart responsiveness for desktop screens (1200px+)
   - Charts now scale from 256px on medium screens to 384px on 2XL screens

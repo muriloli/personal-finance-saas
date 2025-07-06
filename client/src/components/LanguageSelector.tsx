@@ -4,8 +4,8 @@ import { useI18n } from "@/lib/i18n";
 
 const languages = [
   { code: "pt-BR", label: "Português", flag: "🇧🇷" },
-  { code: "en-US", label: "English", flag: "🇺🇸" },
-  { code: "es-ES", label: "Español", flag: "🇪🇸" },
+  { code: "en", label: "English", flag: "🇺🇸" },
+  { code: "es", label: "Español", flag: "🇪🇸" },
 ];
 
 export default function LanguageSelector() {

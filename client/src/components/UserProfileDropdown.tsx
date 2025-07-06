@@ -31,11 +31,21 @@ export default function UserProfileDropdown() {
   const toggleTheme = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const newTheme = theme === "dark" ? "light" : "dark";
+    // Get the actual current theme (resolve "system" to actual theme)
+    const currentTheme = getCurrentTheme();
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
     setTheme(newTheme);
   };
 
-  const handleLanguageChange = (newLanguage: "pt-BR" | "en-US" | "es-ES") => {
+  // Helper function to get the actual current theme
+  const getCurrentTheme = () => {
+    if (theme === "system") {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    return theme;
+  };
+
+  const handleLanguageChange = (newLanguage: "pt-BR" | "en" | "es") => {
     setLanguage(newLanguage);
   };
 
@@ -43,9 +53,9 @@ export default function UserProfileDropdown() {
     switch (lang) {
       case "pt-BR":
         return "Português";
-      case "en-US":
+      case "en":
         return "English";
-      case "es-ES":
+      case "es":
         return "Español";
       default:
         return "Português";
@@ -96,13 +106,13 @@ export default function UserProfileDropdown() {
           onSelect={(e) => e.preventDefault()}
         >
           <div className="flex items-center space-x-3 w-full">
-            {theme === "dark" ? (
+            {getCurrentTheme() === "dark" ? (
               <Sun className="h-4 w-4" />
             ) : (
               <Moon className="h-4 w-4" />
             )}
             <span className="flex-1">
-              {theme === "dark" ? t("lightMode") || "Modo Claro" : t("darkMode") || "Modo Escuro"}
+              {getCurrentTheme() === "dark" ? t("lightMode") : t("darkMode")}
             </span>
           </div>
         </DropdownMenuItem>
@@ -118,8 +128,8 @@ export default function UserProfileDropdown() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="pt-BR">Português (Brasil)</SelectItem>
-                  <SelectItem value="en-US">English (US)</SelectItem>
-                  <SelectItem value="es-ES">Español</SelectItem>
+                  <SelectItem value="en">English (US)</SelectItem>
+                  <SelectItem value="es">Español</SelectItem>
                 </SelectContent>
               </Select>
             </div>
