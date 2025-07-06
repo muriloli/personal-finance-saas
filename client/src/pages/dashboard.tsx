@@ -53,7 +53,8 @@ export default function Dashboard() {
               </Button>
               <Button onClick={() => setLocation("/transactions/new")} className="flex-1 sm:flex-none">
                 <Plus className="mr-2 h-4 w-4" />
-                <span className="sm:inline">{t("addTransaction")}</span>
+                <span className="xl:hidden">Add</span>
+                <span className="hidden xl:inline">{t("addTransaction")}</span>
               </Button>
             </div>
           </div>
