@@ -107,6 +107,12 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
 - **Session Configuration**: Database-backed session storage
 
 ## Changelog
+- July 06, 2025. Fixed admin user authentication and routing system
+  - Updated schema to match existing Supabase database structure (admin column instead of is_admin)
+  - Connected to user's Supabase database using provided DATABASE_URL
+  - Fixed admin privilege detection to read from database instead of hardcoded CPF list
+  - Admin users now properly redirect to user registration screen instead of dashboard
+  - Test user (CPF: 12345678901) updated with admin privileges for testing
 - July 06, 2025. Fixed theme toggle and language switching bugs after user feedback
   - Fixed theme toggle showing incorrect state (now correctly shows target theme name)
   - Resolved language switching causing black screen issue by fixing language code mismatches

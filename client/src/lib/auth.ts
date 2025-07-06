@@ -7,6 +7,7 @@ export interface User {
   phone?: string;
   created_at: string;
   updated_at: string;
+  admin?: boolean;
 }
 
 export interface LoginResponse {

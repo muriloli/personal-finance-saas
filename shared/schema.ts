@@ -12,6 +12,7 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
   isActive: boolean("is_active").default(true),
+  admin: boolean("admin").default(false),
 });
 
 // Categories table
