@@ -30,7 +30,7 @@ function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
       <div className="lg:pl-64 flex flex-col flex-1">
         <MobileNav />
         <Header />
-        <div className="pt-16 lg:pt-16 flex-1">
+        <div className="pt-16 lg:pt-0 flex-1">
           {children}
         </div>
       </div>
