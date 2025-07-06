@@ -2,13 +2,7 @@ import { Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 
-interface LanguageOption {
-  code: string;
-  label: string;
-  flag: string;
-}
-
-const languages: LanguageOption[] = [
+const languages = [
   { code: "pt-BR", label: "Português", flag: "🇧🇷" },
   { code: "en-US", label: "English", flag: "🇺🇸" },
   { code: "es-ES", label: "Español", flag: "🇪🇸" },
@@ -26,11 +20,12 @@ export default function LanguageSelector() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-red-100 p-2 border border-red-300 rounded">
+      <p className="text-xs text-red-600 mb-1">TESTE - Seletor de Idioma</p>
       <Button
         variant="outline"
         size="sm"
-        className="w-full h-9 text-sm justify-start gap-2"
+        className="w-full h-9 text-sm justify-start gap-2 bg-blue-100"
         onClick={handleLanguageChange}
       >
         <Languages className="h-4 w-4" />
