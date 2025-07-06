@@ -60,7 +60,10 @@ export default function Sidebar() {
         
         {/* Language Selector */}
         <div className="flex-shrink-0 px-4 pb-4">
-          <LanguageSelector />
+          <div className="mb-2">
+            <p className="text-xs font-medium text-muted-foreground mb-2">{t("language")}</p>
+            <LanguageSelector />
+          </div>
         </div>
 
         {/* User Profile */}

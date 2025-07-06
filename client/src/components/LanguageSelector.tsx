@@ -36,9 +36,9 @@ export default function LanguageSelector() {
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button 
-          variant="ghost" 
+          variant="outline" 
           size="sm" 
-          className="h-8 px-2 gap-1.5 text-sm font-medium hover:bg-accent/50"
+          className="h-9 px-3 gap-2 text-sm font-medium hover:bg-accent/50 border-border"
         >
           <Languages className="h-4 w-4" />
           <span className="text-lg leading-none">{currentLanguage.flag}</span>
