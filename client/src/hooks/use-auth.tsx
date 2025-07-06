@@ -142,6 +142,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
         title: "Welcome back!",
         description: `Hello, ${loggedInUser.name}!`,
       });
+
+      // Redirect based on admin status
+      if (loggedInUser.admin) {
+        setLocation("/user-registration");
+      } else {
+        setLocation("/dashboard");
+      }
     } catch (error: any) {
       console.error("Login error:", error);
       throw new Error(error.message || "Login failed");

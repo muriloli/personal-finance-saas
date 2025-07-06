@@ -63,8 +63,7 @@ function Router() {
       <Route path="/unauthorized" component={Unauthorized} />
       {isAuthenticated ? (
         <>
-          {/* Admin users go to user registration page instead of dashboard */}
-          <Route path="/" component={isAdmin ? UserRegistration : Dashboard} />
+          <Route path="/" component={Dashboard} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/user-registration" component={UserRegistration} />
           <Route path="/transactions" component={Transactions} />
