@@ -144,9 +144,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       });
 
       // Redirect based on admin status
+      console.log("Checking admin status for redirect:", loggedInUser.admin);
       if (loggedInUser.admin) {
+        console.log("Admin user detected, redirecting to /user-registration");
         setLocation("/user-registration");
       } else {
+        console.log("Regular user detected, redirecting to /dashboard");
         setLocation("/dashboard");
       }
     } catch (error: any) {

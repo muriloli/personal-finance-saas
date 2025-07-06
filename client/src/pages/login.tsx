@@ -18,12 +18,7 @@ export default function Login() {
   const { login, isAuthenticated } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
-  // Redirecionar se já estiver logado
-  useEffect(() => {
-    if (isAuthenticated) {
-      setLocation("/dashboard");
-    }
-  }, [isAuthenticated, setLocation]);
+  // Redirect is now handled in the auth hook based on admin status
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -36,7 +31,7 @@ export default function Login() {
     try {
       setIsLoading(true);
       await login(data.cpf);
-      setLocation("/dashboard");
+      // Redirect is now handled in the login function based on admin status
     } catch (error) {
       form.setError("cpf", {
         type: "manual",
