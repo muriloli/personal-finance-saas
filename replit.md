@@ -107,6 +107,10 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
 - **Session Configuration**: Database-backed session storage
 
 ## Changelog
+- July 06, 2025. Fixed dashboard alignment issues after user feedback
+  - Enhanced chart cards to have equal heights using flexbox layout
+  - Improved financial cards text alignment with better spacing and responsive design
+  - Applied proper flex layout for consistent card heights across all screen sizes
 - July 05, 2025. Successfully migrated from Replit Agent to standard Replit environment
   - Fixed server configuration to run on port 5000 with 0.0.0.0 binding
   - Set up PostgreSQL database with proper schema and seeding

@@ -89,115 +89,115 @@ export default function Charts() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mb-8">
         {/* Income vs Expenses Chart */}
         <StaggerItem>
-          <Card>
-        <CardHeader className="pb-4">
-          <CardTitle className="text-lg sm:text-xl">{t("incomeVsExpenses")}</CardTitle>
-          <CardDescription className="text-sm">{t("lastSixMonths")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className="h-48 sm:h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={chartData.incomeVsExpenses} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-                <XAxis 
-                  dataKey="month" 
-                  fontSize={10}
-                  tickLine={false}
-                  axisLine={false}
-                  interval={0}
-                />
-                <YAxis
-                  fontSize={10}
-                  tickLine={false}
-                  axisLine={false}
-                  tickFormatter={(value) => {
-                    if (value >= 1000) {
-                      return `R$${(value / 1000).toFixed(0)}k`;
-                    }
-                    return `R$${value.toFixed(0)}`;
-                  }}
-                  width={50}
-                  domain={['dataMin - 100', 'dataMax + 100']}
-                />
-                <ChartTooltip 
-                  content={<ChartTooltipContent />}
-                  formatter={(value) => [formatCurrency(value as number)]}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="income"
-                  stroke="#10B981"
-                  strokeWidth={2}
-                  dot={{ fill: "#10B981", strokeWidth: 2, r: 3 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="expenses"
-                  stroke="#EF4444"
-                  strokeWidth={2}
-                  dot={{ fill: "#EF4444", strokeWidth: 2, r: 3 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </ChartContainer>
-        </CardContent>
+          <Card className="flex flex-col h-full">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-lg sm:text-xl">{t("incomeVsExpenses")}</CardTitle>
+              <CardDescription className="text-sm">{t("lastSixMonths")}</CardDescription>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col">
+              <ChartContainer config={chartConfig} className="h-48 sm:h-64 flex-1">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={chartData.incomeVsExpenses} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                    <XAxis 
+                      dataKey="month" 
+                      fontSize={10}
+                      tickLine={false}
+                      axisLine={false}
+                      interval={0}
+                    />
+                    <YAxis
+                      fontSize={10}
+                      tickLine={false}
+                      axisLine={false}
+                      tickFormatter={(value) => {
+                        if (value >= 1000) {
+                          return `R$${(value / 1000).toFixed(0)}k`;
+                        }
+                        return `R$${value.toFixed(0)}`;
+                      }}
+                      width={50}
+                      domain={['dataMin - 100', 'dataMax + 100']}
+                    />
+                    <ChartTooltip 
+                      content={<ChartTooltipContent />}
+                      formatter={(value) => [formatCurrency(value as number)]}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="income"
+                      stroke="#10B981"
+                      strokeWidth={2}
+                      dot={{ fill: "#10B981", strokeWidth: 2, r: 3 }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="expenses"
+                      stroke="#EF4444"
+                      strokeWidth={2}
+                      dot={{ fill: "#EF4444", strokeWidth: 2, r: 3 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            </CardContent>
           </Card>
         </StaggerItem>
 
         {/* Expenses by Category Chart */}
         <StaggerItem>
-          <Card>
-        <CardHeader className="pb-4">
-          <CardTitle className="text-lg sm:text-xl">{t("expensesByCategory")}</CardTitle>
-          <CardDescription className="text-sm">{t("currentMonthBreakdown")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="h-48 sm:h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={chartData.expensesByCategory}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={40}
-                  outerRadius={80}
-                  paddingAngle={5}
-                  dataKey="value"
-                >
-                  {chartData.expensesByCategory.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <ChartTooltip
-                  content={({ active, payload }) => {
-                    if (active && payload && payload.length) {
-                      const data = payload[0].payload;
-                      return (
-                        <div className="bg-background border border-border rounded-lg p-2 shadow-md">
-                          <p className="font-medium text-sm">{data.name}</p>
-                          <p className="text-primary text-sm">{formatCurrency(data.value)}</p>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          
-          {/* Legend */}
-          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {chartData.expensesByCategory.map((item, index) => (
-              <div key={index} className="flex items-center text-xs sm:text-sm">
-                <div 
-                  className="w-3 h-3 rounded-full mr-2 shrink-0" 
-                  style={{ backgroundColor: item.color }}
-                />
-                <span className="text-muted-foreground truncate">{item.name}</span>
+          <Card className="flex flex-col h-full">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-lg sm:text-xl">{t("expensesByCategory")}</CardTitle>
+              <CardDescription className="text-sm">{t("currentMonthBreakdown")}</CardDescription>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col">
+              <div className="h-48 sm:h-64 flex-1">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={chartData.expensesByCategory}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={40}
+                      outerRadius={80}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {chartData.expensesByCategory.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <ChartTooltip
+                      content={({ active, payload }) => {
+                        if (active && payload && payload.length) {
+                          const data = payload[0].payload;
+                          return (
+                            <div className="bg-background border border-border rounded-lg p-2 shadow-md">
+                              <p className="font-medium text-sm">{data.name}</p>
+                              <p className="text-primary text-sm">{formatCurrency(data.value)}</p>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
               </div>
-            ))}
-          </div>
-        </CardContent>
+              
+              {/* Legend */}
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {chartData.expensesByCategory.map((item, index) => (
+                  <div key={index} className="flex items-center text-xs sm:text-sm">
+                    <div 
+                      className="w-3 h-3 rounded-full mr-2 shrink-0" 
+                      style={{ backgroundColor: item.color }}
+                    />
+                    <span className="text-muted-foreground truncate">{item.name}</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
           </Card>
         </StaggerItem>
       </div>
