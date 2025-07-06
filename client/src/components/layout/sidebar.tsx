@@ -59,9 +59,9 @@ export default function Sidebar() {
         </nav>
         
         {/* Language Selector */}
-        <div className="flex-shrink-0 px-4 pb-4">
+        <div className="flex-shrink-0 px-4 pb-4 border-t border-border pt-4">
           <div className="mb-2">
-            <p className="text-xs font-medium text-muted-foreground mb-2">{t("language")}</p>
+            <p className="text-xs font-medium text-muted-foreground mb-2">Idioma / Language</p>
             <LanguageSelector />
           </div>
         </div>

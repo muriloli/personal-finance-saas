@@ -1,12 +1,5 @@
 import { Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useI18n } from "@/lib/i18n";
 
 interface LanguageOption {
@@ -16,9 +9,9 @@ interface LanguageOption {
 }
 
 const languages: LanguageOption[] = [
-  { code: "pt-BR", label: "Português (Brasil)", flag: "🇧🇷" },
-  { code: "en-US", label: "English (US)", flag: "🇺🇸" },
-  { code: "es-ES", label: "Español (España)", flag: "🇪🇸" },
+  { code: "pt-BR", label: "Português", flag: "🇧🇷" },
+  { code: "en-US", label: "English", flag: "🇺🇸" },
+  { code: "es-ES", label: "Español", flag: "🇪🇸" },
 ];
 
 export default function LanguageSelector() {
@@ -26,31 +19,24 @@ export default function LanguageSelector() {
   
   const currentLanguage = languages.find(lang => lang.code === language) || languages[0];
   
-  const handleLanguageChange = (newLanguage: string) => {
-    setLanguage(newLanguage as any);
+  const handleLanguageChange = () => {
+    const currentIndex = languages.findIndex(lang => lang.code === language);
+    const nextIndex = (currentIndex + 1) % languages.length;
+    setLanguage(languages[nextIndex].code as any);
   };
 
   return (
-    <Select value={language} onValueChange={handleLanguageChange}>
-      <SelectTrigger className="w-full h-9 text-sm">
-        <SelectValue>
-          <div className="flex items-center gap-2">
-            <Languages className="h-4 w-4" />
-            <span>{currentLanguage.flag}</span>
-            <span className="hidden sm:inline">{currentLanguage.label}</span>
-          </div>
-        </SelectValue>
-      </SelectTrigger>
-      <SelectContent>
-        {languages.map((lang) => (
-          <SelectItem key={lang.code} value={lang.code}>
-            <div className="flex items-center gap-2">
-              <span>{lang.flag}</span>
-              <span>{lang.label}</span>
-            </div>
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <div className="w-full">
+      <Button
+        variant="outline"
+        size="sm"
+        className="w-full h-9 text-sm justify-start gap-2"
+        onClick={handleLanguageChange}
+      >
+        <Languages className="h-4 w-4" />
+        <span>{currentLanguage.flag}</span>
+        <span>{currentLanguage.label}</span>
+      </Button>
+    </div>
   );
 }
