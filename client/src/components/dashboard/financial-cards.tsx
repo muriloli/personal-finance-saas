@@ -3,6 +3,7 @@ import { ArrowUpIcon, ArrowDownIcon, Wallet, PiggyBank } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useI18n } from "@/lib/i18n";
+import { StaggerContainer, StaggerItem, ScaleOnHover } from "@/components/layout/page-transition";
 
 interface DashboardOverview {
   totalIncome: number;
@@ -99,11 +100,14 @@ export default function FinancialCards() {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-      {cards.map((card, index) => {
-        const Icon = card.icon;
-        return (
-          <Card key={index} className="hover:shadow-md transition-shadow">
+    <StaggerContainer>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+        {cards.map((card, index) => {
+          const Icon = card.icon;
+          return (
+            <StaggerItem key={index}>
+              <ScaleOnHover>
+                <Card className="hover:shadow-md transition-shadow">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center">
                 <div className={`flex-shrink-0 ${card.iconBg} rounded-lg p-2 sm:p-3`}>
@@ -130,9 +134,12 @@ export default function FinancialCards() {
                 </div>
               </div>
             </CardContent>
-          </Card>
-        );
-      })}
-    </div>
+                </Card>
+              </ScaleOnHover>
+            </StaggerItem>
+          );
+        })}
+      </div>
+    </StaggerContainer>
   );
 }

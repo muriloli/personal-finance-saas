@@ -4,6 +4,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, PieChart, Pie, Cell } from "recharts";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useI18n } from "@/lib/i18n";
+import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/layout/page-transition";
 
 interface ChartData {
   incomeVsExpenses: Array<{
@@ -84,9 +85,11 @@ export default function Charts() {
   if (!chartData) return null;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mb-8">
-      {/* Income vs Expenses Chart */}
-      <Card>
+    <StaggerContainer>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mb-8">
+        {/* Income vs Expenses Chart */}
+        <StaggerItem>
+          <Card>
         <CardHeader className="pb-4">
           <CardTitle className="text-lg sm:text-xl">{t("incomeVsExpenses")}</CardTitle>
           <CardDescription className="text-sm">{t("lastSixMonths")}</CardDescription>
@@ -137,10 +140,12 @@ export default function Charts() {
             </ResponsiveContainer>
           </ChartContainer>
         </CardContent>
-      </Card>
+          </Card>
+        </StaggerItem>
 
-      {/* Expenses by Category Chart */}
-      <Card>
+        {/* Expenses by Category Chart */}
+        <StaggerItem>
+          <Card>
         <CardHeader className="pb-4">
           <CardTitle className="text-lg sm:text-xl">{t("expensesByCategory")}</CardTitle>
           <CardDescription className="text-sm">{t("currentMonthBreakdown")}</CardDescription>
@@ -193,7 +198,9 @@ export default function Charts() {
             ))}
           </div>
         </CardContent>
-      </Card>
-    </div>
+          </Card>
+        </StaggerItem>
+      </div>
+    </StaggerContainer>
   );
 }
