@@ -89,7 +89,7 @@ export default function Charts() {
       <Card>
         <CardHeader className="pb-4">
           <CardTitle className="text-lg sm:text-xl">{t("incomeVsExpenses")}</CardTitle>
-          <CardDescription className="text-sm">Last 6 months comparison</CardDescription>
+          <CardDescription className="text-sm">{t("lastSixMonths")}</CardDescription>
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig} className="h-48 sm:h-64">
@@ -143,7 +143,7 @@ export default function Charts() {
       <Card>
         <CardHeader className="pb-4">
           <CardTitle className="text-lg sm:text-xl">{t("expensesByCategory")}</CardTitle>
-          <CardDescription className="text-sm">Current month breakdown</CardDescription>
+          <CardDescription className="text-sm">{t("currentMonthBreakdown")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-48 sm:h-64">

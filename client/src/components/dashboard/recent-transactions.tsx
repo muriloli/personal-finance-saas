@@ -163,7 +163,7 @@ export default function RecentTransactions() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex-1 min-w-0">
                 <CardTitle className="text-lg sm:text-xl">{t("recentTransactions")}</CardTitle>
-                <CardDescription className="text-sm">Your latest financial activity</CardDescription>
+                <CardDescription className="text-sm">{t("latestFinancialActivity")}</CardDescription>
               </div>
               <Button 
                 variant="ghost" 
@@ -243,7 +243,7 @@ export default function RecentTransactions() {
         <Card>
           <CardHeader className="pb-4">
             <CardTitle className="text-lg sm:text-xl">{t("topCategories")}</CardTitle>
-            <CardDescription className="text-sm">This month's spending</CardDescription>
+            <CardDescription className="text-sm">{t("thisMonthSpending")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {data.topCategories.length === 0 ? (

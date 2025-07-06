@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { transactionFormSchema, Category } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
+import { useI18n } from "@/lib/i18n";
 import { z } from "zod";
 
 type TransactionFormData = z.infer<typeof transactionFormSchema>;
@@ -26,6 +27,7 @@ interface TransactionFormProps {
 }
 
 export default function TransactionForm({ transactionId, onSuccess }: TransactionFormProps) {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -67,8 +69,8 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
       queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
       queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
       toast({
-        title: "Success!",
-        description: "Transaction added successfully.",
+        title: t("successTitle"),
+        description: t("transactionAdded"),
       });
       if (onSuccess) {
         onSuccess();
@@ -78,8 +80,8 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     },
     onError: (error: any) => {
       toast({
-        title: "Error",
-        description: error.message || "Failed to create transaction. Please try again.",
+        title: t("errorTitle"),
+        description: error.message || t("failedCreate"),
         variant: "destructive",
       });
     },
@@ -93,8 +95,8 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
       queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
       queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
       toast({
-        title: "Success!",
-        description: "Transaction updated successfully.",
+        title: t("successTitle"),
+        description: t("transactionUpdated"),
       });
       if (onSuccess) {
         onSuccess();
@@ -104,8 +106,8 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     },
     onError: (error: any) => {
       toast({
-        title: "Error",
-        description: error.message || "Failed to update transaction. Please try again.",
+        title: t("errorTitle"),
+        description: error.message || t("failedUpdate"),
         variant: "destructive",
       });
     },
@@ -171,7 +173,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
               name="type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-base font-medium">Transaction Type</FormLabel>
+                  <FormLabel className="text-base font-medium">{t("transactionType")}</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -189,7 +191,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
                           }`}
                         >
                           <ArrowUp className="mr-2 h-4 w-4 text-green-500" />
-                          Income
+{t("income")}
                         </Label>
                       </div>
                       <div className="relative">
@@ -203,7 +205,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
                           }`}
                         >
                           <ArrowDown className="mr-2 h-4 w-4 text-red-500" />
-                          Expense
+{t("expense")}
                         </Label>
                       </div>
                     </RadioGroup>
@@ -219,7 +221,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
               name="amount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Amount</FormLabel>
+                  <FormLabel>{t("amount")}</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <DollarSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -244,11 +246,11 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
               name="categoryId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category</FormLabel>
+                  <FormLabel>{t("category")}</FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger className="py-3">
-                        <SelectValue placeholder="Select a category" />
+                        <SelectValue placeholder={t("selectCategory")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -284,7 +286,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
               name="transactionDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Date</FormLabel>
+                  <FormLabel>{t("date")}</FormLabel>
                   <FormControl>
                     <Input {...field} type="date" className="py-3" />
                   </FormControl>
@@ -299,11 +301,11 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>{t("description")}</FormLabel>
                   <FormControl>
                     <Textarea
                       {...field}
-                      placeholder="Add a note about this transaction..."
+                      placeholder={t("addNote")}
                       rows={3}
                       className="resize-none"
                     />
@@ -315,7 +317,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
 
             {/* Transaction Preview */}
             <div className="bg-muted rounded-lg p-4 border">
-              <h4 className="text-sm font-medium text-muted-foreground mb-3">Transaction Preview</h4>
+              <h4 className="text-sm font-medium text-muted-foreground mb-3">{t("transactionPreview")}</h4>
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${
@@ -331,11 +333,11 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">
-                      {watchedValues.description || "New Transaction"}
+                      {watchedValues.description || t("newTransaction")}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {selectedType === "income" ? "Income" : "Expense"} • {
-                        selectedCategory?.name || "No category"
+                      {selectedType === "income" ? t("income") : t("expense")} • {
+                        selectedCategory?.name || t("category")
                       } • {
                         watchedValues.transactionDate 
                           ? new Date(watchedValues.transactionDate).toLocaleDateString("pt-BR")
@@ -363,7 +365,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
                 onClick={() => setLocation("/transactions")}
                 disabled={createMutation.isPending || editMutation.isPending}
               >
-                Cancel
+{t("cancel")}
               </Button>
               <Button 
                 type="submit" 
@@ -373,10 +375,10 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
                 {(createMutation.isPending || editMutation.isPending) ? (
                   <>
                     <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                    {transactionId ? "Updating..." : "Adding..."}
+                    {transactionId ? t("updating") : t("adding")}
                   </>
                 ) : (
-                  transactionId ? "Update Transaction" : "Add Transaction"
+                  transactionId ? t("updateTransaction") : t("addTransaction")
                 )}
               </Button>
             </div>

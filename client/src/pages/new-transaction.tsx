@@ -2,8 +2,10 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import TransactionForm from "@/components/forms/transaction-form";
+import { useI18n } from "@/lib/i18n";
 
 export default function NewTransaction() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
 
   return (
@@ -21,9 +23,9 @@ export default function NewTransaction() {
               <ArrowLeft className="h-4 w-4" />
             </Button>
             <div className="flex-1 min-w-0">
-              <h1 className="text-lg sm:text-2xl font-bold text-foreground">Add Transaction</h1>
+              <h1 className="text-lg sm:text-2xl font-bold text-foreground">{t("addTransactionTitle")}</h1>
               <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                Record a new income or expense transaction.
+                {t("recordNewTransaction")}
               </p>
             </div>
           </div>

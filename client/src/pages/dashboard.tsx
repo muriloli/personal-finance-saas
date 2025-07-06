@@ -30,9 +30,9 @@ export default function Dashboard() {
               <h1 className="text-xl sm:text-2xl font-bold text-foreground">{t("dashboard")}</h1>
               <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
                 {user?.name ? (
-                  `Welcome back, ${user.name}! Here's your financial overview.`
+                  `${t("welcomeBack")}, ${user.name}! ${t("financialOverview")}.`
                 ) : (
-                  "Welcome back! Here's your financial overview."
+                  `${t("welcomeBack")}! ${t("financialOverview")}.`
                 )}
               </p>
             </div>
