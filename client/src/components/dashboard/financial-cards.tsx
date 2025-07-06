@@ -123,19 +123,14 @@ export default function FinancialCards() {
                 </div>
               </div>
               <div className="mt-3 sm:mt-4 flex-1 flex flex-col justify-end">
-                <div className="flex items-start justify-between text-xs sm:text-sm">
+                <div className="flex items-center justify-between text-xs sm:text-sm">
                   <span className={`flex items-center ${card.changeColor}`}>
                     <ArrowUpIcon className="mr-1 h-3 w-3" />
                     {formatPercentage(card.change)}
                   </span>
-                  <div className="text-muted-foreground text-right max-w-[120px]">
-                    <div>{t("fromLastMonth")}</div>
-                    {card.suffix && (
-                      <div className="mt-0.5 text-xs">
-                        {card.suffix}
-                      </div>
-                    )}
-                  </div>
+                  <span className="text-muted-foreground text-right">
+                    {t("fromLastMonth")} {card.suffix && `• ${card.suffix}`}
+                  </span>
                 </div>
               </div>
             </CardContent>
