@@ -4,18 +4,21 @@ import { Menu, X, ChartLine, Home, CreditCard, Plus, Settings, HelpCircle } from
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-
-const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: Home },
-  { name: "Transactions", href: "/transactions", icon: CreditCard },
-  { name: "Add Transaction", href: "/transactions/new", icon: Plus },
-  { name: "Settings", href: "/settings", icon: Settings },
-  { name: "Help", href: "/help", icon: HelpCircle },
-];
+import { useI18n } from "@/lib/i18n";
+import LanguageSelector from "@/components/LanguageSelector";
 
 export default function MobileNav() {
   const [location, setLocation] = useLocation();
   const [open, setOpen] = useState(false);
+  const { t } = useI18n();
+
+  const navigation = [
+    { name: t("dashboard"), href: "/dashboard", icon: Home },
+    { name: t("transactions"), href: "/transactions", icon: CreditCard },
+    { name: t("addTransaction"), href: "/transactions/new", icon: Plus },
+    { name: t("settings"), href: "/settings", icon: Settings },
+    { name: t("help"), href: "/help", icon: HelpCircle },
+  ];
 
   const handleNavigate = (href: string) => {
     setLocation(href);
@@ -30,7 +33,9 @@ export default function MobileNav() {
           <h1 className="text-lg font-bold text-foreground">FinanceFlow</h1>
         </div>
         
-        <Sheet open={open} onOpenChange={setOpen}>
+        <div className="flex items-center gap-2">
+          <LanguageSelector />
+          <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon">
               <Menu className="h-5 w-5" />
@@ -66,6 +71,7 @@ export default function MobileNav() {
             </nav>
           </SheetContent>
         </Sheet>
+        </div>
       </div>
     </div>
   );

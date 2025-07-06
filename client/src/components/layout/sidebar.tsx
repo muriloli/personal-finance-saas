@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import { useI18n } from "@/lib/i18n";
+import LanguageSelector from "@/components/LanguageSelector";
 
 export default function Sidebar() {
   const [location, setLocation] = useLocation();
@@ -57,6 +58,11 @@ export default function Sidebar() {
           })}
         </nav>
         
+        {/* Language Selector */}
+        <div className="flex-shrink-0 px-4 pb-4">
+          <LanguageSelector />
+        </div>
+
         {/* User Profile */}
         <div className="flex-shrink-0 p-4 border-t border-border">
           <div className="flex items-center">

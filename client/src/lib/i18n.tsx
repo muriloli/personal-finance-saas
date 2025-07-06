@@ -69,6 +69,7 @@ const translations = {
     // Language options
     "pt-BR-label": "Português (Brasil)",
     "en-US-label": "English (US)",
+    "es-ES-label": "Español (España)",
 
     // Theme options
     light: "Claro",
@@ -154,6 +155,7 @@ const translations = {
     // Language options
     "pt-BR-label": "Português (Brasil)",
     "en-US-label": "English (US)",
+    "es-ES-label": "Español (España)",
 
     // Theme options
     light: "Light",
@@ -171,6 +173,92 @@ const translations = {
     faq: "FAQ",
     guides: "Guides",
     support: "Support",
+  },
+  "es-ES": {
+    // Navigation
+    dashboard: "Panel",
+    transactions: "Transacciones",
+    addTransaction: "Nueva Transacción",
+    settings: "Configuraciones",
+    help: "Ayuda",
+    logout: "Salir",
+
+    // Dashboard
+    totalIncome: "Ingresos Totales",
+    totalExpenses: "Gastos Totales",
+    currentBalance: "Saldo Actual",
+    monthlySavings: "Ahorros Mensuales",
+    recentTransactions: "Transacciones Recientes",
+    incomeVsExpenses: "Ingresos vs Gastos",
+    expensesByCategory: "Gastos por Categoría",
+    noTransactions: "No se encontraron transacciones",
+    viewAll: "Ver Todas",
+
+    // Transaction Form
+    transactionType: "Tipo de Transacción",
+    income: "Ingreso",
+    expense: "Gasto",
+    amount: "Monto",
+    category: "Categoría",
+    date: "Fecha",
+    description: "Descripción",
+    save: "Guardar",
+    cancel: "Cancelar",
+    addTransactionTitle: "Agregar Nueva Transacción",
+    editTransactionTitle: "Editar Transacción",
+
+    // Settings
+    personalInfo: "Información Personal",
+    name: "Nombre",
+    cpf: "CPF",
+    phone: "Teléfono",
+    preferences: "Preferencias",
+    language: "Idioma",
+    theme: "Tema",
+    currency: "Moneda",
+    dateFormat: "Formato de Fecha",
+    notifications: "Notificaciones",
+    dailyReminder: "Recordatorio Diario",
+    monthlyReport: "Informe Mensual",
+    expenseAlerts: "Alertas de Gastos",
+    whatsappNotifications: "Notificaciones WhatsApp",
+    dataManagement: "Gestión de Datos",
+    exportData: "Exportar Datos",
+    downloadCSV: "Descargar CSV",
+
+    // Common
+    search: "Buscar",
+    filter: "Filtrar",
+    clear: "Limpiar",
+    apply: "Aplicar",
+    edit: "Editar",
+    delete: "Eliminar",
+    confirm: "Confirmar",
+    loading: "Cargando...",
+    error: "Error",
+    success: "Éxito",
+
+    // Language options
+    "pt-BR-label": "Português (Brasil)",
+    "en-US-label": "English (US)",
+    "es-ES-label": "Español (España)",
+
+    // Theme options
+    light: "Claro",
+    dark: "Oscuro",
+    auto: "Automático",
+
+    // Login
+    loginTitle: "Iniciar Sesión",
+    enterCPF: "Ingrese su CPF",
+    login: "Iniciar Sesión",
+    invalidCPF: "CPF inválido o usuario no encontrado",
+
+    // Help
+    helpTitle: "Centro de Ayuda",
+    faq: "Preguntas Frecuentes",
+    guides: "Guías",
+    support: "Soporte",
   },
 };
 
