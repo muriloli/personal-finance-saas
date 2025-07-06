@@ -181,11 +181,11 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
                     className="h-auto p-0 font-medium hover:bg-transparent" 
                     onClick={() => handleSort("description")}
                   >
-                    Transaction
+                    {t("transaction")}
                     <ArrowUpDown className={`ml-2 h-4 w-4 ${sortField === "description" ? "text-primary" : ""}`} />
                   </Button>
                 </TableHead>
-                <TableHead>Category</TableHead>
+                <TableHead>{t("category")}</TableHead>
                 <TableHead>
                   <Button 
                     variant="ghost" 
@@ -193,7 +193,7 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
                     className="h-auto p-0 font-medium hover:bg-transparent" 
                     onClick={() => handleSort("transactionDate")}
                   >
-                    Date
+                    {t("date")}
                     <ArrowUpDown className={`ml-2 h-4 w-4 ${sortField === "transactionDate" ? "text-primary" : ""}`} />
                   </Button>
                 </TableHead>
@@ -204,12 +204,12 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
                     className="h-auto p-0 font-medium hover:bg-transparent" 
                     onClick={() => handleSort("amount")}
                   >
-                    Amount
+                    {t("amount")}
                     <ArrowUpDown className={`ml-2 h-4 w-4 ${sortField === "amount" ? "text-primary" : ""}`} />
                   </Button>
                 </TableHead>
-                <TableHead>Source</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>{t("source")}</TableHead>
+                <TableHead className="text-right">{t("actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -279,29 +279,29 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem onClick={() => handleEdit(transaction.id)}>
                             <Edit className="mr-2 h-4 w-4" />
-                            Edit
+                            {t("edit")}
                           </DropdownMenuItem>
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
                               <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                                 <Trash2 className="mr-2 h-4 w-4" />
-                                Delete
+                                {t("delete")}
                               </DropdownMenuItem>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
-                                <AlertDialogTitle>Delete Transaction</AlertDialogTitle>
+                                <AlertDialogTitle>{t("deleteTransaction")}</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  Are you sure you want to delete this transaction? This action cannot be undone.
+                                  {t("deleteConfirmMessage")}
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
                                 <AlertDialogAction 
                                   onClick={() => handleDelete(transaction.id)}
                                   className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                 >
-                                  Delete
+                                  {t("delete")}
                                 </AlertDialogAction>
                               </AlertDialogFooter>
                             </AlertDialogContent>
@@ -320,7 +320,7 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
         {data.totalPages > 1 && (
           <div className="flex items-center justify-between px-6 py-4 border-t border-border">
             <div className="text-sm text-muted-foreground">
-              Showing {((data.page - 1) * limit) + 1} to {Math.min(data.page * limit, data.total)} of {data.total} results
+              {t("showing")} {((data.page - 1) * limit) + 1} {t("to")} {Math.min(data.page * limit, data.total)} {t("of")} {data.total} {t("results")}
             </div>
             <div className="flex items-center space-x-2">
               <Button
@@ -329,7 +329,7 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
               >
-                Previous
+                {t("previous")}
               </Button>
               <div className="flex items-center space-x-1">
                 {[...Array(data.totalPages)].map((_, i) => (
@@ -350,7 +350,7 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
                 onClick={() => setPage(page + 1)}
                 disabled={page === data.totalPages}
               >
-                Next
+                {t("next")}
               </Button>
             </div>
           </div>

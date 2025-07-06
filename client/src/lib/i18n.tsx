@@ -87,6 +87,25 @@ const translations = {
     transactionDeleted: "Transação excluída",
     transactionDeletedDesc: "A transação foi excluída com sucesso",
     errorTitle: "Erro",
+    
+    // Pagination
+    showing: "Mostrando",
+    to: "a",
+    of: "de",
+    results: "resultados",
+    previous: "Anterior",
+    next: "Próximo",
+    
+    // Table Headers
+    transaction: "Transação",
+    date: "Data",
+    amount: "Valor",
+    source: "Origem",
+    actions: "Ações",
+    edit: "Editar",
+    delete: "Excluir",
+    deleteTransaction: "Excluir Transação",
+    deleteConfirmMessage: "Tem certeza de que deseja excluir esta transação? Esta ação não pode ser desfeita.",
 
     // User Profile
     language: "Idioma",
@@ -222,6 +241,25 @@ const translations = {
     transactionDeleted: "Transaction deleted",
     transactionDeletedDesc: "Transaction has been deleted successfully",
     errorTitle: "Error",
+    
+    // Pagination
+    showing: "Showing",
+    to: "to",
+    of: "of",
+    results: "results",
+    previous: "Previous",
+    next: "Next",
+    
+    // Table Headers
+    transaction: "Transaction",
+    date: "Date",
+    amount: "Amount",
+    source: "Source",
+    actions: "Actions",
+    edit: "Edit",
+    delete: "Delete",
+    deleteTransaction: "Delete Transaction",
+    deleteConfirmMessage: "Are you sure you want to delete this transaction? This action cannot be undone.",
 
     // User Profile
     language: "Language",
@@ -357,6 +395,25 @@ const translations = {
     transactionDeleted: "Transacción eliminada",
     transactionDeletedDesc: "La transacción se eliminó con éxito",
     errorTitle: "Error",
+    
+    // Pagination
+    showing: "Mostrando",
+    to: "a",
+    of: "de",
+    results: "resultados",
+    previous: "Anterior",
+    next: "Siguiente",
+    
+    // Table Headers
+    transaction: "Transacción",
+    date: "Fecha",
+    amount: "Monto",
+    source: "Origen",
+    actions: "Acciones",
+    edit: "Editar",
+    delete: "Eliminar",
+    deleteTransaction: "Eliminar Transacción",
+    deleteConfirmMessage: "¿Estás seguro de que quieres eliminar esta transacción? Esta acción no se puede deshacer.",
 
     // User Profile
     language: "Idioma",
