@@ -75,6 +75,7 @@ const translations = {
     light: "Claro",
     dark: "Escuro",
     auto: "Automático",
+    language: "Idioma",
 
     // Login
     loginTitle: "Entrar no Sistema",
@@ -161,6 +162,7 @@ const translations = {
     light: "Light",
     dark: "Dark",
     auto: "Auto",
+    language: "Language",
 
     // Login
     loginTitle: "Login to System",
@@ -247,6 +249,7 @@ const translations = {
     light: "Claro",
     dark: "Oscuro",
     auto: "Automático",
+    language: "Idioma",
 
     // Login
     loginTitle: "Iniciar Sesión",

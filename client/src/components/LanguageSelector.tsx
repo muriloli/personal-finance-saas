@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { Check, ChevronDown, Languages } from "lucide-react";
+import { Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useI18n } from "@/lib/i18n";
 
 interface LanguageOption {
@@ -23,42 +23,34 @@ const languages: LanguageOption[] = [
 
 export default function LanguageSelector() {
   const { language, setLanguage } = useI18n();
-  const [open, setOpen] = useState(false);
   
   const currentLanguage = languages.find(lang => lang.code === language) || languages[0];
   
   const handleLanguageChange = (newLanguage: string) => {
     setLanguage(newLanguage as any);
-    setOpen(false);
   };
 
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger asChild>
-        <Button 
-          variant="outline" 
-          size="sm" 
-          className="h-9 px-3 gap-2 text-sm font-medium hover:bg-accent/50 border-border"
-        >
-          <Languages className="h-4 w-4" />
-          <span className="text-lg leading-none">{currentLanguage.flag}</span>
-          <span className="hidden sm:inline-block">{currentLanguage.label}</span>
-          <ChevronDown className="h-3 w-3 opacity-50" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48">
+    <Select value={language} onValueChange={handleLanguageChange}>
+      <SelectTrigger className="w-full h-9 text-sm">
+        <SelectValue>
+          <div className="flex items-center gap-2">
+            <Languages className="h-4 w-4" />
+            <span>{currentLanguage.flag}</span>
+            <span className="hidden sm:inline">{currentLanguage.label}</span>
+          </div>
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent>
         {languages.map((lang) => (
-          <DropdownMenuItem
-            key={lang.code}
-            onClick={() => handleLanguageChange(lang.code)}
-            className="flex items-center gap-2 cursor-pointer"
-          >
-            <span className="text-lg">{lang.flag}</span>
-            <span className="flex-1">{lang.label}</span>
-            {language === lang.code && <Check className="h-4 w-4" />}
-          </DropdownMenuItem>
+          <SelectItem key={lang.code} value={lang.code}>
+            <div className="flex items-center gap-2">
+              <span>{lang.flag}</span>
+              <span>{lang.label}</span>
+            </div>
+          </SelectItem>
         ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </SelectContent>
+    </Select>
   );
 }
