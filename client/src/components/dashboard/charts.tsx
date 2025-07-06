@@ -95,18 +95,18 @@ export default function Charts() {
               <CardDescription className="text-sm">{t("lastSixMonths")}</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col">
-              <ChartContainer config={chartConfig} className="h-48 sm:h-64 flex-1">
+              <ChartContainer config={chartConfig} className="h-40 sm:h-48 md:h-64 flex-1">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={chartData.incomeVsExpenses} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                  <LineChart data={chartData.incomeVsExpenses} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
                     <XAxis 
                       dataKey="month" 
-                      fontSize={10}
+                      fontSize={9}
                       tickLine={false}
                       axisLine={false}
                       interval={0}
                     />
                     <YAxis
-                      fontSize={10}
+                      fontSize={9}
                       tickLine={false}
                       axisLine={false}
                       tickFormatter={(value) => {
@@ -115,7 +115,7 @@ export default function Charts() {
                         }
                         return `R$${value.toFixed(0)}`;
                       }}
-                      width={50}
+                      width={40}
                       domain={['dataMin - 100', 'dataMax + 100']}
                     />
                     <ChartTooltip 
@@ -127,14 +127,14 @@ export default function Charts() {
                       dataKey="income"
                       stroke="#10B981"
                       strokeWidth={2}
-                      dot={{ fill: "#10B981", strokeWidth: 2, r: 3 }}
+                      dot={{ fill: "#10B981", strokeWidth: 2, r: 2 }}
                     />
                     <Line
                       type="monotone"
                       dataKey="expenses"
                       stroke="#EF4444"
                       strokeWidth={2}
-                      dot={{ fill: "#EF4444", strokeWidth: 2, r: 3 }}
+                      dot={{ fill: "#EF4444", strokeWidth: 2, r: 2 }}
                     />
                   </LineChart>
                 </ResponsiveContainer>
@@ -151,16 +151,16 @@ export default function Charts() {
               <CardDescription className="text-sm">{t("currentMonthBreakdown")}</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col">
-              <div className="h-48 sm:h-64 flex-1">
+              <div className="h-40 sm:h-48 md:h-64 flex-1 flex items-center justify-center">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
                       data={chartData.expensesByCategory}
                       cx="50%"
                       cy="50%"
-                      innerRadius={40}
-                      outerRadius={80}
-                      paddingAngle={5}
+                      innerRadius={25}
+                      outerRadius={60}
+                      paddingAngle={3}
                       dataKey="value"
                     >
                       {chartData.expensesByCategory.map((entry, index) => (
@@ -186,14 +186,19 @@ export default function Charts() {
               </div>
               
               {/* Legend */}
-              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="mt-3 sm:mt-4 space-y-2">
                 {chartData.expensesByCategory.map((item, index) => (
-                  <div key={index} className="flex items-center text-xs sm:text-sm">
-                    <div 
-                      className="w-3 h-3 rounded-full mr-2 shrink-0" 
-                      style={{ backgroundColor: item.color }}
-                    />
-                    <span className="text-muted-foreground truncate">{item.name}</span>
+                  <div key={index} className="flex items-center justify-between text-xs sm:text-sm">
+                    <div className="flex items-center flex-1 min-w-0">
+                      <div 
+                        className="w-3 h-3 rounded-full mr-2 shrink-0" 
+                        style={{ backgroundColor: item.color }}
+                      />
+                      <span className="text-muted-foreground truncate">{item.name}</span>
+                    </div>
+                    <span className="text-foreground font-medium ml-2 shrink-0">
+                      {formatCurrency(item.value)}
+                    </span>
                   </div>
                 ))}
               </div>
