@@ -28,7 +28,9 @@ export default function UserProfileDropdown() {
   const { language, setLanguage, t } = useI18n();
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleTheme = () => {
+  const toggleTheme = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
   };
@@ -88,7 +90,11 @@ export default function UserProfileDropdown() {
         <DropdownMenuSeparator />
 
         {/* Theme Toggle */}
-        <DropdownMenuItem onClick={toggleTheme} className="cursor-pointer">
+        <DropdownMenuItem 
+          onClick={toggleTheme} 
+          className="cursor-pointer"
+          onSelect={(e) => e.preventDefault()}
+        >
           <div className="flex items-center space-x-3 w-full">
             {theme === "dark" ? (
               <Sun className="h-4 w-4" />
