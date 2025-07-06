@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLocation } from "wouter";
 import { Transaction, Category } from "@shared/schema";
+import { useI18n } from "@/lib/i18n";
 
 interface TransactionWithCategory extends Transaction {
   category: Category;
@@ -34,6 +35,7 @@ const categoryIcons: Record<string, React.ComponentType<any>> = {
 };
 
 export default function RecentTransactions() {
+  const { t } = useI18n();
   const [, setLocation] = useLocation();
   const { data: transactionsData, isLoading } = useQuery({
     queryKey: ["/api/transactions", "page=1&limit=5"],
@@ -160,7 +162,7 @@ export default function RecentTransactions() {
           <CardHeader className="pb-4">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex-1 min-w-0">
-                <CardTitle className="text-lg sm:text-xl">Recent Transactions</CardTitle>
+                <CardTitle className="text-lg sm:text-xl">{t("recentTransactions")}</CardTitle>
                 <CardDescription className="text-sm">Your latest financial activity</CardDescription>
               </div>
               <Button 
@@ -169,7 +171,7 @@ export default function RecentTransactions() {
                 onClick={() => setLocation("/transactions")}
                 className="shrink-0"
               >
-                View all
+{t("viewAll")}
                 <ArrowUpRight className="ml-1 h-4 w-4" />
               </Button>
             </div>
@@ -178,7 +180,7 @@ export default function RecentTransactions() {
             <div className="space-y-3 sm:space-y-4">
               {data.recentTransactions.length === 0 ? (
                 <div className="text-center py-8">
-                  <p className="text-muted-foreground text-sm">No transactions yet</p>
+                  <p className="text-muted-foreground text-sm">{t("noTransactions")}</p>
                   <Button 
                     variant="outline" 
                     size="sm" 
@@ -240,7 +242,7 @@ export default function RecentTransactions() {
         {/* Top Categories */}
         <Card>
           <CardHeader className="pb-4">
-            <CardTitle className="text-lg sm:text-xl">Top Categories</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">{t("topCategories")}</CardTitle>
             <CardDescription className="text-sm">This month's spending</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">

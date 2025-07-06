@@ -7,11 +7,13 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/layout/theme-provider";
 import { useLocation } from "wouter";
 import LanguageSelector from "@/components/LanguageSelector";
+import { useI18n } from "@/lib/i18n";
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
   const [, setLocation] = useLocation();
+  const { t } = useI18n();
 
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
@@ -25,7 +27,7 @@ export default function Dashboard() {
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center py-4 gap-4">
             <div className="flex-1 min-w-0">
-              <h1 className="text-xl sm:text-2xl font-bold text-foreground">Dashboard</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground">{t("dashboard")}</h1>
               <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
                 {user?.name ? (
                   `Welcome back, ${user.name}! Here's your financial overview.`
@@ -51,7 +53,7 @@ export default function Dashboard() {
               </Button>
               <Button onClick={() => setLocation("/transactions/new")} className="flex-1 sm:flex-none">
                 <Plus className="mr-2 h-4 w-4" />
-                <span className="sm:inline">Add Transaction</span>
+                <span className="sm:inline">{t("addTransaction")}</span>
               </Button>
             </div>
           </div>

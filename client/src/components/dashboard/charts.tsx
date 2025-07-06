@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, PieChart, Pie, Cell } from "recharts";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useI18n } from "@/lib/i18n";
 
 interface ChartData {
   incomeVsExpenses: Array<{
@@ -29,6 +30,7 @@ const chartConfig = {
 };
 
 export default function Charts() {
+  const { t } = useI18n();
   const { data: rawChartData, isLoading } = useQuery<any>({
     queryKey: ["/api/dashboard/charts"],
   });
@@ -86,7 +88,7 @@ export default function Charts() {
       {/* Income vs Expenses Chart */}
       <Card>
         <CardHeader className="pb-4">
-          <CardTitle className="text-lg sm:text-xl">Income vs Expenses</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">{t("incomeVsExpenses")}</CardTitle>
           <CardDescription className="text-sm">Last 6 months comparison</CardDescription>
         </CardHeader>
         <CardContent>
@@ -140,7 +142,7 @@ export default function Charts() {
       {/* Expenses by Category Chart */}
       <Card>
         <CardHeader className="pb-4">
-          <CardTitle className="text-lg sm:text-xl">Expenses by Category</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">{t("expensesByCategory")}</CardTitle>
           <CardDescription className="text-sm">Current month breakdown</CardDescription>
         </CardHeader>
         <CardContent>

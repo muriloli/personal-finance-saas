@@ -19,6 +19,7 @@ const translations = {
     recentTransactions: "Transações Recentes",
     incomeVsExpenses: "Receitas vs Despesas",
     expensesByCategory: "Despesas por Categoria",
+    topCategories: "Principais Categorias",
     noTransactions: "Nenhuma transação encontrada",
     viewAll: "Ver Todas",
 
@@ -105,6 +106,7 @@ const translations = {
     recentTransactions: "Recent Transactions",
     incomeVsExpenses: "Income vs Expenses",
     expensesByCategory: "Expenses by Category",
+    topCategories: "Top Categories",
     noTransactions: "No transactions found",
     viewAll: "View All",
 
@@ -191,6 +193,7 @@ const translations = {
     recentTransactions: "Transacciones Recientes",
     incomeVsExpenses: "Ingresos vs Gastos",
     expensesByCategory: "Gastos por Categoría",
+    topCategories: "Principales Categorías",
     noTransactions: "No se encontraron transacciones",
     viewAll: "Ver Todas",
 

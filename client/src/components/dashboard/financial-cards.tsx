@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowUpIcon, ArrowDownIcon, Wallet, PiggyBank } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useI18n } from "@/lib/i18n";
 
 interface DashboardOverview {
   totalIncome: number;
@@ -15,6 +16,7 @@ interface DashboardOverview {
 }
 
 export default function FinancialCards() {
+  const { t } = useI18n();
   const { data: overview, isLoading } = useQuery<DashboardOverview>({
     queryKey: ["/api/dashboard/overview"],
   });
@@ -58,7 +60,7 @@ export default function FinancialCards() {
 
   const cards = [
     {
-      title: "Total Income",
+      title: t("totalIncome"),
       value: overview.totalIncome,
       change: overview.incomeChange,
       icon: ArrowUpIcon,
@@ -67,7 +69,7 @@ export default function FinancialCards() {
       changeColor: "text-green-600 dark:text-green-400",
     },
     {
-      title: "Total Expenses",
+      title: t("totalExpenses"),
       value: overview.totalExpenses,
       change: overview.expenseChange,
       icon: ArrowDownIcon,
@@ -76,7 +78,7 @@ export default function FinancialCards() {
       changeColor: "text-red-600 dark:text-red-400",
     },
     {
-      title: "Current Balance",
+      title: t("currentBalance"),
       value: overview.currentBalance,
       change: overview.balanceChange,
       icon: Wallet,
@@ -85,7 +87,7 @@ export default function FinancialCards() {
       changeColor: overview.balanceChange >= 0 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400",
     },
     {
-      title: "Monthly Savings",
+      title: t("monthlySavings"),
       value: overview.monthlySavings,
       change: overview.savingsRate,
       icon: PiggyBank,
