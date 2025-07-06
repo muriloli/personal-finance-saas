@@ -20,18 +20,15 @@ export default function LanguageSelector() {
   };
 
   return (
-    <div className="w-full bg-red-100 p-2 border border-red-300 rounded">
-      <p className="text-xs text-red-600 mb-1">TESTE - Seletor de Idioma</p>
-      <Button
-        variant="outline"
-        size="sm"
-        className="w-full h-9 text-sm justify-start gap-2 bg-blue-100"
-        onClick={handleLanguageChange}
-      >
-        <Languages className="h-4 w-4" />
-        <span>{currentLanguage.flag}</span>
-        <span>{currentLanguage.label}</span>
-      </Button>
-    </div>
+    <Button
+      variant="outline"
+      size="sm"
+      className="w-full h-9 text-sm justify-start gap-2"
+      onClick={handleLanguageChange}
+    >
+      <Languages className="h-4 w-4" />
+      <span>{currentLanguage.flag}</span>
+      <span>{currentLanguage.label}</span>
+    </Button>
   );
 }
