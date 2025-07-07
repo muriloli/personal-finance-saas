@@ -65,9 +65,7 @@ export default function Login() {
               <h1 className="text-2xl sm:text-3xl font-bold text-foreground">FinanceFlow</h1>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Entre em sua conta</h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Enter your CPF to access your financial dashboard
-            </p>
+            <p className="mt-2 text-sm text-muted-foreground">Insira seu CPF para acessar seu painel financeiro</p>
           </div>
 
           <Card>
