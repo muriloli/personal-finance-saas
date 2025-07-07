@@ -107,12 +107,12 @@ export default function UserProfileDropdown() {
         >
           <div className="flex items-center space-x-3 w-full">
             {getCurrentTheme() === "dark" ? (
-              <Sun className="h-4 w-4" />
-            ) : (
               <Moon className="h-4 w-4" />
+            ) : (
+              <Sun className="h-4 w-4" />
             )}
             <span className="flex-1">
-              {getCurrentTheme() === "dark" ? t("lightMode") : t("darkMode")}
+              {getCurrentTheme() === "dark" ? t("darkMode") : t("lightMode")}
             </span>
           </div>
         </DropdownMenuItem>
