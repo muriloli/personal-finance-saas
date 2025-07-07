@@ -43,15 +43,19 @@ export default function Login() {
   };
 
   const formatCPF = (value: string) => {
+    // Remove all non-digit characters
     const cleaned = value.replace(/\D/g, "");
-    const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})$/);
-    if (match) {
-      return [match[1], match[2], match[3], match[4]]
-        .filter(Boolean)
-        .join(".")
-        .replace(/\.(\d{2})$/, "-$1");
+    
+    // Apply CPF formatting: xxx.xxx.xxx-xx
+    if (cleaned.length <= 3) {
+      return cleaned;
+    } else if (cleaned.length <= 6) {
+      return cleaned.replace(/(\d{3})(\d+)/, "$1.$2");
+    } else if (cleaned.length <= 9) {
+      return cleaned.replace(/(\d{3})(\d{3})(\d+)/, "$1.$2.$3");
+    } else {
+      return cleaned.replace(/(\d{3})(\d{3})(\d{3})(\d+)/, "$1.$2.$3-$4");
     }
-    return cleaned;
   };
 
   return (
@@ -80,21 +84,17 @@ export default function Login() {
                         <FormLabel>CPF</FormLabel>
                         <FormControl>
                           <Input
-                            {...field}
                             placeholder="000.000.000-00"
                             maxLength={14}
+                            value={formatCPF(field.value || "")}
                             onChange={(e) => {
                               const value = e.target.value;
                               const digitsOnly = value.replace(/\D/g, "");
                               
                               // Limit to 11 digits
-                              if (digitsOnly.length > 11) {
-                                return;
+                              if (digitsOnly.length <= 11) {
+                                field.onChange(digitsOnly);
                               }
-                              
-                              const formatted = formatCPF(digitsOnly);
-                              field.onChange(digitsOnly);
-                              e.target.value = formatted;
                             }}
                             className="text-lg py-3"
                           />
