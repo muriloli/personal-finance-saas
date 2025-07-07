@@ -115,7 +115,7 @@ export default function Login() {
 
               <div className="text-center mt-6">
                 <p className="text-xs text-muted-foreground">
-                  By signing in, you agree to our Terms of Service and Privacy Policy
+                  Ao fazer login, você concorda com nossos Termos de Serviço e Política de Privacidade
                 </p>
               </div>
             </CardContent>
