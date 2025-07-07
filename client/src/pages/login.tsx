@@ -84,8 +84,16 @@ export default function Login() {
                             placeholder="000.000.000-00"
                             maxLength={14}
                             onChange={(e) => {
-                              const formatted = formatCPF(e.target.value);
-                              field.onChange(formatted.replace(/\D/g, ""));
+                              const value = e.target.value;
+                              const digitsOnly = value.replace(/\D/g, "");
+                              
+                              // Limit to 11 digits
+                              if (digitsOnly.length > 11) {
+                                return;
+                              }
+                              
+                              const formatted = formatCPF(digitsOnly);
+                              field.onChange(digitsOnly);
                               e.target.value = formatted;
                             }}
                             className="text-lg py-3"
@@ -104,7 +112,7 @@ export default function Login() {
                     {isLoading ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Signing in...
+                        Entrando...
                       </>
                     ) : (
                       "Entrar"
