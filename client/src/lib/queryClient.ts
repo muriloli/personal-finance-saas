@@ -23,8 +23,8 @@ function getAuthHeaders() {
 }
 
 export async function apiRequest(
-  method: string,
   url: string,
+  method: string,
   data?: unknown | undefined,
 ): Promise<Response> {
   const headers = getAuthHeaders();

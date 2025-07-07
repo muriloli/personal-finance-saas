@@ -49,7 +49,8 @@ export default function UserRegistration() {
   // Create user mutation
   const createUserMutation = useMutation({
     mutationFn: async (data: UserRegistrationForm) => {
-      return await apiRequest("/api/users/register", "POST", data);
+      const response = await apiRequest("/api/users/register", "POST", data);
+      return response.json();
     },
     onSuccess: () => {
       toast({
@@ -72,7 +73,8 @@ export default function UserRegistration() {
   // Update user mutation
   const updateUserMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: Partial<UserRegistrationForm> }) => {
-      return await apiRequest(`/api/users/${id}`, "PUT", data);
+      const response = await apiRequest(`/api/users/${id}`, "PUT", data);
+      return response.json();
     },
     onSuccess: () => {
       toast({
@@ -95,7 +97,8 @@ export default function UserRegistration() {
   // Delete user mutation
   const deleteUserMutation = useMutation({
     mutationFn: async (id: string) => {
-      return await apiRequest(`/api/users/${id}`, "DELETE");
+      const response = await apiRequest(`/api/users/${id}`, "DELETE");
+      return response.json();
     },
     onSuccess: () => {
       toast({
