@@ -64,7 +64,7 @@ export default function Login() {
               <ChartLine className="h-6 w-6 sm:h-8 sm:w-8 text-primary mr-2 sm:mr-3" />
               <h1 className="text-2xl sm:text-3xl font-bold text-foreground">FinanceFlow</h1>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Sign in to your account</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Entre em sua conta</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               Enter your CPF to access your financial dashboard
             </p>
@@ -124,7 +124,6 @@ export default function Login() {
           </Card>
         </div>
       </div>
-
       {/* Right side - Background */}
       <div className="hidden lg:block relative w-0 flex-1">
         <div className="absolute inset-0 h-full w-full bg-gradient-to-br from-primary to-success">
