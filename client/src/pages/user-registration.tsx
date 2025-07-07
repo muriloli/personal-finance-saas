@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ChartLine, Loader2, Users, Search, Edit, Trash2, Plus } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import UserProfileDropdown from "@/components/UserProfileDropdown";
+import { useI18n } from "@/lib/i18n";
 
 const userRegistrationSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -40,6 +41,7 @@ export default function UserRegistration() {
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { t } = useI18n();
 
   // Fetch users
   const { data: users = [], isLoading: isLoadingUsers } = useQuery({
@@ -191,13 +193,13 @@ export default function UserRegistration() {
               <ChartLine className="h-8 w-8 text-primary mr-3" />
               <div>
                 <h1 className="text-2xl font-bold text-foreground">FinanceFlow</h1>
-                <p className="text-sm text-muted-foreground">Admin Panel</p>
+                <p className="text-sm text-muted-foreground">{t("adminPanel")}</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <Users className="h-5 w-5 text-muted-foreground" />
-                <span className="text-sm font-medium">User Management</span>
+                <span className="text-sm font-medium">{t("userManagement")}</span>
               </div>
               <UserProfileDropdown />
             </div>
@@ -212,7 +214,7 @@ export default function UserRegistration() {
           <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
             <div>
               <Input
-                placeholder="Search by name or CPF..."
+                placeholder={t("searchByNameOrCpf")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-64"
@@ -220,7 +222,7 @@ export default function UserRegistration() {
             </div>
             <Button onClick={handleNewUser} className="flex items-center space-x-2">
               <Plus className="h-4 w-4" />
-              <span>Add New User</span>
+              <span>{t("addNewUser")}</span>
             </Button>
           </div>
 
@@ -229,10 +231,10 @@ export default function UserRegistration() {
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Users className="h-5 w-5" />
-                <span>System Users ({filteredUsers.length})</span>
+                <span>{t("systemUsers")} ({filteredUsers.length})</span>
               </CardTitle>
               <CardDescription>
-                Manage user accounts, permissions, and access levels
+                {t("manageUserAccounts")}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -245,20 +247,20 @@ export default function UserRegistration() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>CPF</TableHead>
-                        <TableHead>Phone</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Role</TableHead>
-                        <TableHead>Created</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
+                        <TableHead>{t("name")}</TableHead>
+                        <TableHead>{t("cpf")}</TableHead>
+                        <TableHead>{t("phone")}</TableHead>
+                        <TableHead>{t("status")}</TableHead>
+                        <TableHead>{t("role")}</TableHead>
+                        <TableHead>{t("created")}</TableHead>
+                        <TableHead className="text-right">{t("actions")}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {filteredUsers.length === 0 ? (
                         <TableRow>
                           <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                            No users found
+                            {t("noUsersFound")}
                           </TableCell>
                         </TableRow>
                       ) : (
@@ -269,12 +271,12 @@ export default function UserRegistration() {
                             <TableCell>{formatPhone(user.phone)}</TableCell>
                             <TableCell>
                               <Badge variant={user.isActive ? "default" : "secondary"}>
-                                {user.isActive ? "Active" : "Inactive"}
+                                {user.isActive ? t("active") : t("inactive")}
                               </Badge>
                             </TableCell>
                             <TableCell>
                               <Badge variant={user.admin ? "destructive" : "outline"}>
-                                {user.admin ? "Admin" : "User"}
+                                {user.admin ? t("admin") : t("userRole")}
                               </Badge>
                             </TableCell>
                             <TableCell>
@@ -297,18 +299,18 @@ export default function UserRegistration() {
                                   </AlertDialogTrigger>
                                   <AlertDialogContent>
                                     <AlertDialogHeader>
-                                      <AlertDialogTitle>Delete User</AlertDialogTitle>
+                                      <AlertDialogTitle>{t("deleteUser")}</AlertDialogTitle>
                                       <AlertDialogDescription>
-                                        Are you sure you want to delete {user.name}? This action cannot be undone.
+                                        {t("deleteUserConfirmation")}
                                       </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
-                                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                      <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
                                       <AlertDialogAction
                                         onClick={() => handleDelete(user.id)}
                                         className="bg-red-600 hover:bg-red-700"
                                       >
-                                        Delete
+                                        {t("deleteUser")}
                                       </AlertDialogAction>
                                     </AlertDialogFooter>
                                   </AlertDialogContent>
@@ -332,10 +334,10 @@ export default function UserRegistration() {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>
-              {editingUser ? "Edit User" : "Add New User"}
+              {editingUser ? t("editUser") : t("addNewUser")}
             </DialogTitle>
             <DialogDescription>
-              {editingUser ? "Update user information" : "Create a new user account"}
+              {editingUser ? t("updateUserInformation") : t("createNewUserAccount")}
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
@@ -345,9 +347,9 @@ export default function UserRegistration() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>{t("fullNameField")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter full name" {...field} />
+                      <Input placeholder={t("enterFullName")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -358,9 +360,9 @@ export default function UserRegistration() {
                 name="cpf"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>CPF</FormLabel>
+                    <FormLabel>{t("cpf")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter CPF (11 digits)" {...field} />
+                      <Input placeholder={t("enterCpfDigits")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -371,9 +373,9 @@ export default function UserRegistration() {
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone</FormLabel>
+                    <FormLabel>{t("phone")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter phone number" {...field} />
+                      <Input placeholder={t("enterPhoneNumber")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -385,7 +387,7 @@ export default function UserRegistration() {
                   variant="outline"
                   onClick={() => handleDialogClose(false)}
                 >
-                  Cancel
+                  {t("cancel")}
                 </Button>
                 <Button
                   type="submit"
@@ -394,10 +396,10 @@ export default function UserRegistration() {
                   {createUserMutation.isPending || updateUserMutation.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      {editingUser ? "Updating..." : "Creating..."}
+                      {editingUser ? t("updating") : t("creating")}
                     </>
                   ) : (
-                    <>{editingUser ? "Update User" : "Create User"}</>
+                    <>{editingUser ? t("updateUser") : t("createUser")}</>
                   )}
                 </Button>
               </div>
