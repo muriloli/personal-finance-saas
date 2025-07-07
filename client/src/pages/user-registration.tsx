@@ -57,8 +57,7 @@ export default function UserRegistration() {
         title: "Success",
         description: "User registered successfully",
       });
-      form.reset();
-      setIsDialogOpen(false);
+      handleDialogClose(false);
       queryClient.invalidateQueries({ queryKey: ["/api/users"] });
     },
     onError: (error: any) => {
@@ -81,8 +80,7 @@ export default function UserRegistration() {
         title: "Success",
         description: "User updated successfully",
       });
-      setEditingUser(null);
-      setIsDialogOpen(false);
+      handleDialogClose(false);
       queryClient.invalidateQueries({ queryKey: ["/api/users"] });
     },
     onError: (error: any) => {
@@ -149,8 +147,24 @@ export default function UserRegistration() {
 
   const handleNewUser = () => {
     setEditingUser(null);
-    form.reset();
+    form.reset({
+      name: "",
+      cpf: "",
+      phone: "",
+    });
     setIsDialogOpen(true);
+  };
+
+  const handleDialogClose = (open: boolean) => {
+    setIsDialogOpen(open);
+    if (!open) {
+      setEditingUser(null);
+      form.reset({
+        name: "",
+        cpf: "",
+        phone: "",
+      });
+    }
   };
 
   // Filter users based on search term
@@ -314,7 +328,7 @@ export default function UserRegistration() {
       </div>
 
       {/* User Form Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>
@@ -369,7 +383,7 @@ export default function UserRegistration() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setIsDialogOpen(false)}
+                  onClick={() => handleDialogClose(false)}
                 >
                   Cancel
                 </Button>
