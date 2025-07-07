@@ -107,7 +107,7 @@ export default function Login() {
                         Signing in...
                       </>
                     ) : (
-                      "Sign in"
+                      "Entrar"
                     )}
                   </Button>
                 </form>
