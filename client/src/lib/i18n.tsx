@@ -58,6 +58,12 @@ const translations = {
     projectionBased: "Projeção (baseada em tendências)",
     insufficientData: "Dados Insuficientes",
     insufficientDataMessage: "Para gerar a análise de tendência, você precisa ter pelo menos 3 transações registradas. Continue registrando suas transações para unlock esta funcionalidade.",
+    
+    // Trend Perspective Options
+    trendPerspective: "Perspectiva",
+    pessimistic: "Pessimista",
+    realistic: "Realista",
+    optimistic: "Otimista",
 
     // Transaction Form
     transactionType: "Tipo de Transação",
@@ -275,6 +281,12 @@ const translations = {
     projectionBased: "Projection (based on trends)",
     insufficientData: "Insufficient Data",
     insufficientDataMessage: "To generate the trend analysis, you need to have at least 3 recorded transactions. Continue recording your transactions to unlock this feature.",
+    
+    // Trend Perspective Options
+    trendPerspective: "Perspective",
+    pessimistic: "Pessimistic",
+    realistic: "Realistic",
+    optimistic: "Optimistic",
     be_careful: "Be careful not to overspend! ⚡",
     out_of_control: "Spending out of control! 📈",
 
@@ -496,6 +508,12 @@ const translations = {
     projectionBased: "Proyección (basada en tendencias)",
     insufficientData: "Datos Insuficientes",
     insufficientDataMessage: "Para generar el análisis de tendencias, necesitas tener al menos 3 transacciones registradas. Continúa registrando tus transacciones para desbloquear esta funcionalidad.",
+    
+    // Trend Perspective Options
+    trendPerspective: "Perspectiva",
+    pessimistic: "Pesimista",
+    realistic: "Realista",
+    optimistic: "Optimista",
 
     // Transaction Form
     transactionType: "Tipo de Transacción",

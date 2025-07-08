@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, TrendingDown, Minus, Calendar, DollarSign } from 'lucide-react';
+import { TrendingUp, TrendingDown, Minus, Calendar, DollarSign, Settings } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
 import { useTransactions } from '@/hooks/use-transactions';
 import { useTheme } from '@/components/layout/theme-provider';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface MonthlyData {
   month: string;
@@ -35,6 +36,7 @@ export default function FinancialTrendChart() {
   const [trendData, setTrendData] = useState<MonthlyData[]>([]);
   const [analysis, setAnalysis] = useState<TrendAnalysis | null>(null);
   const [hasMinimumData, setHasMinimumData] = useState(false);
+  const [trendPerspective, setTrendPerspective] = useState<'pessimistic' | 'realistic' | 'optimistic'>('realistic');
   
   // Get chart text color based on theme
   const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -156,26 +158,55 @@ export default function FinancialTrendChart() {
       avgMonthlyBalance: avgBalance
     });
 
-    // Generate projections for next 3 months with conservative approach
+    // Generate projections for next 3 months based on selected perspective
     const projectedMonths: MonthlyData[] = [];
     for (let i = 1; i <= 3; i++) {
       const futureDate = new Date(now.getFullYear(), now.getMonth() + i, 1);
       const monthName = futureDate.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
       
-      // Conservative projection with dampening factors
-      const dampingFactor = Math.max(0.3, 1 - (i * 0.2)); // Reduce impact over time
-      const maxMonthlyGrowth = 0.05; // Cap growth at 5% per month
+      // Different factors based on perspective
+      const perspectiveFactors = {
+        pessimistic: { 
+          trendFactor: 0.15, // Use only 15% of trend
+          maxGrowth: 0.02, // 2% max growth
+          dampingMultiplier: 0.3, // Strong dampening
+          negativeBoost: 1.5 // Amplify negative trends
+        },
+        realistic: { 
+          trendFactor: 0.3, // Use 30% of trend
+          maxGrowth: 0.05, // 5% max growth
+          dampingMultiplier: 0.2, // Moderate dampening
+          negativeBoost: 1.0 // No amplification
+        },
+        optimistic: { 
+          trendFactor: 0.6, // Use 60% of trend
+          maxGrowth: 0.1, // 10% max growth
+          dampingMultiplier: 0.1, // Light dampening
+          negativeBoost: 0.7 // Reduce negative trends
+        }
+      };
+      
+      const factors = perspectiveFactors[trendPerspective];
+      const dampingFactor = Math.max(0.3, 1 - (i * factors.dampingMultiplier));
+      
+      // Apply perspective-based adjustments
+      let incomeChangeAdjusted = incomeAnalysis.change * factors.trendFactor;
+      let expenseChangeAdjusted = expenseAnalysis.change * factors.trendFactor;
+      
+      // Adjust for negative trends based on perspective
+      if (incomeChangeAdjusted < 0) incomeChangeAdjusted *= factors.negativeBoost;
+      if (expenseChangeAdjusted > 0) expenseChangeAdjusted *= factors.negativeBoost;
       
       // Cap the change rate and apply dampening
-      const cappedIncomeChange = Math.min(Math.max(incomeAnalysis.change * 0.3, -maxMonthlyGrowth * 100), maxMonthlyGrowth * 100);
-      const cappedExpenseChange = Math.min(Math.max(expenseAnalysis.change * 0.3, -maxMonthlyGrowth * 100), maxMonthlyGrowth * 100);
+      const cappedIncomeChange = Math.min(Math.max(incomeChangeAdjusted, -factors.maxGrowth * 100), factors.maxGrowth * 100);
+      const cappedExpenseChange = Math.min(Math.max(expenseChangeAdjusted, -factors.maxGrowth * 100), factors.maxGrowth * 100);
       
-      // Calculate more conservative projections
+      // Calculate projections
       const incomeGrowth = (avgIncome * cappedIncomeChange * dampingFactor * 0.01);
       const expenseGrowth = (avgExpenses * cappedExpenseChange * dampingFactor * 0.01);
       
-      // Add some randomness to make it more realistic (±5%)
-      const randomFactor = 0.95 + (Math.random() * 0.1);
+      // Add some randomness to make it more realistic (±3%)
+      const randomFactor = 0.97 + (Math.random() * 0.06);
       
       const projectedIncome = Math.max(0, avgIncome + incomeGrowth * randomFactor);
       const projectedExpenses = Math.max(0, avgExpenses + expenseGrowth * randomFactor);
@@ -191,7 +222,7 @@ export default function FinancialTrendChart() {
     }
 
     setTrendData([...lastThreeMonths, ...projectedMonths]);
-  }, [transactions]);
+  }, [transactions, trendPerspective]);
 
   const getTrendIcon = (direction: string) => {
     switch (direction) {
@@ -234,10 +265,26 @@ export default function FinancialTrendChart() {
     return (
       <Card className="bg-card border-border shadow-sm hidden xl:block">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-card-foreground">
-            <Calendar className="w-5 h-5" />
-            {t("financialTrendAnalysis")}
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2 text-card-foreground">
+                <Calendar className="w-5 h-5" />
+                {t("financialTrendAnalysis")}
+              </CardTitle>
+            </div>
+            <div className="flex items-center gap-2">
+              <Select value={trendPerspective} onValueChange={(value: 'pessimistic' | 'realistic' | 'optimistic') => setTrendPerspective(value)}>
+                <SelectTrigger className="w-[140px]">
+                  <SelectValue placeholder={t("trendPerspective")} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="pessimistic">{t("pessimistic")}</SelectItem>
+                  <SelectItem value="realistic">{t("realistic")}</SelectItem>
+                  <SelectItem value="optimistic">{t("optimistic")}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col items-center justify-center py-8 text-center">
@@ -257,13 +304,29 @@ export default function FinancialTrendChart() {
   return (
     <Card className="bg-card border-border shadow-sm hidden xl:block">
       <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2 text-card-foreground">
-          <TrendingUp className="w-5 h-5" />
-          {t("financialTrendAnalysis")}
-        </CardTitle>
-        <p className="text-sm text-muted-foreground">
-          {t("lastThreeMonthsProjection")}
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="flex items-center gap-2 text-card-foreground">
+              <TrendingUp className="w-5 h-5" />
+              {t("financialTrendAnalysis")}
+            </CardTitle>
+            <p className="text-sm text-muted-foreground">
+              {t("lastThreeMonthsProjection")}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Select value={trendPerspective} onValueChange={(value: 'pessimistic' | 'realistic' | 'optimistic') => setTrendPerspective(value)}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue placeholder={t("trendPerspective")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="pessimistic">{t("pessimistic")}</SelectItem>
+                <SelectItem value="realistic">{t("realistic")}</SelectItem>
+                <SelectItem value="optimistic">{t("optimistic")}</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         {/* Trend Analysis Summary */}
