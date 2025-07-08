@@ -43,12 +43,8 @@ export default function GaugeChart() {
   // Mutation to update expense limit
   const updateLimitMutation = useMutation({
     mutationFn: async (newLimit: number) => {
-      const response = await apiRequest("/api/settings", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ expenseLimit: newLimit.toString() }),
+      const response = await apiRequest("/api/settings", "PUT", { 
+        expenseLimit: newLimit.toString() 
       });
       return response.json();
     },
@@ -143,74 +139,100 @@ export default function GaugeChart() {
 
   // SVG Gauge Chart
   const GaugeChart = () => {
-    const size = 200;
-    const strokeWidth = 20;
+    const size = 240;
+    const strokeWidth = 16;
     const radius = (size - strokeWidth) / 2;
     const circumference = radius * 2 * Math.PI;
     const halfCircumference = circumference / 2;
-    const strokeDasharray = `${halfCircumference} ${circumference}`;
     
     const progressOffset = expenseLimit 
       ? halfCircumference - (percentage / 100) * halfCircumference
       : halfCircumference;
 
     return (
-      <div className="relative flex flex-col items-center">
-        <svg
-          width={size}
-          height={size / 2 + 20}
-          className="transform -rotate-90"
-        >
-          {/* Background arc */}
-          <path
-            d={`M ${strokeWidth/2} ${size/2} A ${radius} ${radius} 0 0 1 ${size - strokeWidth/2} ${size/2}`}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={strokeWidth}
-            className="text-muted/20"
-          />
-          
-          {/* Progress arc */}
-          {expenseLimit && (
+      <div className="relative flex flex-col items-center justify-center h-full py-6">
+        <div className="relative">
+          <svg
+            width={size}
+            height={size / 2 + 30}
+            className="drop-shadow-sm"
+            viewBox={`0 0 ${size} ${size / 2 + 30}`}
+          >
+            {/* Background arc */}
             <path
               d={`M ${strokeWidth/2} ${size/2} A ${radius} ${radius} 0 0 1 ${size - strokeWidth/2} ${size/2}`}
               fill="none"
-              stroke={getColor()}
+              stroke="#E5E7EB"
               strokeWidth={strokeWidth}
-              strokeDasharray={strokeDasharray}
-              strokeDashoffset={progressOffset}
               strokeLinecap="round"
-              className="transition-all duration-500"
             />
-          )}
-        </svg>
-        
-        {/* Center content */}
-        <div className="absolute top-16 left-1/2 transform -translate-x-1/2 text-center">
-          {expenseLimit ? (
-            <>
-              <div className="text-2xl font-bold text-foreground">
-                {Math.round(percentage)}%
+            
+            {/* Progress arc */}
+            {expenseLimit && (
+              <path
+                d={`M ${strokeWidth/2} ${size/2} A ${radius} ${radius} 0 0 1 ${size - strokeWidth/2} ${size/2}`}
+                fill="none"
+                stroke={getColor()}
+                strokeWidth={strokeWidth}
+                strokeDasharray={`${halfCircumference} ${circumference}`}
+                strokeDashoffset={progressOffset}
+                strokeLinecap="round"
+                className="transition-all duration-700 ease-out"
+                style={{
+                  filter: `drop-shadow(0 0 6px ${getColor()}40)`
+                }}
+              />
+            )}
+            
+            {/* Start and end markers */}
+            <circle cx={strokeWidth/2} cy={size/2} r="4" fill="#E5E7EB" />
+            <circle cx={size - strokeWidth/2} cy={size/2} r="4" fill="#E5E7EB" />
+          </svg>
+          
+          {/* Center content */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center"
+               style={{ top: '20%' }}>
+            {expenseLimit ? (
+              <div className="space-y-1">
+                <div className="text-3xl font-bold text-foreground tracking-tight">
+                  {Math.round(percentage)}%
+                </div>
+                <div className="text-sm font-medium text-muted-foreground">
+                  {formatCurrency(currentExpenses)}
+                </div>
+                <div className="text-xs text-muted-foreground opacity-75">
+                  de {formatCurrency(expenseLimit)}
+                </div>
+                {isOverBudget && (
+                  <div className="flex items-center justify-center mt-2">
+                    <AlertTriangle className="h-4 w-4 text-red-500" />
+                    <span className="text-xs text-red-500 ml-1">Limite excedido</span>
+                  </div>
+                )}
               </div>
-              <div className="text-sm text-muted-foreground mt-1">
-                {formatCurrency(currentExpenses)}
+            ) : (
+              <div className="space-y-3 max-w-28">
+                <div className="w-12 h-12 rounded-full bg-muted/20 flex items-center justify-center mx-auto">
+                  <Settings className="h-6 w-6 text-muted-foreground" />
+                </div>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Defina seu limite mensal
+                </p>
               </div>
-              <div className="text-xs text-muted-foreground">
-                / {formatCurrency(expenseLimit)}
-              </div>
-              {isOverBudget && (
-                <AlertTriangle className="h-4 w-4 text-red-500 mx-auto mt-1" />
-              )}
-            </>
-          ) : (
-            <div className="max-w-32 text-center">
-              <Settings className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-              <p className="text-xs text-muted-foreground leading-tight">
-                Clique para definir seu limite mensal
-              </p>
-            </div>
-          )}
+            )}
+          </div>
         </div>
+        
+        {/* Status indicator */}
+        {expenseLimit && (
+          <div className="mt-4 px-3 py-1 rounded-full text-xs font-medium"
+               style={{
+                 backgroundColor: `${getColor()}20`,
+                 color: getColor()
+               }}>
+            {percentage <= 70 ? 'No limite' : percentage <= 90 ? 'Atenção' : 'Excedido'}
+          </div>
+        )}
       </div>
     );
   };

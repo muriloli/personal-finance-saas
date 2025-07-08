@@ -107,6 +107,13 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
 - **Session Configuration**: Database-backed session storage
 
 ## Changelog
+- July 08, 2025. Implemented gauge chart feature for monthly expense tracking
+  - Added interactive gauge chart component with speedometer design showing expense progress vs budget
+  - Created modal dialog for setting/editing monthly expense limits with currency formatting
+  - Integrated gauge chart into dashboard with responsive 3-column grid layout
+  - Added visual indicators: green (0-70%), yellow (71-90%), red (91%+) for spending levels
+  - Fixed API authentication issues and schema validation for user settings updates
+  - Enhanced gauge design with smooth animations, drop shadows, and status indicators
 - July 06, 2025. Fixed admin user authentication and routing system
   - Updated schema to match existing Supabase database structure (admin column instead of is_admin)
   - Connected to user's Supabase database using provided DATABASE_URL
