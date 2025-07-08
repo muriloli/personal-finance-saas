@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { TrendingUp, TrendingDown, Minus, Calendar, DollarSign } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
 import { useTransactions } from '@/hooks/use-transactions';
+import { useTheme } from '@/components/layout/theme-provider';
 
 interface MonthlyData {
   month: string;
@@ -30,9 +31,14 @@ interface TrendAnalysis {
 export default function FinancialTrendChart() {
   const { t, formatCurrency } = useI18n();
   const { transactions } = useTransactions();
+  const { theme } = useTheme();
   const [trendData, setTrendData] = useState<MonthlyData[]>([]);
   const [analysis, setAnalysis] = useState<TrendAnalysis | null>(null);
   const [hasMinimumData, setHasMinimumData] = useState(false);
+  
+  // Get chart text color based on theme
+  const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const textColor = isDark ? '#ffffff' : '#374151';
 
   useEffect(() => {
     if (!transactions || transactions.length === 0) return;
@@ -310,15 +316,15 @@ export default function FinancialTrendChart() {
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis 
                 dataKey="month" 
-                stroke="hsl(var(--muted-foreground))"
+                stroke={textColor}
                 fontSize={12}
-                tick={{ fill: 'hsl(var(--foreground))' }}
+                tick={{ fill: textColor }}
               />
               <YAxis 
-                stroke="hsl(var(--muted-foreground))"
+                stroke={textColor}
                 fontSize={12}
                 tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`}
-                tick={{ fill: 'hsl(var(--foreground))' }}
+                tick={{ fill: textColor }}
               />
               <Tooltip content={<CustomTooltip />} />
               <Legend />

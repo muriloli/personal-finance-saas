@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useI18n } from "@/lib/i18n";
 import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/layout/page-transition";
 import GaugeChart from "./gauge-chart";
+import { useTheme } from "@/components/layout/theme-provider";
 
 interface ChartData {
   incomeVsExpenses: Array<{
@@ -33,9 +34,14 @@ const chartConfig = {
 
 export default function Charts() {
   const { t } = useI18n();
+  const { theme } = useTheme();
   const { data: rawChartData, isLoading } = useQuery<any>({
     queryKey: ["/api/dashboard/charts"],
   });
+  
+  // Get chart text color based on theme
+  const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const textColor = isDark ? '#ffffff' : '#374151';
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -114,7 +120,8 @@ export default function Charts() {
                       tickLine={false}
                       axisLine={false}
                       interval={0}
-                      tick={{ fill: 'hsl(var(--foreground))' }}
+                      tick={{ fill: textColor }}
+                      stroke={textColor}
                     />
                     <YAxis
                       fontSize={9}
@@ -128,7 +135,8 @@ export default function Charts() {
                       }}
                       width={40}
                       domain={['dataMin - 100', 'dataMax + 100']}
-                      tick={{ fill: 'hsl(var(--foreground))' }}
+                      tick={{ fill: textColor }}
+                      stroke={textColor}
                     />
                     <ChartTooltip 
                       content={<ChartTooltipContent />}
