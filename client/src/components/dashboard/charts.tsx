@@ -5,6 +5,7 @@ import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, PieChart, Pie, Cell
 import { Skeleton } from "@/components/ui/skeleton";
 import { useI18n } from "@/lib/i18n";
 import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/layout/page-transition";
+import GaugeChart from "./gauge-chart";
 
 interface ChartData {
   incomeVsExpenses: Array<{
@@ -59,7 +60,16 @@ export default function Charts() {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8">
+        <Card>
+          <CardHeader className="pb-4">
+            <Skeleton className="h-6 w-40" />
+            <Skeleton className="h-4 w-32" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-40 sm:h-48 md:h-64 xl:h-80 2xl:h-96 w-full" />
+          </CardContent>
+        </Card>
         <Card>
           <CardHeader className="pb-4">
             <Skeleton className="h-6 w-40" />
@@ -86,7 +96,7 @@ export default function Charts() {
 
   return (
     <StaggerContainer>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8">
         {/* Income vs Expenses Chart */}
         <StaggerItem>
           <Card className="flex flex-col h-full">
@@ -204,6 +214,11 @@ export default function Charts() {
               </div>
             </CardContent>
           </Card>
+        </StaggerItem>
+
+        {/* Monthly Budget Gauge Chart */}
+        <StaggerItem>
+          <GaugeChart />
         </StaggerItem>
       </div>
     </StaggerContainer>
