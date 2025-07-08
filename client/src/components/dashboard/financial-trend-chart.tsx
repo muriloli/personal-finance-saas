@@ -29,15 +29,13 @@ interface TrendAnalysis {
 
 export default function FinancialTrendChart() {
   const { t, formatCurrency } = useI18n();
-  const { data: transactionsData } = useTransactions();
+  const transactions = useTransactions();
   const [trendData, setTrendData] = useState<MonthlyData[]>([]);
   const [analysis, setAnalysis] = useState<TrendAnalysis | null>(null);
   const [hasMinimumData, setHasMinimumData] = useState(false);
 
   useEffect(() => {
-    if (!transactionsData?.transactions) return;
-
-    const transactions = transactionsData.transactions;
+    if (!transactions || transactions.length === 0) return;
     
     // Group transactions by month
     const monthlyMap = new Map<string, { income: number; expenses: number }>();
@@ -87,7 +85,11 @@ export default function FinancialTrendChart() {
     // This allows users to see the trend analysis even with less than 3 months
     const hasMinimum = transactions.length >= 3; // At least 3 transactions instead of 3 months
     
-    // Debug info removed for production
+    console.log('DEBUG - Transaction count:', transactions.length);
+    console.log('DEBUG - Has minimum data:', hasMinimum);
+    console.log('DEBUG - Transactions data:', transactions);
+    console.log('DEBUG - Monthly map entries:', Array.from(monthlyMap.entries()));
+    console.log('DEBUG - Active months:', activeMonths);
     
     setHasMinimumData(hasMinimum);
 
@@ -164,7 +166,7 @@ export default function FinancialTrendChart() {
     }
 
     setTrendData([...lastThreeMonths, ...projectedMonths]);
-  }, [transactionsData]);
+  }, [transactions]);
 
   const getTrendIcon = (direction: string) => {
     switch (direction) {
