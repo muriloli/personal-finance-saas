@@ -80,8 +80,15 @@ export default function FinancialTrendChart() {
     }
 
     // Check if we have at least 3 months with financial activity
+    // Count months that have any transactions (income OR expenses > 0)
     const activeMonths = months.filter(m => m.income > 0 || m.expenses > 0);
-    const hasMinimum = activeMonths.length >= 3;
+    
+    // For now, let's be less strict and show the chart if we have any transactions
+    // This allows users to see the trend analysis even with less than 3 months
+    const hasMinimum = transactions.length >= 3; // At least 3 transactions instead of 3 months
+    
+    // Debug info removed for production
+    
     setHasMinimumData(hasMinimum);
 
     if (!hasMinimum) {
@@ -212,7 +219,7 @@ export default function FinancialTrendChart() {
               Dados Insuficientes
             </h3>
             <p className="text-gray-600 dark:text-gray-400 max-w-md">
-              Para gerar a análise de tendência, você precisa ter pelo menos 3 meses completos de histórico financeiro. 
+              Para gerar a análise de tendência, você precisa ter pelo menos 3 transações registradas. 
               Continue registrando suas transações para unlock esta funcionalidade.
             </p>
           </div>

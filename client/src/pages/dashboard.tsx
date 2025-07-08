@@ -51,7 +51,7 @@ export default function Dashboard() {
         <Charts />
 
         {/* Financial Trend Chart */}
-        <div className="mt-8">
+        <div className="mt-8 mb-8">
           <FinancialTrendChart />
         </div>
 
