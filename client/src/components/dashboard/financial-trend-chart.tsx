@@ -29,7 +29,7 @@ interface TrendAnalysis {
 
 export default function FinancialTrendChart() {
   const { t, formatCurrency } = useI18n();
-  const transactions = useTransactions();
+  const { transactions } = useTransactions();
   const [trendData, setTrendData] = useState<MonthlyData[]>([]);
   const [analysis, setAnalysis] = useState<TrendAnalysis | null>(null);
   const [hasMinimumData, setHasMinimumData] = useState(false);
