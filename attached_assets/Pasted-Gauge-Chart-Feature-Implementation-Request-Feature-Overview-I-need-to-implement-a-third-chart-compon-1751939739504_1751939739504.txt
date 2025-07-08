@@ -1,0 +1,144 @@
+Gauge Chart Feature Implementation Request
+Feature Overview
+I need to implement a third chart component in Gauge (Speedometer) style for the dashboard that displays monthly expense progress against a user-defined budget limit.
+Initial State Behavior
+
+Default Display: When no budget limit is set, show a placeholder message inside the gauge chart
+Message Content: "Click to set your monthly expense limit to view progress"
+Visual State: Empty/disabled gauge with clear call-to-action
+
+User Interaction Flow
+1. First-Time Setup
+
+User clicks on the gauge chart area
+A simple popup/modal appears with:
+
+Input field for monthly expense limit (currency format)
+"Save" button to confirm
+Optional "Cancel" button
+
+
+
+2. Saving Configuration
+
+When user clicks "Save":
+
+Validate the input value
+Store the limit in user settings/preferences
+Close the popup immediately
+Display the functional gauge chart with current calculations
+
+
+
+3. Active Gauge Display
+
+Calculate percentage: (Current Month Expenses / Set Limit) × 100
+Show visual progress on the gauge
+Display current percentage value
+Show current expenses vs limit (e.g., "$1,200 / $2,000")
+
+4. Editing Existing Limit
+
+User can click on the active gauge at any time
+Same popup appears with current limit pre-filled
+User can modify the value freely
+Save updates the chart immediately
+
+Technical Requirements
+Data Flow
+User Input → Popup Modal → Save to Settings → 
+Update Chart State → Calculate Percentage → Display Gauge
+State Management
+
+Store monthly expense limit in user settings
+Fetch current month's total expenses
+Calculate real-time percentage
+Handle edge cases (no expenses, limit exceeded, etc.)
+
+Visual Specifications
+
+Gauge Colors:
+
+Green (0-70%): Safe spending range
+Yellow (71-90%): Warning range
+Red (91-100%+): Over/near budget
+
+
+Empty State: Subtle gray with dashed border
+Interactive State: Hover effects to indicate clickability
+
+Popup Modal Specs
+
+Simple Design: Clean, minimal interface
+Input Validation: Positive numbers only, reasonable limits
+Currency Format: Support local currency (R$ for Brazil)
+Responsive: Works on mobile devices
+
+User Experience Goals
+Simplicity
+
+One-click setup process
+Intuitive visual feedback
+No complex configuration screens
+
+Flexibility
+
+Users can change limits anytime
+No restrictions on limit values
+Immediate visual updates
+
+Clarity
+
+Clear messaging for empty states
+Obvious progress indication
+Easy-to-understand percentage display
+
+Implementation Context
+Existing System
+
+React + TypeScript frontend
+Recharts library already available
+User settings API endpoints exist
+Dashboard already has other charts
+
+Integration Points
+
+Add to existing dashboard grid layout
+Use current user settings storage system
+Follow existing modal/popup patterns
+Maintain consistent styling with other charts
+
+Expected Behavior Examples
+Scenario 1: New User
+
+Dashboard loads with empty gauge
+User sees "Click to set monthly limit" message
+Clicks → popup opens
+Sets $2000 limit → saves
+Gauge shows current progress (e.g., 45% if spent $900)
+
+Scenario 2: Existing User
+
+Dashboard loads with active gauge showing 67%
+User wants to adjust limit
+Clicks gauge → popup opens with current limit
+Changes from $2000 to $2500 → saves
+Gauge recalculates to show new percentage (e.g., 54%)
+
+Scenario 3: Budget Exceeded
+
+User has $2000 limit but spent $2300
+Gauge shows 115% in red color
+Clear visual indication of overspending
+User can adjust limit if needed
+
+Success Criteria
+
+✅ Empty state clearly communicates required action
+✅ Setup process is completed in under 30 seconds
+✅ Gauge accurately reflects current spending vs limit
+✅ Users can modify limits without confusion
+✅ Visual feedback is immediate and clear
+✅ Component integrates seamlessly with existing dashboard
+
+This feature will enhance user engagement by providing a visual, gamified way to track monthly spending progress against personal budget goals.
