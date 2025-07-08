@@ -22,7 +22,7 @@ interface DashboardData {
 
 export default function GaugeChart() {
   const { user } = useAuth();
-  const { t } = useI18n();
+  const { t, formatCurrency } = useI18n();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -86,12 +86,7 @@ export default function GaugeChart() {
     setIsDialogOpen(true);
   };
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(value);
-  };
+
 
   const formatCurrencyInput = (value: string) => {
     const numericValue = value.replace(/[^\d]/g, "");
@@ -139,9 +134,10 @@ export default function GaugeChart() {
 
   // SVG Gauge Chart
   const GaugeChart = () => {
-    const size = 240;
-    const strokeWidth = 16;
-    const radius = (size - strokeWidth) / 2;
+    // Responsive sizing
+    const baseSize = 280;
+    const strokeWidth = 24; // Thicker gauge like reference image
+    const radius = (baseSize - strokeWidth) / 2;
     const circumference = radius * 2 * Math.PI;
     const halfCircumference = circumference / 2;
     
@@ -149,28 +145,38 @@ export default function GaugeChart() {
       ? halfCircumference - (percentage / 100) * halfCircumference
       : halfCircumference;
 
+    // Status text based on percentage - "at the limit" only for 95%+
+    const getStatusText = () => {
+      if (percentage <= 70) return t('withinLimit');
+      if (percentage <= 90) return t('attention');
+      if (percentage >= 95) return t('atTheLimit');
+      return t('exceeded');
+    };
+
     return (
-      <div className="relative flex flex-col items-center justify-center h-full py-6">
-        <div className="relative">
+      <div className="relative flex flex-col items-center justify-center h-full py-4 sm:py-6">
+        <div className="relative w-full max-w-xs sm:max-w-sm">
           <svg
-            width={size}
-            height={size / 2 + 30}
+            width="100%"
+            height="auto"
             className="drop-shadow-sm"
-            viewBox={`0 0 ${size} ${size / 2 + 30}`}
+            viewBox={`0 0 ${baseSize} ${baseSize / 2 + 40}`}
+            preserveAspectRatio="xMidYMid meet"
           >
             {/* Background arc */}
             <path
-              d={`M ${strokeWidth/2} ${size/2} A ${radius} ${radius} 0 0 1 ${size - strokeWidth/2} ${size/2}`}
+              d={`M ${strokeWidth/2} ${baseSize/2} A ${radius} ${radius} 0 0 1 ${baseSize - strokeWidth/2} ${baseSize/2}`}
               fill="none"
-              stroke="#E5E7EB"
+              stroke="currentColor"
               strokeWidth={strokeWidth}
               strokeLinecap="round"
+              className="text-muted/30 dark:text-muted/20"
             />
             
             {/* Progress arc */}
             {expenseLimit && (
               <path
-                d={`M ${strokeWidth/2} ${size/2} A ${radius} ${radius} 0 0 1 ${size - strokeWidth/2} ${size/2}`}
+                d={`M ${strokeWidth/2} ${baseSize/2} A ${radius} ${radius} 0 0 1 ${baseSize - strokeWidth/2} ${baseSize/2}`}
                 fill="none"
                 stroke={getColor()}
                 strokeWidth={strokeWidth}
@@ -179,22 +185,22 @@ export default function GaugeChart() {
                 strokeLinecap="round"
                 className="transition-all duration-700 ease-out"
                 style={{
-                  filter: `drop-shadow(0 0 6px ${getColor()}40)`
+                  filter: `drop-shadow(0 0 8px ${getColor()}50)`
                 }}
               />
             )}
             
             {/* Start and end markers */}
-            <circle cx={strokeWidth/2} cy={size/2} r="4" fill="#E5E7EB" />
-            <circle cx={size - strokeWidth/2} cy={size/2} r="4" fill="#E5E7EB" />
+            <circle cx={strokeWidth/2} cy={baseSize/2} r="5" fill="currentColor" className="text-muted/40" />
+            <circle cx={baseSize - strokeWidth/2} cy={baseSize/2} r="5" fill="currentColor" className="text-muted/40" />
           </svg>
           
           {/* Center content */}
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center"
-               style={{ top: '20%' }}>
+               style={{ top: '15%' }}>
             {expenseLimit ? (
               <div className="space-y-1">
-                <div className="text-3xl font-bold text-foreground tracking-tight">
+                <div className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
                   {Math.round(percentage)}%
                 </div>
                 <div className="text-sm font-medium text-muted-foreground">
@@ -206,7 +212,7 @@ export default function GaugeChart() {
                 {isOverBudget && (
                   <div className="flex items-center justify-center mt-2">
                     <AlertTriangle className="h-4 w-4 text-red-500" />
-                    <span className="text-xs text-red-500 ml-1">Limite excedido</span>
+                    <span className="text-xs text-red-500 ml-1">{t('limitExceeded')}</span>
                   </div>
                 )}
               </div>
@@ -216,7 +222,7 @@ export default function GaugeChart() {
                   <Settings className="h-6 w-6 text-muted-foreground" />
                 </div>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  Defina seu limite mensal
+                  {t('clickToDefineLimit')}
                 </p>
               </div>
             )}
@@ -225,12 +231,12 @@ export default function GaugeChart() {
         
         {/* Status indicator */}
         {expenseLimit && (
-          <div className="mt-4 px-3 py-1 rounded-full text-xs font-medium"
+          <div className="mt-3 px-3 py-1 rounded-full text-xs font-medium"
                style={{
                  backgroundColor: `${getColor()}20`,
                  color: getColor()
                }}>
-            {percentage <= 70 ? 'No limite' : percentage <= 90 ? 'Atenção' : 'Excedido'}
+            {getStatusText()}
           </div>
         )}
       </div>
@@ -240,9 +246,9 @@ export default function GaugeChart() {
   return (
     <Card className="flex flex-col h-full">
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg sm:text-xl">Progresso Mensal</CardTitle>
+        <CardTitle className="text-lg sm:text-xl">{t('monthlyProgress')}</CardTitle>
         <CardDescription className="text-sm">
-          {expenseLimit ? "Gastos vs. limite definido" : "Defina seu limite mensal"}
+          {expenseLimit ? t('expenseVsLimit') : t('defineYourMonthlyLimit')}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col items-center justify-center">
@@ -258,15 +264,15 @@ export default function GaugeChart() {
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle>
-                {expenseLimit ? "Editar Limite Mensal" : "Definir Limite Mensal"}
+                {expenseLimit ? t('setMonthlyLimit') : t('setMonthlyLimit')}
               </DialogTitle>
               <DialogDescription>
-                Configure o valor máximo que você deseja gastar por mês para acompanhar seu progresso.
+                {t('configureMaxValue')}
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="limit">Limite mensal de gastos</Label>
+                <Label htmlFor="limit">{t('monthlySpendingLimit')}</Label>
                 <Input
                   id="limit"
                   type="text"
@@ -276,7 +282,7 @@ export default function GaugeChart() {
                   className="text-right"
                 />
                 <p className="text-xs text-muted-foreground">
-                  Insira o valor máximo que você deseja gastar por mês
+                  {t('enterMaxAmountWish')}
                 </p>
               </div>
               <div className="flex justify-end space-x-2">
@@ -285,13 +291,13 @@ export default function GaugeChart() {
                   onClick={() => setIsDialogOpen(false)}
                   disabled={updateLimitMutation.isPending}
                 >
-                  Cancelar
+                  {t('cancel')}
                 </Button>
                 <Button
                   onClick={handleSaveLimit}
                   disabled={updateLimitMutation.isPending}
                 >
-                  {updateLimitMutation.isPending ? "Salvando..." : "Salvar"}
+                  {updateLimitMutation.isPending ? t('saving') : t('save')}
                 </Button>
               </div>
             </div>
