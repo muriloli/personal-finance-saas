@@ -127,9 +127,9 @@ export default function GaugeChart() {
   // Determine color based on percentage
   const getColor = () => {
     if (!expenseLimit) return "#E5E7EB"; // Gray for no limit
-    if (percentage <= 70) return "#10B981"; // Green
-    if (percentage <= 90) return "#F59E0B"; // Yellow
-    return "#EF4444"; // Red
+    if (percentage <= 60) return "#10B981"; // Green: 0-60%
+    if (percentage <= 85) return "#F59E0B"; // Yellow: 61-85%
+    return "#EF4444"; // Red: 86-100%+
   };
 
   // SVG Gauge Chart
@@ -144,6 +144,13 @@ export default function GaugeChart() {
     const progressOffset = expenseLimit 
       ? halfCircumference - (percentage / 100) * halfCircumference
       : halfCircumference;
+
+    // Motivational message based on percentage
+    const getMotivationalMessage = () => {
+      if (percentage <= 60) return t('under_control'); // Green: 0-60%
+      if (percentage <= 85) return t('be_careful');    // Yellow: 61-85%
+      return t('out_of_control');                      // Red: 86-100%+
+    };
 
     // Status text based on percentage - "at the limit" only for 95%+
     const getStatusText = () => {
@@ -231,12 +238,20 @@ export default function GaugeChart() {
         
         {/* Status indicator */}
         {expenseLimit && (
-          <div className="mt-3 px-3 py-1 rounded-full text-xs font-medium"
-               style={{
-                 backgroundColor: `${getColor()}20`,
-                 color: getColor()
-               }}>
-            {getStatusText()}
+          <div className="mt-3 flex flex-col items-center space-y-2">
+            <div className="px-3 py-1 rounded-full text-xs font-medium"
+                 style={{
+                   backgroundColor: `${getColor()}20`,
+                   color: getColor()
+                 }}>
+              {getStatusText()}
+            </div>
+            
+            {/* Motivational message */}
+            <div className="text-sm font-medium text-center px-2"
+                 style={{ color: getColor() }}>
+              {getMotivationalMessage()}
+            </div>
           </div>
         )}
       </div>

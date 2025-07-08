@@ -42,6 +42,11 @@ const translations = {
     exceeded: "Excedido",
     limitExceeded: "Limite excedido",
     expenseVsLimit: "Gastos vs. limite definido",
+    
+    // Motivational Messages
+    under_control: "Gastos sob controle - parabéns! ✨",
+    be_careful: "Cuidado para não extrapolar! ⚡",
+    out_of_control: "Gastos fora de controle! 📈",
 
     // Transaction Form
     transactionType: "Tipo de Transação",
@@ -243,6 +248,11 @@ const translations = {
     exceeded: "Exceeded",
     limitExceeded: "Limit exceeded",
     expenseVsLimit: "Expenses vs. defined limit",
+    
+    // Motivational Messages
+    under_control: "Spending under control - congratulations! ✨",
+    be_careful: "Be careful not to overspend! ⚡",
+    out_of_control: "Spending out of control! 📈",
 
     // Transaction Form
     transactionType: "Transaction Type",
@@ -446,6 +456,11 @@ const translations = {
     exceeded: "Excedido",
     limitExceeded: "Límite excedido",
     expenseVsLimit: "Gastos vs. límite definido",
+    
+    // Motivational Messages
+    under_control: "Gastos bajo control - ¡felicitaciones! ✨",
+    be_careful: "¡Cuidado de no excederte! ⚡",
+    out_of_control: "¡Gastos fuera de control! 📈",
 
     // Transaction Form
     transactionType: "Tipo de Transacción",
