@@ -199,16 +199,16 @@ export default function FinancialTrendChart() {
       return (
         <div className="bg-card p-3 border border-border rounded-lg shadow-lg">
           <p className="font-medium text-card-foreground">
-            {label} {data.isProjected && '(Projeção)'}
+            {label} {data.isProjected && `(${t("projectionBased")})`}
           </p>
           <p className="text-green-600 dark:text-green-400">
-            Receitas: {formatCurrency(data.income)}
+            {t("income")}: {formatCurrency(data.income)}
           </p>
           <p className="text-red-600 dark:text-red-400">
-            Despesas: {formatCurrency(data.expenses)}
+            {t("expense")}: {formatCurrency(data.expenses)}
           </p>
           <p className="text-blue-600 dark:text-blue-400">
-            Saldo: {formatCurrency(data.balance)}
+            {t("currentBalance")}: {formatCurrency(data.balance)}
           </p>
         </div>
       );
@@ -323,7 +323,12 @@ export default function FinancialTrendChart() {
               <YAxis 
                 stroke={textColor}
                 fontSize={12}
-                tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`}
+                tickFormatter={(value) => {
+                  if (value >= 1000) {
+                    return `${formatCurrency(value / 1000 * 1000).slice(0, -3)}k`;
+                  }
+                  return formatCurrency(value);
+                }}
                 tick={{ fill: textColor }}
                 tickLine={false}
                 axisLine={false}

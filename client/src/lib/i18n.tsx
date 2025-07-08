@@ -496,11 +496,6 @@ const translations = {
     projectionBased: "Proyección (basada en tendencias)",
     insufficientData: "Datos Insuficientes",
     insufficientDataMessage: "Para generar el análisis de tendencias, necesitas tener al menos 3 transacciones registradas. Continúa registrando tus transacciones para desbloquear esta funcionalidad.",
-    
-    // Motivational Messages
-    under_control: "Gastos bajo control - ¡felicitaciones! ✨",
-    be_careful: "¡Cuidado de no excederte! ⚡",
-    out_of_control: "¡Gastos fuera de control! 📈",
 
     // Transaction Form
     transactionType: "Tipo de Transacción",
