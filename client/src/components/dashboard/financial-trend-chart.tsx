@@ -156,15 +156,29 @@ export default function FinancialTrendChart() {
       avgMonthlyBalance: avgBalance
     });
 
-    // Generate projections for next 3 months
+    // Generate projections for next 3 months with conservative approach
     const projectedMonths: MonthlyData[] = [];
     for (let i = 1; i <= 3; i++) {
       const futureDate = new Date(now.getFullYear(), now.getMonth() + i, 1);
       const monthName = futureDate.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
       
-      // Simple projection based on trends
-      const projectedIncome = Math.max(0, avgIncome + (avgIncome * incomeAnalysis.change * i * 0.01));
-      const projectedExpenses = Math.max(0, avgExpenses + (avgExpenses * expenseAnalysis.change * i * 0.01));
+      // Conservative projection with dampening factors
+      const dampingFactor = Math.max(0.3, 1 - (i * 0.2)); // Reduce impact over time
+      const maxMonthlyGrowth = 0.05; // Cap growth at 5% per month
+      
+      // Cap the change rate and apply dampening
+      const cappedIncomeChange = Math.min(Math.max(incomeAnalysis.change * 0.3, -maxMonthlyGrowth * 100), maxMonthlyGrowth * 100);
+      const cappedExpenseChange = Math.min(Math.max(expenseAnalysis.change * 0.3, -maxMonthlyGrowth * 100), maxMonthlyGrowth * 100);
+      
+      // Calculate more conservative projections
+      const incomeGrowth = (avgIncome * cappedIncomeChange * dampingFactor * 0.01);
+      const expenseGrowth = (avgExpenses * cappedExpenseChange * dampingFactor * 0.01);
+      
+      // Add some randomness to make it more realistic (±5%)
+      const randomFactor = 0.95 + (Math.random() * 0.1);
+      
+      const projectedIncome = Math.max(0, avgIncome + incomeGrowth * randomFactor);
+      const projectedExpenses = Math.max(0, avgExpenses + expenseGrowth * randomFactor);
       
       projectedMonths.push({
         month: monthName,
