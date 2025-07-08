@@ -615,6 +615,7 @@ interface I18nContextType {
   language: Language;
   setLanguage: (language: Language) => void;
   t: (key: TranslationKey) => string;
+  formatCurrency: (amount: number) => string;
 }
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
@@ -638,10 +639,18 @@ export function I18nProvider({ children, defaultLanguage = "pt-BR" }: I18nProvid
     return translations[language][key] || translations["pt-BR"][key] || key;
   };
 
+  const formatCurrency = (amount: number): string => {
+    return new Intl.NumberFormat(language === "pt-BR" ? "pt-BR" : "en-US", {
+      style: "currency",
+      currency: language === "pt-BR" ? "BRL" : "USD",
+    }).format(amount);
+  };
+
   const value: I18nContextType = {
     language,
     setLanguage,
     t,
+    formatCurrency,
   };
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
