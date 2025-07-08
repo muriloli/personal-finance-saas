@@ -107,6 +107,12 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
 - **Session Configuration**: Database-backed session storage
 
 ## Changelog
+- July 08, 2025. Enhanced financial trend chart with perspective selector and improved optimistic mode
+  - Added dropdown in upper right corner for selecting trend perspective (Pessimistic, Realistic, Optimistic)
+  - Fixed issue where summary cards (Receitas, Despesas, Saldo Médio) didn't update with perspective changes
+  - Made optimistic mode significantly more optimistic (80% trend factor, 15% max growth, 10% income boost)
+  - Added full translation support for perspective selector in all languages
+  - Cards now dynamically adjust values based on selected perspective for more accurate analysis
 - July 08, 2025. Successfully completed migration from Replit Agent to standard Replit environment
   - Fixed chart text visibility in dark mode by adding proper foreground color variables
   - Enhanced XAxis and YAxis text colors in both main charts and financial trend chart components

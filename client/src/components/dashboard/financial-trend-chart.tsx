@@ -123,6 +123,45 @@ export default function FinancialTrendChart() {
     const avgIncome = incomeValues.reduce((a, b) => a + b, 0) / incomeValues.length;
     const avgExpenses = expenseValues.reduce((a, b) => a + b, 0) / expenseValues.length;
     const avgBalance = balanceValues.reduce((a, b) => a + b, 0) / balanceValues.length;
+    
+    // Calculate perspective-adjusted averages for the cards
+    const perspectiveFactors = {
+      pessimistic: { 
+        trendFactor: 0.15,
+        maxGrowth: 0.02,
+        dampingMultiplier: 0.3,
+        negativeBoost: 1.5
+      },
+      realistic: { 
+        trendFactor: 0.3,
+        maxGrowth: 0.05,
+        dampingMultiplier: 0.2,
+        negativeBoost: 1.0
+      },
+      optimistic: { 
+        trendFactor: 0.8,
+        maxGrowth: 0.15,
+        dampingMultiplier: 0.05,
+        negativeBoost: 0.5
+      }
+    };
+    
+    const factors = perspectiveFactors[trendPerspective];
+    
+    // Apply perspective adjustments to averages
+    let adjustedIncomeChange = incomeAnalysis.change * factors.trendFactor;
+    let adjustedExpenseChange = expenseAnalysis.change * factors.trendFactor;
+    let adjustedBalanceChange = balanceAnalysis.change * factors.trendFactor;
+    
+    // Apply negative boost
+    if (adjustedIncomeChange < 0) adjustedIncomeChange *= factors.negativeBoost;
+    if (adjustedExpenseChange > 0) adjustedExpenseChange *= factors.negativeBoost;
+    if (adjustedBalanceChange < 0) adjustedBalanceChange *= factors.negativeBoost;
+    
+    // Calculate adjusted averages based on perspective
+    const adjustedAvgIncome = avgIncome * (1 + (adjustedIncomeChange * 0.01));
+    const adjustedAvgExpenses = avgExpenses * (1 + (adjustedExpenseChange * 0.01));
+    const adjustedAvgBalance = avgBalance * (1 + (adjustedBalanceChange * 0.01));
 
     // Calculate linear regression for trends
     const getDirection = (values: number[]) => {
@@ -150,12 +189,12 @@ export default function FinancialTrendChart() {
       incomeDirection: incomeAnalysis.direction,
       expenseDirection: expenseAnalysis.direction,
       balanceDirection: balanceAnalysis.direction,
-      incomeChange: incomeAnalysis.change,
-      expenseChange: expenseAnalysis.change,
-      balanceChange: balanceAnalysis.change,
-      avgMonthlyIncome: avgIncome,
-      avgMonthlyExpenses: avgExpenses,
-      avgMonthlyBalance: avgBalance
+      incomeChange: adjustedIncomeChange,
+      expenseChange: adjustedExpenseChange,
+      balanceChange: adjustedBalanceChange,
+      avgMonthlyIncome: adjustedAvgIncome,
+      avgMonthlyExpenses: adjustedAvgExpenses,
+      avgMonthlyBalance: adjustedAvgBalance
     });
 
     // Generate projections for next 3 months based on selected perspective
@@ -163,28 +202,6 @@ export default function FinancialTrendChart() {
     for (let i = 1; i <= 3; i++) {
       const futureDate = new Date(now.getFullYear(), now.getMonth() + i, 1);
       const monthName = futureDate.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
-      
-      // Different factors based on perspective
-      const perspectiveFactors = {
-        pessimistic: { 
-          trendFactor: 0.15, // Use only 15% of trend
-          maxGrowth: 0.02, // 2% max growth
-          dampingMultiplier: 0.3, // Strong dampening
-          negativeBoost: 1.5 // Amplify negative trends
-        },
-        realistic: { 
-          trendFactor: 0.3, // Use 30% of trend
-          maxGrowth: 0.05, // 5% max growth
-          dampingMultiplier: 0.2, // Moderate dampening
-          negativeBoost: 1.0 // No amplification
-        },
-        optimistic: { 
-          trendFactor: 0.6, // Use 60% of trend
-          maxGrowth: 0.1, // 10% max growth
-          dampingMultiplier: 0.1, // Light dampening
-          negativeBoost: 0.7 // Reduce negative trends
-        }
-      };
       
       const factors = perspectiveFactors[trendPerspective];
       const dampingFactor = Math.max(0.3, 1 - (i * factors.dampingMultiplier));
@@ -208,7 +225,10 @@ export default function FinancialTrendChart() {
       // Add some randomness to make it more realistic (±3%)
       const randomFactor = 0.97 + (Math.random() * 0.06);
       
-      const projectedIncome = Math.max(0, avgIncome + incomeGrowth * randomFactor);
+      // Add optimistic boost for the optimistic perspective
+      const optimisticBoost = trendPerspective === 'optimistic' ? 1.1 : 1.0;
+      
+      const projectedIncome = Math.max(0, (avgIncome + incomeGrowth * randomFactor) * optimisticBoost);
       const projectedExpenses = Math.max(0, avgExpenses + expenseGrowth * randomFactor);
       
       projectedMonths.push({
