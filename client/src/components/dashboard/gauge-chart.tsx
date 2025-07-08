@@ -136,7 +136,7 @@ export default function GaugeChart() {
   const GaugeChart = () => {
     // Responsive sizing
     const baseSize = 280;
-    const strokeWidth = 24; // Thicker gauge like reference image
+    const strokeWidth = 32; // Even thicker gauge bar
     const radius = (baseSize - strokeWidth) / 2;
     const circumference = radius * 2 * Math.PI;
     const halfCircumference = circumference / 2;
@@ -236,18 +236,9 @@ export default function GaugeChart() {
           </div>
         </div>
         
-        {/* Status indicator */}
+        {/* Motivational message only */}
         {expenseLimit && (
-          <div className="mt-3 flex flex-col items-center space-y-2">
-            <div className="px-3 py-1 rounded-full text-xs font-medium"
-                 style={{
-                   backgroundColor: `${getColor()}20`,
-                   color: getColor()
-                 }}>
-              {getStatusText()}
-            </div>
-            
-            {/* Motivational message */}
+          <div className="mt-3 flex flex-col items-center">
             <div className="text-sm font-medium text-center px-2"
                  style={{ color: getColor() }}>
               {getMotivationalMessage()}
