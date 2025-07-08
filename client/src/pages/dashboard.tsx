@@ -1,6 +1,7 @@
 import { useAuth } from "@/hooks/use-auth";
 import FinancialCards from "@/components/dashboard/financial-cards";
 import Charts from "@/components/dashboard/charts";
+import FinancialTrendChart from "@/components/dashboard/financial-trend-chart";
 import RecentTransactions from "@/components/dashboard/recent-transactions";
 import UserProfileDropdown from "@/components/UserProfileDropdown";
 import { Plus } from "lucide-react";
@@ -48,6 +49,11 @@ export default function Dashboard() {
 
         {/* Charts Section */}
         <Charts />
+
+        {/* Financial Trend Chart */}
+        <div className="mt-8">
+          <FinancialTrendChart />
+        </div>
 
         {/* Recent Transactions */}
         <RecentTransactions />
