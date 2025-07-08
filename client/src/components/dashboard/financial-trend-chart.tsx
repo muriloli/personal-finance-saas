@@ -312,11 +312,13 @@ export default function FinancialTrendChart() {
                 dataKey="month" 
                 stroke="hsl(var(--muted-foreground))"
                 fontSize={12}
+                tick={{ fill: 'hsl(var(--foreground))' }}
               />
               <YAxis 
                 stroke="hsl(var(--muted-foreground))"
                 fontSize={12}
                 tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`}
+                tick={{ fill: 'hsl(var(--foreground))' }}
               />
               <Tooltip content={<CustomTooltip />} />
               <Legend />

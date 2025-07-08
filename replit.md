@@ -107,6 +107,11 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
 - **Session Configuration**: Database-backed session storage
 
 ## Changelog
+- July 08, 2025. Successfully completed migration from Replit Agent to standard Replit environment
+  - Fixed chart text visibility in dark mode by adding proper foreground color variables
+  - Enhanced XAxis and YAxis text colors in both main charts and financial trend chart components
+  - All chart text now properly displays in white for dark mode and appropriate colors for light mode
+  - Migration completed with all functionality working correctly
 - July 08, 2025. Successfully migrated project from Replit Agent to standard Replit environment
   - Fixed database connection from Neon serverless to PostgreSQL (pg) driver for better Supabase compatibility
   - Resolved WebSocket connection issues by switching from @neondatabase/serverless to standard pg package

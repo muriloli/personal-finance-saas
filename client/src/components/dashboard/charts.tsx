@@ -114,6 +114,7 @@ export default function Charts() {
                       tickLine={false}
                       axisLine={false}
                       interval={0}
+                      tick={{ fill: 'hsl(var(--foreground))' }}
                     />
                     <YAxis
                       fontSize={9}
@@ -127,6 +128,7 @@ export default function Charts() {
                       }}
                       width={40}
                       domain={['dataMin - 100', 'dataMax + 100']}
+                      tick={{ fill: 'hsl(var(--foreground))' }}
                     />
                     <ChartTooltip 
                       content={<ChartTooltipContent />}
