@@ -107,6 +107,11 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
 - **Session Configuration**: Database-backed session storage
 
 ## Changelog
+- July 08, 2025. Fixed data inconsistency between pie chart and top categories display
+  - Corrected "Principais Categorias" to show only current month data, matching pie chart behavior
+  - Both charts now use identical data sources for consistent category spending amounts
+  - Fixed JavaScript initialization error in financial trend chart component
+  - Improved data accuracy across all dashboard components
 - July 08, 2025. Enhanced financial trend chart with perspective selector and improved optimistic mode
   - Added dropdown in upper right corner for selecting trend perspective (Pessimistic, Realistic, Optimistic)
   - Fixed issue where summary cards (Receitas, Despesas, Saldo Médio) didn't update with perspective changes

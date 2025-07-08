@@ -46,24 +46,33 @@ export default function RecentTransactions() {
     queryKey: ["/api/transactions", "page=1&limit=1000"],
   });
 
-  // Calculate top categories from all transactions
+  // Calculate top categories from current month transactions only
   const calculateTopCategories = (): TopCategory[] => {
     const transactions = (allTransactionsData as any)?.transactions || [];
     const categoryMap = new Map<string, { amount: number; color: string; name: string }>();
     
+    // Get current month boundaries
+    const now = new Date();
+    const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const currentMonthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    
     transactions.forEach((transaction: any) => {
       if (transaction.type === 'expense') {
-        const categoryName = transaction.category.name;
-        const amount = parseFloat(transaction.amount);
-        
-        if (categoryMap.has(categoryName)) {
-          categoryMap.get(categoryName)!.amount += amount;
-        } else {
-          categoryMap.set(categoryName, {
-            name: categoryName,
-            amount: amount,
-            color: transaction.category.color || '#8B5CF6'
-          });
+        // Check if transaction is in current month
+        const transactionDate = new Date(transaction.transactionDate || transaction.date);
+        if (transactionDate >= currentMonthStart && transactionDate <= currentMonthEnd) {
+          const categoryName = transaction.category.name;
+          const amount = parseFloat(transaction.amount);
+          
+          if (categoryMap.has(categoryName)) {
+            categoryMap.get(categoryName)!.amount += amount;
+          } else {
+            categoryMap.set(categoryName, {
+              name: categoryName,
+              amount: amount,
+              color: transaction.category.color || '#8B5CF6'
+            });
+          }
         }
       }
     });
