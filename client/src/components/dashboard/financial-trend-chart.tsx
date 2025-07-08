@@ -218,22 +218,21 @@ export default function FinancialTrendChart() {
 
   if (!hasMinimumData) {
     return (
-      <Card className="bg-card border-border shadow-sm">
+      <Card className="bg-card border-border shadow-sm hidden xl:block">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-card-foreground">
             <Calendar className="w-5 h-5" />
-            Análise de Tendência Financeira
+            {t("financialTrendAnalysis")}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <Calendar className="w-16 h-16 text-muted-foreground mb-4" />
             <h3 className="text-lg font-medium text-card-foreground mb-2">
-              Dados Insuficientes
+              {t("insufficientData")}
             </h3>
             <p className="text-muted-foreground max-w-md">
-              Para gerar a análise de tendência, você precisa ter pelo menos 3 transações registradas. 
-              Continue registrando suas transações para unlock esta funcionalidade.
+              {t("insufficientDataMessage")}
             </p>
           </div>
         </CardContent>
@@ -242,14 +241,14 @@ export default function FinancialTrendChart() {
   }
 
   return (
-    <Card className="bg-card border-border shadow-sm">
+    <Card className="bg-card border-border shadow-sm hidden xl:block">
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2 text-card-foreground">
           <TrendingUp className="w-5 h-5" />
-          Análise de Tendência Financeira
+          {t("financialTrendAnalysis")}
         </CardTitle>
         <p className="text-sm text-muted-foreground">
-          Últimos 3 meses + Projeção para 3 meses
+          {t("lastThreeMonthsProjection")}
         </p>
       </CardHeader>
       <CardContent>
@@ -259,7 +258,7 @@ export default function FinancialTrendChart() {
             <div className="bg-background border border-border rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">Receitas</p>
+                  <p className="text-sm font-medium text-muted-foreground">{t("monthlyIncome")}</p>
                   <p className="text-lg font-bold text-foreground">
                     {formatCurrency(analysis.avgMonthlyIncome)}
                   </p>
@@ -276,7 +275,7 @@ export default function FinancialTrendChart() {
             <div className="bg-background border border-border rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">Despesas</p>
+                  <p className="text-sm font-medium text-muted-foreground">{t("monthlyExpenses")}</p>
                   <p className="text-lg font-bold text-foreground">
                     {formatCurrency(analysis.avgMonthlyExpenses)}
                   </p>
@@ -293,7 +292,7 @@ export default function FinancialTrendChart() {
             <div className="bg-background border border-border rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">Saldo Médio</p>
+                  <p className="text-sm font-medium text-muted-foreground">{t("averageBalance")}</p>
                   <p className="text-lg font-bold text-foreground">
                     {formatCurrency(analysis.avgMonthlyBalance)}
                   </p>
@@ -338,7 +337,7 @@ export default function FinancialTrendChart() {
                 dataKey="income" 
                 stroke="#10b981" 
                 strokeWidth={3}
-                name="Receitas"
+                name={t("income")}
                 connectNulls={false}
                 dot={{ fill: '#10b981', strokeWidth: 2, r: 5 }}
               />
@@ -347,7 +346,7 @@ export default function FinancialTrendChart() {
                 dataKey="expenses" 
                 stroke="#ef4444" 
                 strokeWidth={3}
-                name="Despesas"
+                name={t("expense")}
                 connectNulls={false}
                 dot={{ fill: '#ef4444', strokeWidth: 2, r: 5 }}
               />
@@ -356,7 +355,7 @@ export default function FinancialTrendChart() {
                 dataKey="balance" 
                 stroke="#3b82f6" 
                 strokeWidth={3}
-                name="Saldo"
+                name={t("currentBalance")}
                 connectNulls={false}
                 dot={{ fill: '#3b82f6', strokeWidth: 2, r: 5 }}
               />
@@ -369,11 +368,11 @@ export default function FinancialTrendChart() {
           <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <div className="w-4 h-0.5 bg-foreground"></div>
-              <span>Dados Históricos</span>
+              <span>{t("historicalData")}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-0.5 border-t-2 border-dashed border-muted-foreground"></div>
-              <span>Projeção (baseada em tendências)</span>
+              <span>{t("projectionBased")}</span>
             </div>
           </div>
         </div>

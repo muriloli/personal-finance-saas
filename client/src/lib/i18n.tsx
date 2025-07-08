@@ -47,6 +47,17 @@ const translations = {
     under_control: "Gastos sob controle - parabéns! ✨",
     be_careful: "Cuidado para não extrapolar! ⚡",
     out_of_control: "Gastos fora de controle! 📈",
+    
+    // Financial Trend Chart
+    financialTrendAnalysis: "Análise de Tendência Financeira",
+    lastThreeMonthsProjection: "Últimos 3 meses + Projeção para 3 meses",
+    monthlyIncome: "Receitas",
+    monthlyExpenses: "Despesas",
+    averageBalance: "Saldo Médio",
+    historicalData: "Dados Históricos",
+    projectionBased: "Projeção (baseada em tendências)",
+    insufficientData: "Dados Insuficientes",
+    insufficientDataMessage: "Para gerar a análise de tendência, você precisa ter pelo menos 3 transações registradas. Continue registrando suas transações para unlock esta funcionalidade.",
 
     // Transaction Form
     transactionType: "Tipo de Transação",
@@ -251,6 +262,19 @@ const translations = {
     
     // Motivational Messages
     under_control: "Spending under control - congratulations! ✨",
+    be_careful: "Be careful not to exceed! ⚡",
+    out_of_control: "Spending out of control! 📈",
+    
+    // Financial Trend Chart
+    financialTrendAnalysis: "Financial Trend Analysis",
+    lastThreeMonthsProjection: "Last 3 months + 3-month projection",
+    monthlyIncome: "Income",
+    monthlyExpenses: "Expenses",
+    averageBalance: "Average Balance",
+    historicalData: "Historical Data",
+    projectionBased: "Projection (based on trends)",
+    insufficientData: "Insufficient Data",
+    insufficientDataMessage: "To generate the trend analysis, you need to have at least 3 recorded transactions. Continue recording your transactions to unlock this feature.",
     be_careful: "Be careful not to overspend! ⚡",
     out_of_control: "Spending out of control! 📈",
 
@@ -456,6 +480,22 @@ const translations = {
     exceeded: "Excedido",
     limitExceeded: "Límite excedido",
     expenseVsLimit: "Gastos vs. límite definido",
+    
+    // Motivational Messages
+    under_control: "Gastos bajo control - ¡felicitaciones! ✨",
+    be_careful: "¡Cuidado de no exceder! ⚡",
+    out_of_control: "¡Gastos fuera de control! 📈",
+    
+    // Financial Trend Chart
+    financialTrendAnalysis: "Análisis de Tendencia Financiera",
+    lastThreeMonthsProjection: "Últimos 3 meses + Proyección para 3 meses",
+    monthlyIncome: "Ingresos",
+    monthlyExpenses: "Gastos",
+    averageBalance: "Balance Promedio",
+    historicalData: "Datos Históricos",
+    projectionBased: "Proyección (basada en tendencias)",
+    insufficientData: "Datos Insuficientes",
+    insufficientDataMessage: "Para generar el análisis de tendencias, necesitas tener al menos 3 transacciones registradas. Continúa registrando tus transacciones para desbloquear esta funcionalidad.",
     
     // Motivational Messages
     under_control: "Gastos bajo control - ¡felicitaciones! ✨",
