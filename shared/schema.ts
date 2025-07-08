@@ -145,6 +145,7 @@ export const insertTransactionSchema = createInsertSchema(transactions).omit({
 
 export const insertUserSettingsSchema = createInsertSchema(userSettings).omit({
   id: true,
+  userId: true,
   createdAt: true,
   updatedAt: true,
 });
