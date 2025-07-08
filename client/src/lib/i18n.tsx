@@ -287,8 +287,6 @@ const translations = {
     pessimistic: "Pessimistic",
     realistic: "Realistic",
     optimistic: "Optimistic",
-    be_careful: "Be careful not to overspend! ⚡",
-    out_of_control: "Spending out of control! 📈",
 
     // Transaction Form
     transactionType: "Transaction Type",
