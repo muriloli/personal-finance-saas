@@ -231,39 +231,39 @@
 
 .delay-600 {
   animation-delay: 0.6s;
-  }
-  
-  .dark .shadow-lg {
-    box-shadow: 0 10px 15px hsla(222, 18%, 4%, 0.3), 0 4px 6px hsla(222, 18%, 4%, 0.2);
-  }
-  
-  /* Dark theme focus states */
-  .dark .focus\:ring-2:focus {
-    --tw-ring-color: hsl(207, 90%, 54%);
-  }
-  
-  /* Dark theme hover states for cards */
-  .dark .hover\:bg-accent:hover {
-    background: linear-gradient(135deg, hsl(219, 28%, 18%) 0%, hsl(219, 28%, 20%) 100%);
-  }
-  
-  /* Dark theme muted text improvements */
-  .dark .text-muted-foreground {
-    color: hsl(215, 12%, 70%);
-  }
-  
-  /* Dark theme border improvements */
-  .dark .border {
-    border-color: hsl(217, 20%, 20%);
-  }
-  
-  .dark .border-t {
-    border-top-color: hsl(217, 20%, 20%);
-  }
-  
-  .dark .border-b {
-    border-bottom-color: hsl(217, 20%, 20%);
-  }
+}
+
+/* Dark theme enhancements */
+.dark .shadow-lg {
+  box-shadow: 0 10px 15px hsla(222, 18%, 4%, 0.3), 0 4px 6px hsla(222, 18%, 4%, 0.2);
+}
+
+/* Dark theme focus states */
+.dark .focus\:ring-2:focus {
+  --tw-ring-color: hsl(207, 90%, 54%);
+}
+
+/* Dark theme hover states for cards */
+.dark .hover\:bg-accent:hover {
+  background: linear-gradient(135deg, hsl(219, 28%, 18%) 0%, hsl(219, 28%, 20%) 100%);
+}
+
+/* Dark theme muted text improvements */
+.dark .text-muted-foreground {
+  color: hsl(215, 12%, 70%);
+}
+
+/* Dark theme border improvements */
+.dark .border {
+  border-color: hsl(217, 20%, 20%);
+}
+
+.dark .border-t {
+  border-top-color: hsl(217, 20%, 20%);
+}
+
+.dark .border-b {
+  border-bottom-color: hsl(217, 20%, 20%);
 }
 
 @layer utilities {
