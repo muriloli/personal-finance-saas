@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, TrendingDown, Minus, Calendar, DollarSign } from 'lucide-react';
@@ -318,12 +318,16 @@ export default function FinancialTrendChart() {
                 stroke={textColor}
                 fontSize={12}
                 tick={{ fill: textColor }}
+                tickLine={false}
+                axisLine={false}
               />
               <YAxis 
                 stroke={textColor}
                 fontSize={12}
                 tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`}
                 tick={{ fill: textColor }}
+                tickLine={false}
+                axisLine={false}
               />
               <Tooltip content={<CustomTooltip />} />
               <Legend />
