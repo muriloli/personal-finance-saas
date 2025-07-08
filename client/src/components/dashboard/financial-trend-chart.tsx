@@ -123,6 +123,28 @@ export default function FinancialTrendChart() {
     const avgIncome = incomeValues.reduce((a, b) => a + b, 0) / incomeValues.length;
     const avgExpenses = expenseValues.reduce((a, b) => a + b, 0) / expenseValues.length;
     const avgBalance = balanceValues.reduce((a, b) => a + b, 0) / balanceValues.length;
+
+    // Calculate linear regression for trends
+    const getDirection = (values: number[]) => {
+      const n = values.length;
+      const sumX = (n * (n - 1)) / 2;
+      const sumY = values.reduce((a, b) => a + b, 0);
+      const sumXY = values.reduce((sum, y, i) => sum + (i * y), 0);
+      const sumX2 = values.reduce((sum, _, i) => sum + (i * i), 0);
+      
+      const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+      const change = ((values[n-1] - values[0]) / values[0]) * 100;
+      
+      if (Math.abs(slope) < avgIncome * 0.05) return { direction: 'stable' as const, change: 0 };
+      return { 
+        direction: slope > 0 ? 'up' as const : 'down' as const, 
+        change: isNaN(change) ? 0 : change 
+      };
+    };
+
+    const incomeAnalysis = getDirection(incomeValues);
+    const expenseAnalysis = getDirection(expenseValues);
+    const balanceAnalysis = getDirection(balanceValues);
     
     // Calculate perspective-adjusted averages for the cards
     const perspectiveFactors = {
@@ -162,28 +184,6 @@ export default function FinancialTrendChart() {
     const adjustedAvgIncome = avgIncome * (1 + (adjustedIncomeChange * 0.01));
     const adjustedAvgExpenses = avgExpenses * (1 + (adjustedExpenseChange * 0.01));
     const adjustedAvgBalance = avgBalance * (1 + (adjustedBalanceChange * 0.01));
-
-    // Calculate linear regression for trends
-    const getDirection = (values: number[]) => {
-      const n = values.length;
-      const sumX = (n * (n - 1)) / 2;
-      const sumY = values.reduce((a, b) => a + b, 0);
-      const sumXY = values.reduce((sum, y, i) => sum + (i * y), 0);
-      const sumX2 = values.reduce((sum, _, i) => sum + (i * i), 0);
-      
-      const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-      const change = ((values[n-1] - values[0]) / values[0]) * 100;
-      
-      if (Math.abs(slope) < avgIncome * 0.05) return { direction: 'stable' as const, change: 0 };
-      return { 
-        direction: slope > 0 ? 'up' as const : 'down' as const, 
-        change: isNaN(change) ? 0 : change 
-      };
-    };
-
-    const incomeAnalysis = getDirection(incomeValues);
-    const expenseAnalysis = getDirection(expenseValues);
-    const balanceAnalysis = getDirection(balanceValues);
 
     setAnalysis({
       incomeDirection: incomeAnalysis.direction,
