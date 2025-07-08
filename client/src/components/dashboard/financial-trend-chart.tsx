@@ -42,7 +42,16 @@ export default function FinancialTrendChart() {
     const now = new Date();
     
     transactions.forEach(transaction => {
-      const date = new Date(transaction.date);
+      // Handle different date field names
+      const dateField = transaction.transactionDate || transaction.date;
+      const date = new Date(dateField);
+      
+      // Validate date
+      if (isNaN(date.getTime())) {
+        console.warn('Invalid date for transaction:', transaction);
+        return;
+      }
+      
       const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
       
       if (!monthlyMap.has(monthKey)) {
@@ -85,11 +94,7 @@ export default function FinancialTrendChart() {
     // This allows users to see the trend analysis even with less than 3 months
     const hasMinimum = transactions.length >= 3; // At least 3 transactions instead of 3 months
     
-    console.log('DEBUG - Transaction count:', transactions.length);
-    console.log('DEBUG - Has minimum data:', hasMinimum);
-    console.log('DEBUG - Transactions data:', transactions);
-    console.log('DEBUG - Monthly map entries:', Array.from(monthlyMap.entries()));
-    console.log('DEBUG - Active months:', activeMonths);
+    // Remove debug logs for production
     
     setHasMinimumData(hasMinimum);
 
@@ -186,8 +191,8 @@ export default function FinancialTrendChart() {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-white dark:bg-gray-800 p-3 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
-          <p className="font-medium text-gray-900 dark:text-gray-100">
+        <div className="bg-card p-3 border border-border rounded-lg shadow-lg">
+          <p className="font-medium text-card-foreground">
             {label} {data.isProjected && '(Projeção)'}
           </p>
           <p className="text-green-600 dark:text-green-400">
@@ -207,20 +212,20 @@ export default function FinancialTrendChart() {
 
   if (!hasMinimumData) {
     return (
-      <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+      <Card className="bg-card border-border shadow-sm">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
+          <CardTitle className="flex items-center gap-2 text-card-foreground">
             <Calendar className="w-5 h-5" />
             Análise de Tendência Financeira
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col items-center justify-center py-8 text-center">
-            <Calendar className="w-16 h-16 text-gray-400 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+            <Calendar className="w-16 h-16 text-muted-foreground mb-4" />
+            <h3 className="text-lg font-medium text-card-foreground mb-2">
               Dados Insuficientes
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 max-w-md">
+            <p className="text-muted-foreground max-w-md">
               Para gerar a análise de tendência, você precisa ter pelo menos 3 transações registradas. 
               Continue registrando suas transações para unlock esta funcionalidade.
             </p>
@@ -231,13 +236,13 @@ export default function FinancialTrendChart() {
   }
 
   return (
-    <Card className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
+    <Card className="bg-card border-border shadow-sm">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center gap-2 text-card-foreground">
           <TrendingUp className="w-5 h-5" />
           Análise de Tendência Financeira
         </CardTitle>
-        <p className="text-sm text-gray-600 dark:text-gray-400">
+        <p className="text-sm text-muted-foreground">
           Últimos 3 meses + Projeção para 3 meses
         </p>
       </CardHeader>
@@ -245,51 +250,51 @@ export default function FinancialTrendChart() {
         {/* Trend Analysis Summary */}
         {analysis && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+            <div className="bg-background border border-border rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-green-800 dark:text-green-200">Receitas</p>
-                  <p className="text-lg font-bold text-green-900 dark:text-green-100">
+                  <p className="text-sm font-medium text-muted-foreground">Receitas</p>
+                  <p className="text-lg font-bold text-foreground">
                     {formatCurrency(analysis.avgMonthlyIncome)}
                   </p>
                 </div>
                 <div className="flex items-center gap-1">
                   {getTrendIcon(analysis.incomeDirection)}
-                  <span className="text-sm font-medium text-green-700 dark:text-green-300">
+                  <span className="text-sm font-medium text-green-600 dark:text-green-400">
                     {formatTrendChange(analysis.incomeChange)}
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
+            <div className="bg-background border border-border rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-red-800 dark:text-red-200">Despesas</p>
-                  <p className="text-lg font-bold text-red-900 dark:text-red-100">
+                  <p className="text-sm font-medium text-muted-foreground">Despesas</p>
+                  <p className="text-lg font-bold text-foreground">
                     {formatCurrency(analysis.avgMonthlyExpenses)}
                   </p>
                 </div>
                 <div className="flex items-center gap-1">
                   {getTrendIcon(analysis.expenseDirection)}
-                  <span className="text-sm font-medium text-red-700 dark:text-red-300">
+                  <span className="text-sm font-medium text-red-600 dark:text-red-400">
                     {formatTrendChange(analysis.expenseChange)}
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+            <div className="bg-background border border-border rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-blue-800 dark:text-blue-200">Saldo Médio</p>
-                  <p className="text-lg font-bold text-blue-900 dark:text-blue-100">
+                  <p className="text-sm font-medium text-muted-foreground">Saldo Médio</p>
+                  <p className="text-lg font-bold text-foreground">
                     {formatCurrency(analysis.avgMonthlyBalance)}
                   </p>
                 </div>
                 <div className="flex items-center gap-1">
                   {getTrendIcon(analysis.balanceDirection)}
-                  <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                  <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
                     {formatTrendChange(analysis.balanceChange)}
                   </span>
                 </div>
@@ -299,17 +304,17 @@ export default function FinancialTrendChart() {
         )}
 
         {/* Trend Chart */}
-        <div className="h-80">
+        <div className="h-80 w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={trendData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <LineChart data={trendData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis 
                 dataKey="month" 
-                stroke="#6b7280"
+                stroke="hsl(var(--muted-foreground))"
                 fontSize={12}
               />
               <YAxis 
-                stroke="#6b7280"
+                stroke="hsl(var(--muted-foreground))"
                 fontSize={12}
                 tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`}
               />
@@ -321,42 +326,42 @@ export default function FinancialTrendChart() {
                 type="monotone" 
                 dataKey="income" 
                 stroke="#10b981" 
-                strokeWidth={2}
+                strokeWidth={3}
                 name="Receitas"
                 connectNulls={false}
-                dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
+                dot={{ fill: '#10b981', strokeWidth: 2, r: 5 }}
               />
               <Line 
                 type="monotone" 
                 dataKey="expenses" 
                 stroke="#ef4444" 
-                strokeWidth={2}
+                strokeWidth={3}
                 name="Despesas"
                 connectNulls={false}
-                dot={{ fill: '#ef4444', strokeWidth: 2, r: 4 }}
+                dot={{ fill: '#ef4444', strokeWidth: 2, r: 5 }}
               />
               <Line 
                 type="monotone" 
                 dataKey="balance" 
                 stroke="#3b82f6" 
-                strokeWidth={2}
+                strokeWidth={3}
                 name="Saldo"
                 connectNulls={false}
-                dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                dot={{ fill: '#3b82f6', strokeWidth: 2, r: 5 }}
               />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
         {/* Legend for projected data */}
-        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex items-center justify-center gap-6 text-sm text-gray-600 dark:text-gray-400">
+        <div className="mt-4 pt-4 border-t border-border">
+          <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
-              <div className="w-4 h-0.5 bg-gray-900 dark:bg-gray-100"></div>
+              <div className="w-4 h-0.5 bg-foreground"></div>
               <span>Dados Históricos</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-4 h-0.5 border-t-2 border-dashed border-gray-500"></div>
+              <div className="w-4 h-0.5 border-t-2 border-dashed border-muted-foreground"></div>
               <span>Projeção (baseada em tendências)</span>
             </div>
           </div>
