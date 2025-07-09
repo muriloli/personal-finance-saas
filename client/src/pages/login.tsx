@@ -117,7 +117,7 @@ export default function Login() {
                                   field.onChange(digitsOnly);
                                 }
                               }}
-                              className="text-lg py-4 pl-12 pr-4 bg-white/30 dark:bg-white/10 backdrop-blur-md border border-white/50 dark:border-white/20 text-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-white/60 rounded-lg transition-all duration-300 focus:shadow-lg focus:scale-[1.02] focus:border-primary focus:bg-white/40 dark:focus:bg-white/20 focus:backdrop-blur-xl"
+                              className="text-lg py-4 pl-12 pr-4 bg-white/30 dark:bg-white/10 backdrop-blur-md border border-gray-300/60 dark:border-white/20 text-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-white/60 rounded-lg transition-all duration-300 focus:shadow-lg focus:scale-[1.02] focus:border-primary focus:bg-white/40 dark:focus:bg-white/20 focus:backdrop-blur-xl shadow-sm"
                             />
                             <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
                               <Shield className="h-5 w-5 text-primary" />
@@ -131,7 +131,7 @@ export default function Login() {
 
                   <Button
                     type="submit"
-                    className="w-full py-4 text-lg font-semibold bg-primary/80 hover:bg-primary/90 backdrop-blur-sm text-white transform transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-xl rounded-lg border border-white/30 dark:border-white/20"
+                    className="w-full py-4 text-lg font-semibold bg-blue-600 hover:bg-blue-700 backdrop-blur-sm text-white transform transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-xl rounded-lg border border-white/30 dark:border-white/20"
                     disabled={isLoading}
                   >
                     {isLoading ? (
