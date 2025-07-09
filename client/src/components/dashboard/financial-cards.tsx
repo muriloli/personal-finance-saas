@@ -106,36 +106,34 @@ export default function FinancialCards() {
           const Icon = card.icon;
           return (
             <StaggerItem key={index}>
-              <ScaleOnHover>
-                <Card className="hover:shadow-md transition-shadow h-full">
-            <CardContent className="p-4 sm:p-6 h-full flex flex-col">
-              <div className="flex items-center">
-                <div className={`flex-shrink-0 ${card.iconBg} rounded-lg p-2 sm:p-3`}>
-                  <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${card.iconColor}`} />
-                </div>
-                <div className="ml-3 sm:ml-4 flex-1 min-w-0">
-                  <p className="text-xs sm:text-sm font-medium text-muted-foreground truncate">
-                    {card.title}
-                  </p>
-                  <p className="text-lg sm:text-2xl font-bold text-foreground">
-                    {formatCurrency(card.value)}
-                  </p>
-                </div>
-              </div>
-              <div className="mt-3 sm:mt-4 flex-1 flex flex-col justify-end">
-                <div className="flex items-center text-xs sm:text-sm">
-                  <span className={`flex items-center ${card.changeColor}`}>
-                    <ArrowUpIcon className="mr-1 h-3 w-3" />
-                    {formatPercentage(card.change)}
-                  </span>
-                  <span className="text-muted-foreground ml-2">
-                    {t("fromLastMonth")} {card.suffix && `• ${card.suffix}`}
-                  </span>
-                </div>
-              </div>
-            </CardContent>
-                </Card>
-              </ScaleOnHover>
+              <Card className="hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out h-full cursor-pointer">
+                <CardContent className="p-4 sm:p-6 h-full flex flex-col">
+                  <div className="flex items-center">
+                    <div className={`flex-shrink-0 ${card.iconBg} rounded-lg p-2 sm:p-3`}>
+                      <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${card.iconColor}`} />
+                    </div>
+                    <div className="ml-3 sm:ml-4 flex-1 min-w-0">
+                      <p className="text-xs sm:text-sm font-medium text-muted-foreground truncate">
+                        {card.title}
+                      </p>
+                      <p className="text-lg sm:text-2xl font-bold text-foreground">
+                        {formatCurrency(card.value)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-3 sm:mt-4 flex-1 flex flex-col justify-end">
+                    <div className="flex items-center text-xs sm:text-sm">
+                      <span className={`flex items-center ${card.changeColor}`}>
+                        <ArrowUpIcon className="mr-1 h-3 w-3" />
+                        {formatPercentage(card.change)}
+                      </span>
+                      <span className="text-muted-foreground ml-2">
+                        {t("fromLastMonth")} {card.suffix && `• ${card.suffix}`}
+                      </span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </StaggerItem>
           );
         })}
