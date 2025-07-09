@@ -106,7 +106,7 @@ export default function FinancialCards() {
           const Icon = card.icon;
           return (
             <StaggerItem key={index}>
-              <Card className="hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-in-out h-full cursor-pointer">
+              <Card className="hover:shadow-lg hover:-translate-y-1 hover:scale-105 transition-all duration-300 ease-in-out h-full cursor-pointer">
                 <CardContent className="p-4 sm:p-6 h-full flex flex-col">
                   <div className="flex items-center">
                     <div className={`flex-shrink-0 ${card.iconBg} rounded-lg p-2 sm:p-3`}>
