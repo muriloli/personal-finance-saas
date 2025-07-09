@@ -250,7 +250,7 @@ export default function GaugeChart() {
   };
 
   return (
-    <Card className="flex flex-col h-full">
+    <Card className="flex flex-col h-full hover:shadow-lg hover:-translate-y-1 hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer">
       <CardHeader className="pb-4">
         <CardTitle className="text-lg sm:text-xl">{t('monthlyProgress')}</CardTitle>
         <CardDescription className="text-sm">

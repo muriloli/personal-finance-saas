@@ -105,7 +105,7 @@ export default function Charts() {
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8">
         {/* Income vs Expenses Chart */}
         <StaggerItem>
-          <Card className="flex flex-col h-full">
+          <Card className="flex flex-col h-full hover:shadow-lg hover:-translate-y-1 hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer">
             <CardHeader className="pb-4">
               <CardTitle className="text-lg sm:text-xl">{t("incomeVsExpenses")}</CardTitle>
               <CardDescription className="text-sm">{t("lastSixMonths")}</CardDescription>
@@ -165,7 +165,7 @@ export default function Charts() {
 
         {/* Expenses by Category Chart */}
         <StaggerItem>
-          <Card className="flex flex-col h-full">
+          <Card className="flex flex-col h-full hover:shadow-lg hover:-translate-y-1 hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer">
             <CardHeader className="pb-4">
               <CardTitle className="text-lg sm:text-xl">{t("expensesByCategory")}</CardTitle>
               <CardDescription className="text-sm">{t("currentMonthBreakdown")}</CardDescription>
