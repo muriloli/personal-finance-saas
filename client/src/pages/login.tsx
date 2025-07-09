@@ -184,86 +184,39 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Right side - Financial illustration */}
+      {/* Right side - Clean background with content */}
       <div className="hidden lg:block relative w-0 flex-1">
         <div className="absolute inset-0 h-full w-full bg-gradient-to-br from-muted/30 via-background to-muted/40 dark:from-gray-800/50 dark:via-gray-900/70 dark:to-gray-800/30 backdrop-blur-sm">
-          {/* Financial cityscape silhouette */}
-          <div className="absolute bottom-0 left-0 right-0 h-80 opacity-20 dark:opacity-30">
-            <div className="absolute bottom-0 left-12 w-20 h-40 bg-gradient-to-t from-primary to-primary/60 rounded-t-lg animate-fade-in delay-300">
-              <div className="absolute top-3 left-3 w-3 h-3 bg-white/80 rounded-sm"></div>
-              <div className="absolute top-3 right-3 w-3 h-3 bg-white/80 rounded-sm"></div>
-              <div className="absolute top-8 left-3 w-3 h-3 bg-white/80 rounded-sm"></div>
-              <div className="absolute top-8 right-3 w-3 h-3 bg-white/80 rounded-sm"></div>
-              <div className="absolute bottom-3 left-3 right-3 h-8 bg-white/20 rounded flex items-center justify-center">
-                <Landmark className="h-4 w-4 text-white" />
+          {/* Central content only */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center p-8 z-10 max-w-lg">
+              <div className="relative mb-8">
+                <div className="w-28 h-28 mx-auto bg-white/20 dark:bg-gray-800/20 rounded-full flex items-center justify-center backdrop-blur-md animate-pulse border border-white/30 dark:border-gray-700/30">
+                  <ChartLine className="h-14 w-14 text-primary" />
+                </div>
+                <div className="absolute -top-2 -right-2 h-8 w-8 bg-success rounded-full animate-bounce flex items-center justify-center">
+                  <span className="text-xs font-bold text-white">✓</span>
+                </div>
               </div>
-            </div>
-            
-            <div className="absolute bottom-0 left-40 w-24 h-52 bg-gradient-to-t from-success to-success/60 rounded-t-lg animate-fade-in delay-500">
-              <div className="absolute top-2 left-2 w-2 h-2 bg-white/80 rounded-sm"></div>
-              <div className="absolute top-2 right-2 w-2 h-2 bg-white/80 rounded-sm"></div>
-              <div className="absolute top-6 left-2 w-2 h-2 bg-white/80 rounded-sm"></div>
-              <div className="absolute top-6 right-2 w-2 h-2 bg-white/80 rounded-sm"></div>
-              <div className="absolute bottom-2 left-2 right-2 h-10 bg-white/20 rounded flex items-center justify-center">
-                <TrendingUp className="h-5 w-5 text-white" />
-              </div>
-            </div>
-            
-            <div className="absolute bottom-0 right-32 w-28 h-60 bg-gradient-to-t from-muted-foreground to-muted-foreground/60 rounded-t-lg animate-fade-in delay-700">
-              <div className="absolute top-3 left-3 w-3 h-3 bg-white/80 rounded-sm"></div>
-              <div className="absolute top-3 right-3 w-3 h-3 bg-white/80 rounded-sm"></div>
-              <div className="absolute top-8 left-3 w-3 h-3 bg-white/80 rounded-sm"></div>
-              <div className="absolute top-8 right-3 w-3 h-3 bg-white/80 rounded-sm"></div>
-              <div className="absolute bottom-3 left-3 right-3 h-12 bg-white/20 rounded flex items-center justify-center">
-                <Building className="h-6 w-6 text-white" />
-              </div>
-            </div>
-          </div>
-          
-          {/* Financial chart visualization */}
-          <div className="absolute top-32 right-16 w-64 h-40 bg-white/30 dark:bg-gray-800/30 backdrop-blur-md rounded-xl p-6 animate-fade-in delay-1000 border border-white/20 dark:border-gray-700/20">
-            <div className="flex items-end justify-between h-24 mb-3">
-              <div className="bg-primary rounded-t animate-grow" style={{height: '75%', width: '18%'}}></div>
-              <div className="bg-success rounded-t animate-grow delay-100" style={{height: '65%', width: '18%'}}></div>
-              <div className="bg-muted-foreground rounded-t animate-grow delay-200" style={{height: '90%', width: '18%'}}></div>
-              <div className="bg-primary/70 rounded-t animate-grow delay-300" style={{height: '50%', width: '18%'}}></div>
-              <div className="bg-success/70 rounded-t animate-grow delay-400" style={{height: '85%', width: '18%'}}></div>
-            </div>
-            <div className="text-foreground/70 text-sm text-center font-medium">
-              Análise Financeira
-            </div>
-          </div>
-        </div>
-        
-        {/* Central content overlay */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center p-8 z-10 max-w-lg">
-            <div className="relative mb-8">
-              <div className="w-28 h-28 mx-auto bg-white/20 dark:bg-gray-800/20 rounded-full flex items-center justify-center backdrop-blur-md animate-pulse border border-white/30 dark:border-gray-700/30">
-                <ChartLine className="h-14 w-14 text-primary" />
-              </div>
-              <div className="absolute -top-2 -right-2 h-8 w-8 bg-success rounded-full animate-bounce flex items-center justify-center">
-                <span className="text-xs font-bold text-white">✓</span>
-              </div>
-            </div>
-            <h3 className="text-4xl font-bold mb-6 text-foreground animate-fade-in">
-              Controle Financeiro Inteligente
-            </h3>
-            <p className="text-lg text-muted-foreground animate-fade-in delay-200 mb-10">
-              Gerencie suas finanças pessoais com tecnologia avançada e interface intuitiva
-            </p>
-            <div className="grid grid-cols-3 gap-6 animate-fade-in delay-400">
-              <div className="bg-white/20 dark:bg-gray-800/20 p-6 rounded-xl backdrop-blur-md border border-white/30 dark:border-gray-700/30">
-                <div className="text-2xl font-bold text-primary mb-1">100%</div>
-                <div className="text-sm text-muted-foreground">Seguro</div>
-              </div>
-              <div className="bg-white/20 dark:bg-gray-800/20 p-6 rounded-xl backdrop-blur-md border border-white/30 dark:border-gray-700/30">
-                <div className="text-2xl font-bold text-success mb-1">24/7</div>
-                <div className="text-sm text-muted-foreground">Disponível</div>
-              </div>
-              <div className="bg-white/20 dark:bg-gray-800/20 p-6 rounded-xl backdrop-blur-md border border-white/30 dark:border-gray-700/30">
-                <div className="text-2xl font-bold text-primary mb-1">∞</div>
-                <div className="text-sm text-muted-foreground">Controle</div>
+              <h3 className="text-4xl font-bold mb-6 text-foreground animate-fade-in">
+                Controle Financeiro Inteligente
+              </h3>
+              <p className="text-lg text-muted-foreground animate-fade-in delay-200 mb-10">
+                Gerencie suas finanças pessoais com tecnologia avançada e interface intuitiva
+              </p>
+              <div className="grid grid-cols-3 gap-6 animate-fade-in delay-400">
+                <div className="bg-white/20 dark:bg-gray-800/20 p-6 rounded-xl backdrop-blur-md border border-white/30 dark:border-gray-700/30">
+                  <div className="text-2xl font-bold text-primary mb-1">100%</div>
+                  <div className="text-sm text-muted-foreground">Seguro</div>
+                </div>
+                <div className="bg-white/20 dark:bg-gray-800/20 p-6 rounded-xl backdrop-blur-md border border-white/30 dark:border-gray-700/30">
+                  <div className="text-2xl font-bold text-success mb-1">24/7</div>
+                  <div className="text-sm text-muted-foreground">Disponível</div>
+                </div>
+                <div className="bg-white/20 dark:bg-gray-800/20 p-6 rounded-xl backdrop-blur-md border border-white/30 dark:border-gray-700/30">
+                  <div className="text-2xl font-bold text-primary mb-1">∞</div>
+                  <div className="text-sm text-muted-foreground">Controle</div>
+                </div>
               </div>
             </div>
           </div>
