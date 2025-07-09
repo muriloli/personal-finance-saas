@@ -190,6 +190,13 @@ const translations = {
     networkError: "Erro de rede",
     serverError: "Erro do servidor",
     
+    // Toast Messages
+    successTitle: "Sucesso",
+    transactionAdded: "Transação adicionada com sucesso",
+    transactionUpdated: "Transação atualizada com sucesso",
+    failedCreate: "Falha ao criar transação",
+    failedUpdate: "Falha ao atualizar transação",
+    
     // User Management
     userManagement: "Gerenciamento de Usuários",
     adminPanel: "Painel Administrativo",
@@ -447,6 +454,13 @@ const translations = {
     networkError: "Network error",
     serverError: "Server error",
     
+    // Toast Messages
+    successTitle: "Success",
+    transactionAdded: "Transaction added successfully",
+    transactionUpdated: "Transaction updated successfully",
+    failedCreate: "Failed to create transaction",
+    failedUpdate: "Failed to update transaction",
+    
 
   },
   "es": {
@@ -637,6 +651,13 @@ const translations = {
     somethingWentWrong: "Algo salió mal",
     networkError: "Error de red",
     serverError: "Error del servidor",
+    
+    // Toast Messages
+    successTitle: "Éxito",
+    transactionAdded: "Transacción agregada exitosamente",
+    transactionUpdated: "Transacción actualizada exitosamente",
+    failedCreate: "Error al crear transacción",
+    failedUpdate: "Error al actualizar transacción",
     
     // User Management
     userManagement: "Gestión de Usuarios",

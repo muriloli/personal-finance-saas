@@ -55,7 +55,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
       type: "expense",
       amount: "",
       description: "",
-      transactionDate: new Date().toISOString().split('T')[0],
+      transactionDate: new Date().toLocaleDateString('en-CA'), // Format: YYYY-MM-DD
       categoryId: "",
       source: "web",
     },
