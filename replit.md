@@ -107,15 +107,17 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
 - **Session Configuration**: Database-backed session storage
 
 ## Changelog
-- July 08, 2025. Complete redesign of login page with modern illustrated financial theme
-  - Created immersive dark theme with purple/indigo gradient background inspired by modern design trends
-  - Added animated financial cityscape with buildings containing bank/financial icons
-  - Implemented floating financial elements (coins, calculator, wallet, credit card, banknote)
-  - Enhanced form design with glassmorphism effects and emerald/blue color scheme
-  - Added animated chart visualization and real-time financial statistics display
-  - Created responsive design with mobile-first approach and smooth animations
-  - Incorporated financial context throughout with relevant messaging and visual hierarchy
-  - Added backdrop blur effects and gradient overlays for modern aesthetic
+- July 08, 2025. Complete redesign of login page with glassmorphism aesthetic using system colors
+  - Switched from purple/blue theme to system's white/black color palette for consistency
+  - Implemented true glassmorphism effect with backdrop-blur and transparent backgrounds
+  - Repositioned login form to left side as requested, with illustration on right
+  - Removed Google login and signup options, keeping only CPF login
+  - Added proper Terms of Service and Privacy Policy disclaimer text
+  - Enhanced glassmorphism card with subtle borders and shadow effects
+  - Created sophisticated light/dark mode support using system design tokens
+  - Added subtle floating financial icons using system's primary and success colors
+  - Implemented responsive design with clean, modern aesthetic
+  - Enhanced form styling with improved focus states and animations
 - July 08, 2025. Enhanced login page with modern animated design and financial theme
   - Added gradient background and floating financial icons with smooth animations
   - Implemented animated chart simulation with growing bars and real-time indicators
