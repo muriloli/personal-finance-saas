@@ -43,7 +43,7 @@ export default function GaugeChart() {
   // Mutation to update expense limit
   const updateLimitMutation = useMutation({
     mutationFn: async (newLimit: number) => {
-      const response = await apiRequest("/api/settings", "PUT", { 
+      const response = await apiRequest("PUT", "/api/settings", { 
         expenseLimit: newLimit.toString() 
       });
       return response.json();
