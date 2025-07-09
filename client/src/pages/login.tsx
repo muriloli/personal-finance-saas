@@ -68,28 +68,6 @@ export default function Login() {
           <div className="absolute bottom-20 right-20 w-80 h-80 bg-success/20 rounded-full blur-3xl animate-pulse delay-300"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-muted/30 rounded-full blur-2xl animate-pulse delay-500"></div>
         </div>
-        
-        {/* Floating financial icons */}
-        <div className="absolute inset-0 opacity-10 dark:opacity-20">
-          <div className="absolute top-20 left-20 animate-float">
-            <Coins className="h-8 w-8 text-success" />
-          </div>
-          <div className="absolute top-40 right-32 animate-float delay-200">
-            <Calculator className="h-6 w-6 text-primary" />
-          </div>
-          <div className="absolute bottom-40 left-32 animate-float delay-400">
-            <Wallet className="h-7 w-7 text-success" />
-          </div>
-          <div className="absolute bottom-20 right-20 animate-float delay-600">
-            <TrendingUp className="h-8 w-8 text-primary" />
-          </div>
-          <div className="absolute top-1/2 left-1/4 animate-float delay-800">
-            <PieChart className="h-6 w-6 text-muted-foreground" />
-          </div>
-          <div className="absolute top-3/4 right-1/4 animate-float delay-1000">
-            <BarChart3 className="h-7 w-7 text-primary" />
-          </div>
-        </div>
       </div>
 
       {/* Left side - Login form */}
@@ -193,9 +171,6 @@ export default function Login() {
               <div className="relative mb-8">
                 <div className="w-28 h-28 mx-auto bg-white/20 dark:bg-gray-800/20 rounded-full flex items-center justify-center backdrop-blur-md animate-pulse border border-white/30 dark:border-gray-700/30">
                   <ChartLine className="h-14 w-14 text-primary" />
-                </div>
-                <div className="absolute -top-2 -right-2 h-8 w-8 bg-success rounded-full animate-bounce flex items-center justify-center">
-                  <span className="text-xs font-bold text-white">✓</span>
                 </div>
               </div>
               <h3 className="text-4xl font-bold mb-6 text-foreground animate-fade-in">
