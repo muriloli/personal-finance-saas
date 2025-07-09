@@ -92,8 +92,8 @@ export default function Login() {
           </div>
 
           {/* Glassmorphism login card */}
-          <div className="backdrop-blur-2xl bg-gray-900/30 dark:bg-white/5 border border-gray-800/40 dark:border-white/10 shadow-2xl shadow-black/25 dark:shadow-black/50 animate-slide-up delay-200 rounded-2xl overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-900/20 via-gray-800/10 to-transparent dark:from-white/10 dark:via-white/5 dark:to-transparent"></div>
+          <div className="backdrop-blur-2xl bg-white/20 dark:bg-white/5 border border-white/40 dark:border-white/10 shadow-2xl shadow-black/10 dark:shadow-black/50 animate-slide-up delay-200 rounded-2xl overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/10 to-transparent dark:from-white/10 dark:via-white/5 dark:to-transparent"></div>
             <div className="relative z-10 pt-8 pb-6 px-8">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -102,7 +102,7 @@ export default function Login() {
                     name="cpf"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-semibold text-gray-800 dark:text-white/90">CPF</FormLabel>
+                        <FormLabel className="text-sm font-semibold text-gray-700 dark:text-white/90">CPF</FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Input
@@ -117,7 +117,7 @@ export default function Login() {
                                   field.onChange(digitsOnly);
                                 }
                               }}
-                              className="text-lg py-4 pl-12 pr-4 bg-gray-800/20 dark:bg-white/10 backdrop-blur-md border border-gray-700/40 dark:border-white/20 text-gray-800 dark:text-white placeholder-gray-600 dark:placeholder-white/60 rounded-lg transition-all duration-300 focus:shadow-lg focus:scale-[1.02] focus:border-primary focus:bg-gray-800/30 dark:focus:bg-white/20 focus:backdrop-blur-xl"
+                              className="text-lg py-4 pl-12 pr-4 bg-white/30 dark:bg-white/10 backdrop-blur-md border border-white/50 dark:border-white/20 text-gray-700 dark:text-white placeholder-gray-500 dark:placeholder-white/60 rounded-lg transition-all duration-300 focus:shadow-lg focus:scale-[1.02] focus:border-primary focus:bg-white/40 dark:focus:bg-white/20 focus:backdrop-blur-xl"
                             />
                             <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
                               <Shield className="h-5 w-5 text-primary" />
@@ -131,7 +131,7 @@ export default function Login() {
 
                   <Button
                     type="submit"
-                    className="w-full py-4 text-lg font-semibold bg-primary/80 hover:bg-primary/90 backdrop-blur-sm text-white transform transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-xl rounded-lg border border-gray-700/40 dark:border-white/20"
+                    className="w-full py-4 text-lg font-semibold bg-primary/80 hover:bg-primary/90 backdrop-blur-sm text-white transform transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-xl rounded-lg border border-white/30 dark:border-white/20"
                     disabled={isLoading}
                   >
                     {isLoading ? (
