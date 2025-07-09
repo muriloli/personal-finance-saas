@@ -92,7 +92,7 @@ export default function Login() {
           </div>
 
           {/* Glassmorphism login card */}
-          <Card className="backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-white/20 dark:border-gray-700/20 shadow-2xl shadow-black/10 dark:shadow-black/30 animate-slide-up delay-200">
+          <Card className="backdrop-blur-xl bg-white/10 dark:bg-gray-900/10 border border-white/30 dark:border-gray-700/30 shadow-2xl shadow-black/20 dark:shadow-black/40 animate-slide-up delay-200 ring-1 ring-white/20 dark:ring-gray-700/20">
             <CardContent className="pt-8 pb-6 px-8">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -116,7 +116,7 @@ export default function Login() {
                                   field.onChange(digitsOnly);
                                 }
                               }}
-                              className="text-lg py-4 pl-12 pr-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-600/50 text-foreground placeholder-muted-foreground rounded-lg transition-all duration-300 focus:shadow-lg focus:scale-[1.02] focus:border-primary focus:bg-white/70 dark:focus:bg-gray-800/70"
+                              className="text-lg py-4 pl-12 pr-4 bg-white/20 dark:bg-gray-800/20 backdrop-blur-md border border-white/30 dark:border-gray-600/30 text-foreground placeholder-muted-foreground rounded-lg transition-all duration-300 focus:shadow-lg focus:scale-[1.02] focus:border-primary focus:bg-white/30 dark:focus:bg-gray-800/30 focus:backdrop-blur-xl"
                             />
                             <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
                               <Shield className="h-5 w-5 text-primary" />
@@ -130,7 +130,7 @@ export default function Login() {
 
                   <Button
                     type="submit"
-                    className="w-full py-4 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground transform transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-xl rounded-lg"
+                    className="w-full py-4 text-lg font-semibold bg-primary/90 hover:bg-primary backdrop-blur-sm text-primary-foreground transform transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-xl rounded-lg border border-white/20 dark:border-gray-700/20"
                     disabled={isLoading}
                   >
                     {isLoading ? (
