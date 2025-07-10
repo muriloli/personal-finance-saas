@@ -194,7 +194,6 @@ const translations = {
     successTitle: "Sucesso",
     transactionAdded: "Transação adicionada com sucesso",
     transactionUpdated: "Transação atualizada com sucesso",
-    failedCreate: "Falha ao criar transação",
     failedUpdate: "Falha ao atualizar transação",
     
     // User Management
@@ -333,7 +332,6 @@ const translations = {
     lastUpdated: "Last updated",
     loadingTransactions: "Loading transactions...",
     successCreate: "Transaction created successfully!",
-    failedCreate: "Failed to create transaction. Please try again.",
     successEdit: "Transaction updated successfully!",
     failedEdit: "Failed to update transaction. Please try again.",
 
@@ -458,7 +456,6 @@ const translations = {
     successTitle: "Success",
     transactionAdded: "Transaction added successfully",
     transactionUpdated: "Transaction updated successfully",
-    failedCreate: "Failed to create transaction",
     failedUpdate: "Failed to update transaction",
     
 
@@ -656,7 +653,6 @@ const translations = {
     successTitle: "Éxito",
     transactionAdded: "Transacción agregada exitosamente",
     transactionUpdated: "Transacción actualizada exitosamente",
-    failedCreate: "Error al crear transacción",
     failedUpdate: "Error al actualizar transacción",
     
     // User Management
