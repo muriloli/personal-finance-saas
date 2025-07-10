@@ -67,6 +67,8 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/overview"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/charts"] });
       toast({
         title: t("successTitle"),
         description: t("transactionAdded"),
@@ -74,8 +76,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
       if (onSuccess) {
         onSuccess();
       } else {
-        // Reload page to ensure dashboard data is fresh when returning
-        window.location.href = "/transactions";
+        setLocation("/transactions");
       }
     },
     onError: (error: any) => {
@@ -93,6 +94,8 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/overview"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/charts"] });
       toast({
         title: t("successTitle"),
         description: t("transactionUpdated"),
@@ -100,8 +103,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
       if (onSuccess) {
         onSuccess();
       } else {
-        // Reload page to ensure dashboard data is fresh when returning
-        window.location.href = "/transactions";
+        setLocation("/transactions");
       }
     },
     onError: (error: any) => {

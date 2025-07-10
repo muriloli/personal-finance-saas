@@ -108,11 +108,12 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
 
 ## Changelog
 - July 10, 2025. Implemented automatic dashboard data refresh when returning from transaction pages
-  - Simplified approach: "Back to Dashboard" button now reloads entire page to ensure fresh data
-  - Page reload guarantees all dashboard components (cards, charts, recent transactions) are updated
+  - "Back to Dashboard" button reloads entire page to ensure fresh data display
+  - Transaction creation/editing uses normal cache invalidation (no page reload)
+  - Page reload only occurs when explicitly navigating back to dashboard via button
   - Improved pessimistic mode in financial trend chart with stronger negative projections
   - Fixed chart line connections between historical and projected data with dashed styling for projections
-  - User preference: Simple page reload over complex cache management for reliability
+  - User preference: Selective page reload only for dashboard navigation, normal flow for transactions
 - July 10, 2025. Removed "Principais Categorias" (Top Categories) component from dashboard per user request
   - Eliminated sidebar with top spending categories display
   - Recent Transactions component now uses full width instead of 2/3 grid layout
