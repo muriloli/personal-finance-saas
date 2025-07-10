@@ -241,7 +241,46 @@ export default function FinancialTrendChart() {
       });
     }
 
-    setTrendData([...lastThreeMonths, ...projectedMonths]);
+    // Combine historical and projected data with separate keys
+    const combinedData = [];
+    
+    // Add historical data
+    for (let i = 0; i < lastThreeMonths.length; i++) {
+      const month = lastThreeMonths[i];
+      combinedData.push({
+        month: month.month,
+        monthKey: month.monthKey,
+        // Historical data
+        incomeHistorical: month.income,
+        expensesHistorical: month.expenses,
+        balanceHistorical: month.balance,
+        // Projected data (null for historical months)
+        incomeProjected: null,
+        expensesProjected: null,
+        balanceProjected: null,
+        isProjected: false
+      });
+    }
+    
+    // Add projected data
+    for (let i = 0; i < projectedMonths.length; i++) {
+      const month = projectedMonths[i];
+      combinedData.push({
+        month: month.month,
+        monthKey: month.monthKey,
+        // Historical data (null for projected months)
+        incomeHistorical: null,
+        expensesHistorical: null,
+        balanceHistorical: null,
+        // Projected data
+        incomeProjected: month.income,
+        expensesProjected: month.expenses,
+        balanceProjected: month.balance,
+        isProjected: true
+      });
+    }
+    
+    setTrendData(combinedData);
   }, [transactions, trendPerspective]);
 
   const getTrendIcon = (direction: string) => {
@@ -261,19 +300,26 @@ export default function FinancialTrendChart() {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
+      const isProjected = data.isProjected;
+      
+      // Get values from the appropriate data keys
+      const income = isProjected ? data.incomeProjected : data.incomeHistorical;
+      const expenses = isProjected ? data.expensesProjected : data.expensesHistorical;
+      const balance = isProjected ? data.balanceProjected : data.balanceHistorical;
+      
       return (
         <div className="bg-card p-3 border border-border rounded-lg shadow-lg">
           <p className="font-medium text-card-foreground">
-            {label} {data.isProjected && `(${t("projectionBased")})`}
+            {label} {isProjected && `(${t("projectionBased")})`}
           </p>
           <p className="text-green-600 dark:text-green-400">
-            {t("income")}: {formatCurrency(data.income)}
+            {t("income")}: {formatCurrency(income || 0)}
           </p>
           <p className="text-red-600 dark:text-red-400">
-            {t("expense")}: {formatCurrency(data.expenses)}
+            {t("expense")}: {formatCurrency(expenses || 0)}
           </p>
           <p className="text-blue-600 dark:text-blue-400">
-            {t("currentBalance")}: {formatCurrency(data.balance)}
+            {t("currentBalance")}: {formatCurrency(balance || 0)}
           </p>
         </div>
       );
@@ -436,7 +482,7 @@ export default function FinancialTrendChart() {
               {/* Historical data lines (solid) */}
               <Line 
                 type="monotone" 
-                dataKey="income" 
+                dataKey="incomeHistorical" 
                 stroke="#10b981" 
                 strokeWidth={3}
                 name={t("income")}
@@ -445,7 +491,7 @@ export default function FinancialTrendChart() {
               />
               <Line 
                 type="monotone" 
-                dataKey="expenses" 
+                dataKey="expensesHistorical" 
                 stroke="#ef4444" 
                 strokeWidth={3}
                 name={t("expense")}
@@ -454,12 +500,44 @@ export default function FinancialTrendChart() {
               />
               <Line 
                 type="monotone" 
-                dataKey="balance" 
+                dataKey="balanceHistorical" 
                 stroke="#3b82f6" 
                 strokeWidth={3}
                 name={t("currentBalance")}
                 connectNulls={false}
                 dot={{ fill: '#3b82f6', strokeWidth: 2, r: 5 }}
+              />
+              
+              {/* Projected data lines (dashed) */}
+              <Line 
+                type="monotone" 
+                dataKey="incomeProjected" 
+                stroke="#10b981" 
+                strokeWidth={3}
+                name={`${t("income")} (${t("projectionBased")})`}
+                connectNulls={false}
+                dot={{ fill: '#10b981', strokeWidth: 2, r: 5 }}
+                strokeDasharray="8 4"
+              />
+              <Line 
+                type="monotone" 
+                dataKey="expensesProjected" 
+                stroke="#ef4444" 
+                strokeWidth={3}
+                name={`${t("expense")} (${t("projectionBased")})`}
+                connectNulls={false}
+                dot={{ fill: '#ef4444', strokeWidth: 2, r: 5 }}
+                strokeDasharray="8 4"
+              />
+              <Line 
+                type="monotone" 
+                dataKey="balanceProjected" 
+                stroke="#3b82f6" 
+                strokeWidth={3}
+                name={`${t("currentBalance")} (${t("projectionBased")})`}
+                connectNulls={false}
+                dot={{ fill: '#3b82f6', strokeWidth: 2, r: 5 }}
+                strokeDasharray="8 4"
               />
             </LineChart>
           </ResponsiveContainer>
