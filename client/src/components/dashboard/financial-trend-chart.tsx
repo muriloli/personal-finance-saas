@@ -112,7 +112,7 @@ export default function FinancialTrendChart() {
       return;
     }
 
-    // Use only the last 3 months for analysis and display
+    // Use only the last 3 months for analysis
     const lastThreeMonths = months.slice(-3);
     
     // Calculate trend analysis
@@ -409,19 +409,6 @@ export default function FinancialTrendChart() {
         <div className="h-80 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={trendData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-              <defs>
-                {/* Define dash patterns for projections */}
-                <pattern id="dashedIncome" patternUnits="userSpaceOnUse" width="12" height="1">
-                  <line x1="0" y1="0.5" x2="8" y2="0.5" stroke="#10b981" strokeWidth="3"/>
-                </pattern>
-                <pattern id="dashedExpenses" patternUnits="userSpaceOnUse" width="12" height="1">
-                  <line x1="0" y1="0.5" x2="8" y2="0.5" stroke="#ef4444" strokeWidth="3"/>
-                </pattern>
-                <pattern id="dashedBalance" patternUnits="userSpaceOnUse" width="12" height="1">
-                  <line x1="0" y1="0.5" x2="8" y2="0.5" stroke="#3b82f6" strokeWidth="3"/>
-                </pattern>
-              </defs>
-              
               <XAxis 
                 dataKey="month" 
                 stroke={textColor}
@@ -446,7 +433,7 @@ export default function FinancialTrendChart() {
               <Tooltip content={<CustomTooltip />} />
               <Legend />
               
-              {/* Historical lines (solid) */}
+              {/* Historical data lines (solid) */}
               <Line 
                 type="monotone" 
                 dataKey="income" 
@@ -474,56 +461,6 @@ export default function FinancialTrendChart() {
                 connectNulls={false}
                 dot={{ fill: '#3b82f6', strokeWidth: 2, r: 5 }}
               />
-              
-              {/* Overlay projected lines (dashed) for last 3 months only */}
-              {(() => {
-                const projectedStart = trendData.findIndex(point => point.isProjected);
-                if (projectedStart === -1) return null;
-                
-                // Create projection dataset starting from last historical point
-                const projectionDataset = [
-                  trendData[projectedStart - 1], // Last historical point for connection
-                  ...trendData.slice(projectedStart) // All projected points
-                ];
-                
-                return (
-                  <>
-                    <Line 
-                      type="monotone" 
-                      dataKey="income" 
-                      stroke="#10b981" 
-                      strokeWidth={3}
-                      strokeDasharray="8,4"
-                      name=""
-                      connectNulls={false}
-                      dot={false}
-                      data={projectionDataset}
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="expenses" 
-                      stroke="#ef4444" 
-                      strokeWidth={3}
-                      strokeDasharray="8,4"
-                      name=""
-                      connectNulls={false}
-                      dot={false}
-                      data={projectionDataset}
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="balance" 
-                      stroke="#3b82f6" 
-                      strokeWidth={3}
-                      strokeDasharray="8,4"
-                      name=""
-                      connectNulls={false}
-                      dot={false}
-                      data={projectionDataset}
-                    />
-                  </>
-                );
-              })()}
             </LineChart>
           </ResponsiveContainer>
         </div>

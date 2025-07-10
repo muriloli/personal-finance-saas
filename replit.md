@@ -107,15 +107,6 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
 - **Session Configuration**: Database-backed session storage
 
 ## Changelog
-- July 10, 2025. Successfully completed migration from Replit Agent to standard Replit environment
-  - Fixed duplicate key errors in i18n translation files for all languages 
-  - Resolved Linux compatibility issues with package scripts
-  - Completed requested dashboard modifications: removed "Principais Categorias" (Top Categories) component 
-  - Enhanced Recent Transactions component to use full width layout
-  - Fixed financial trend chart to show exactly 6 months (3 historical + 3 projected)
-  - Applied dashed lines only to the last 3 months (projections) with proper visual distinction
-  - All core functionality verified working: authentication, transactions, dashboard, charts
-  - Migration completed without data loss or functionality impact
 - July 08, 2025. Complete redesign of login page with glassmorphism aesthetic using system colors
   - Switched from purple/blue theme to system's white/black color palette for consistency
   - Implemented true glassmorphism effect with backdrop-blur and transparent backgrounds
