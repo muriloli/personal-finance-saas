@@ -112,7 +112,8 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
   - Resolved Linux compatibility issues with package scripts
   - Completed requested dashboard modifications: removed "Principais Categorias" (Top Categories) component 
   - Enhanced Recent Transactions component to use full width layout
-  - Modified financial trend chart to display dashed lines for 3-month projections
+  - Fixed financial trend chart to show exactly 6 months (3 historical + 3 projected)
+  - Applied dashed lines only to the last 3 months (projections) with proper visual distinction
   - All core functionality verified working: authentication, transactions, dashboard, charts
   - Migration completed without data loss or functionality impact
 - July 08, 2025. Complete redesign of login page with glassmorphism aesthetic using system colors

@@ -112,7 +112,7 @@ export default function FinancialTrendChart() {
       return;
     }
 
-    // Use only the last 3 months for analysis
+    // Use only the last 3 months for analysis and display
     const lastThreeMonths = months.slice(-3);
     
     // Calculate trend analysis
@@ -409,6 +409,19 @@ export default function FinancialTrendChart() {
         <div className="h-80 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={trendData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+              <defs>
+                {/* Define dash patterns for projections */}
+                <pattern id="dashedIncome" patternUnits="userSpaceOnUse" width="12" height="1">
+                  <line x1="0" y1="0.5" x2="8" y2="0.5" stroke="#10b981" strokeWidth="3"/>
+                </pattern>
+                <pattern id="dashedExpenses" patternUnits="userSpaceOnUse" width="12" height="1">
+                  <line x1="0" y1="0.5" x2="8" y2="0.5" stroke="#ef4444" strokeWidth="3"/>
+                </pattern>
+                <pattern id="dashedBalance" patternUnits="userSpaceOnUse" width="12" height="1">
+                  <line x1="0" y1="0.5" x2="8" y2="0.5" stroke="#3b82f6" strokeWidth="3"/>
+                </pattern>
+              </defs>
+              
               <XAxis 
                 dataKey="month" 
                 stroke={textColor}
@@ -433,7 +446,7 @@ export default function FinancialTrendChart() {
               <Tooltip content={<CustomTooltip />} />
               <Legend />
               
-              {/* Main lines - solid for all data points */}
+              {/* Historical lines (solid) */}
               <Line 
                 type="monotone" 
                 dataKey="income" 
@@ -462,13 +475,16 @@ export default function FinancialTrendChart() {
                 dot={{ fill: '#3b82f6', strokeWidth: 2, r: 5 }}
               />
               
-              {/* Overlay dashed lines for projection period only */}
+              {/* Overlay projected lines (dashed) for last 3 months only */}
               {(() => {
-                const projectedStartIndex = trendData.findIndex(point => point.isProjected);
-                if (projectedStartIndex === -1) return null;
+                const projectedStart = trendData.findIndex(point => point.isProjected);
+                if (projectedStart === -1) return null;
                 
-                // Create dataset from last historical point to end for smooth transition
-                const projectionData = trendData.slice(projectedStartIndex - 1);
+                // Create projection dataset starting from last historical point
+                const projectionDataset = [
+                  trendData[projectedStart - 1], // Last historical point for connection
+                  ...trendData.slice(projectedStart) // All projected points
+                ];
                 
                 return (
                   <>
@@ -481,7 +497,7 @@ export default function FinancialTrendChart() {
                       name=""
                       connectNulls={false}
                       dot={false}
-                      data={projectionData}
+                      data={projectionDataset}
                     />
                     <Line 
                       type="monotone" 
@@ -492,7 +508,7 @@ export default function FinancialTrendChart() {
                       name=""
                       connectNulls={false}
                       dot={false}
-                      data={projectionData}
+                      data={projectionDataset}
                     />
                     <Line 
                       type="monotone" 
@@ -503,7 +519,7 @@ export default function FinancialTrendChart() {
                       name=""
                       connectNulls={false}
                       dot={false}
-                      data={projectionData}
+                      data={projectionDataset}
                     />
                   </>
                 );
