@@ -433,7 +433,7 @@ export default function FinancialTrendChart() {
               <Tooltip content={<CustomTooltip />} />
               <Legend />
               
-              {/* Historical data lines (solid) */}
+              {/* Main lines - solid for all data points */}
               <Line 
                 type="monotone" 
                 dataKey="income" 
@@ -461,6 +461,53 @@ export default function FinancialTrendChart() {
                 connectNulls={false}
                 dot={{ fill: '#3b82f6', strokeWidth: 2, r: 5 }}
               />
+              
+              {/* Overlay dashed lines for projection period only */}
+              {(() => {
+                const projectedStartIndex = trendData.findIndex(point => point.isProjected);
+                if (projectedStartIndex === -1) return null;
+                
+                // Create dataset from last historical point to end for smooth transition
+                const projectionData = trendData.slice(projectedStartIndex - 1);
+                
+                return (
+                  <>
+                    <Line 
+                      type="monotone" 
+                      dataKey="income" 
+                      stroke="#10b981" 
+                      strokeWidth={3}
+                      strokeDasharray="8,4"
+                      name=""
+                      connectNulls={false}
+                      dot={false}
+                      data={projectionData}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="expenses" 
+                      stroke="#ef4444" 
+                      strokeWidth={3}
+                      strokeDasharray="8,4"
+                      name=""
+                      connectNulls={false}
+                      dot={false}
+                      data={projectionData}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="balance" 
+                      stroke="#3b82f6" 
+                      strokeWidth={3}
+                      strokeDasharray="8,4"
+                      name=""
+                      connectNulls={false}
+                      dot={false}
+                      data={projectionData}
+                    />
+                  </>
+                );
+              })()}
             </LineChart>
           </ResponsiveContainer>
         </div>
