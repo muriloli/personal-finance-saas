@@ -149,10 +149,10 @@ export default function FinancialTrendChart() {
     // Calculate perspective-adjusted averages for the cards
     const perspectiveFactors = {
       pessimistic: { 
-        trendFactor: 0.15,
-        maxGrowth: 0.02,
-        dampingMultiplier: 0.3,
-        negativeBoost: 1.5
+        trendFactor: 0.4,
+        maxGrowth: 0.08,
+        dampingMultiplier: 0.15,
+        negativeBoost: 2.2
       },
       realistic: { 
         trendFactor: 0.3,
