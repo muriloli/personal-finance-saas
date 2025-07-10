@@ -67,8 +67,6 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/overview"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/charts"] });
       toast({
         title: t("successTitle"),
         description: t("transactionAdded"),
@@ -76,7 +74,8 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
       if (onSuccess) {
         onSuccess();
       } else {
-        setLocation("/transactions");
+        // Reload page to ensure dashboard data is fresh when returning
+        window.location.href = "/transactions";
       }
     },
     onError: (error: any) => {
@@ -94,8 +93,6 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/overview"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/charts"] });
       toast({
         title: t("successTitle"),
         description: t("transactionUpdated"),
@@ -103,7 +100,8 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
       if (onSuccess) {
         onSuccess();
       } else {
-        setLocation("/transactions");
+        // Reload page to ensure dashboard data is fresh when returning
+        window.location.href = "/transactions";
       }
     },
     onError: (error: any) => {
@@ -115,14 +113,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     },
   });
 
-  const handleCancel = async () => {
-    // Force refetch dashboard queries to refresh data when returning
-    await Promise.all([
-      queryClient.refetchQueries({ queryKey: ["/api/dashboard/overview"] }),
-      queryClient.refetchQueries({ queryKey: ["/api/dashboard/charts"] }),
-      queryClient.refetchQueries({ queryKey: ["/api/transactions"] })
-    ]);
-    
+  const handleCancel = () => {
     // Navigate back to transactions
     setLocation("/transactions");
   };

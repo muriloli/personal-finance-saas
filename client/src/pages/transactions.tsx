@@ -21,16 +21,9 @@ export default function Transactions() {
   const queryClient = useQueryClient();
   const [filters, setFilters] = useState<TransactionFilters>({});
 
-  const handleBackToDashboard = async () => {
-    // Force refetch all dashboard-related queries
-    await Promise.all([
-      queryClient.refetchQueries({ queryKey: ["/api/dashboard/overview"] }),
-      queryClient.refetchQueries({ queryKey: ["/api/dashboard/charts"] }),
-      queryClient.refetchQueries({ queryKey: ["/api/transactions"] })
-    ]);
-    
-    // Navigate to dashboard
-    setLocation("/dashboard");
+  const handleBackToDashboard = () => {
+    // Simple page reload to ensure all dashboard data is fresh
+    window.location.href = "/dashboard";
   };
 
   const handleExport = async () => {
