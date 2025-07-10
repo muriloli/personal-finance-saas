@@ -241,7 +241,7 @@ export default function FinancialTrendChart() {
       });
     }
 
-    // Combine historical and projected data with separate keys
+    // Combine historical and projected data with connection point
     const combinedData = [];
     
     // Add historical data
@@ -250,16 +250,25 @@ export default function FinancialTrendChart() {
       combinedData.push({
         month: month.month,
         monthKey: month.monthKey,
-        // Historical data
-        incomeHistorical: month.income,
-        expensesHistorical: month.expenses,
-        balanceHistorical: month.balance,
-        // Projected data (null for historical months)
+        income: month.income,
+        expenses: month.expenses,
+        balance: month.balance,
         incomeProjected: null,
         expensesProjected: null,
         balanceProjected: null,
         isProjected: false
       });
+    }
+    
+    // Add connection point (last historical month with projected values)
+    if (lastThreeMonths.length > 0 && projectedMonths.length > 0) {
+      const lastHistorical = lastThreeMonths[lastThreeMonths.length - 1];
+      combinedData[combinedData.length - 1] = {
+        ...combinedData[combinedData.length - 1],
+        incomeProjected: lastHistorical.income,
+        expensesProjected: lastHistorical.expenses,
+        balanceProjected: lastHistorical.balance
+      };
     }
     
     // Add projected data
@@ -268,11 +277,9 @@ export default function FinancialTrendChart() {
       combinedData.push({
         month: month.month,
         monthKey: month.monthKey,
-        // Historical data (null for projected months)
-        incomeHistorical: null,
-        expensesHistorical: null,
-        balanceHistorical: null,
-        // Projected data
+        income: null,
+        expenses: null,
+        balance: null,
         incomeProjected: month.income,
         expensesProjected: month.expenses,
         balanceProjected: month.balance,
@@ -303,9 +310,9 @@ export default function FinancialTrendChart() {
       const isProjected = data.isProjected;
       
       // Get values from the appropriate data keys
-      const income = isProjected ? data.incomeProjected : data.incomeHistorical;
-      const expenses = isProjected ? data.expensesProjected : data.expensesHistorical;
-      const balance = isProjected ? data.balanceProjected : data.balanceHistorical;
+      const income = data.income || data.incomeProjected || 0;
+      const expenses = data.expenses || data.expensesProjected || 0;
+      const balance = data.balance || data.balanceProjected || 0;
       
       return (
         <div className="bg-card p-3 border border-border rounded-lg shadow-lg">
@@ -313,13 +320,13 @@ export default function FinancialTrendChart() {
             {label} {isProjected && `(${t("projectionBased")})`}
           </p>
           <p className="text-green-600 dark:text-green-400">
-            {t("income")}: {formatCurrency(income || 0)}
+            {t("income")}: {formatCurrency(income)}
           </p>
           <p className="text-red-600 dark:text-red-400">
-            {t("expense")}: {formatCurrency(expenses || 0)}
+            {t("expense")}: {formatCurrency(expenses)}
           </p>
           <p className="text-blue-600 dark:text-blue-400">
-            {t("currentBalance")}: {formatCurrency(balance || 0)}
+            {t("currentBalance")}: {formatCurrency(balance)}
           </p>
         </div>
       );
@@ -482,7 +489,7 @@ export default function FinancialTrendChart() {
               {/* Historical data lines (solid) */}
               <Line 
                 type="monotone" 
-                dataKey="incomeHistorical" 
+                dataKey="income" 
                 stroke="#10b981" 
                 strokeWidth={3}
                 name={t("income")}
@@ -491,7 +498,7 @@ export default function FinancialTrendChart() {
               />
               <Line 
                 type="monotone" 
-                dataKey="expensesHistorical" 
+                dataKey="expenses" 
                 stroke="#ef4444" 
                 strokeWidth={3}
                 name={t("expense")}
@@ -500,7 +507,7 @@ export default function FinancialTrendChart() {
               />
               <Line 
                 type="monotone" 
-                dataKey="balanceHistorical" 
+                dataKey="balance" 
                 stroke="#3b82f6" 
                 strokeWidth={3}
                 name={t("currentBalance")}
@@ -514,30 +521,33 @@ export default function FinancialTrendChart() {
                 dataKey="incomeProjected" 
                 stroke="#10b981" 
                 strokeWidth={3}
-                name={`${t("income")} (${t("projectionBased")})`}
+                name=""
                 connectNulls={false}
                 dot={{ fill: '#10b981', strokeWidth: 2, r: 5 }}
                 strokeDasharray="8 4"
+                legendType="none"
               />
               <Line 
                 type="monotone" 
                 dataKey="expensesProjected" 
                 stroke="#ef4444" 
                 strokeWidth={3}
-                name={`${t("expense")} (${t("projectionBased")})`}
+                name=""
                 connectNulls={false}
                 dot={{ fill: '#ef4444', strokeWidth: 2, r: 5 }}
                 strokeDasharray="8 4"
+                legendType="none"
               />
               <Line 
                 type="monotone" 
                 dataKey="balanceProjected" 
                 stroke="#3b82f6" 
                 strokeWidth={3}
-                name={`${t("currentBalance")} (${t("projectionBased")})`}
+                name=""
                 connectNulls={false}
                 dot={{ fill: '#3b82f6', strokeWidth: 2, r: 5 }}
                 strokeDasharray="8 4"
+                legendType="none"
               />
             </LineChart>
           </ResponsiveContainer>
