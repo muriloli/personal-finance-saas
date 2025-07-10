@@ -67,8 +67,6 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/overview"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/charts"] });
       toast({
         title: t("successTitle"),
         description: t("transactionAdded"),
@@ -94,8 +92,6 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/overview"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/charts"] });
       toast({
         title: t("successTitle"),
         description: t("transactionUpdated"),
