@@ -107,6 +107,12 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
 - **Session Configuration**: Database-backed session storage
 
 ## Changelog
+- July 10, 2025. Successfully completed migration from Replit Agent to standard Replit environment
+  - Enhanced "Despesas por Categoria" chart with empty state message when no expenses exist
+  - Added multilingual support for empty state: "Nenhuma despesa registrada ainda" (Portuguese), "No expenses recorded yet" (English), "No hay gastos registrados aún" (Spanish)
+  - Empty state shows informative message with chart icon and guidance to start adding expenses
+  - Chart conditionally displays empty state or normal pie chart with legend based on data availability
+  - Migration completed successfully with all functionality working including authentication, transactions, dashboard, and charts
 - July 10, 2025. Implemented automatic dashboard data refresh when returning from transaction pages
   - "Back to Dashboard" button reloads entire page to ensure fresh data display
   - Transaction creation/editing uses normal cache invalidation (no page reload)

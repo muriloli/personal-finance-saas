@@ -171,57 +171,68 @@ export default function Charts() {
               <CardDescription className="text-sm">{t("currentMonthBreakdown")}</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col">
-              <div className="h-40 sm:h-48 md:h-64 xl:h-80 2xl:h-96 flex-1 flex items-center justify-center">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={chartData.expensesByCategory}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius="25%"
-                      outerRadius="70%"
-                      paddingAngle={3}
-                      dataKey="value"
-                    >
-                      {chartData.expensesByCategory.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <ChartTooltip
-                      content={({ active, payload }) => {
-                        if (active && payload && payload.length) {
-                          const data = payload[0].payload;
-                          return (
-                            <div className="bg-background border border-border rounded-lg p-2 shadow-md">
-                              <p className="font-medium text-sm">{data.name}</p>
-                              <p className="text-primary text-sm">{formatCurrency(data.value)}</p>
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-              
-              {/* Legend */}
-              <div className="mt-3 sm:mt-4 space-y-2">
-                {chartData.expensesByCategory.map((item, index) => (
-                  <div key={index} className="flex items-center justify-between text-xs sm:text-sm">
-                    <div className="flex items-center flex-1 min-w-0">
-                      <div 
-                        className="w-3 h-3 rounded-full mr-2 shrink-0" 
-                        style={{ backgroundColor: item.color }}
-                      />
-                      <span className="text-muted-foreground truncate">{item.name}</span>
-                    </div>
-                    <span className="text-foreground font-medium ml-2 shrink-0">
-                      {formatCurrency(item.value)}
-                    </span>
+              {chartData.expensesByCategory.length === 0 ? (
+                // Empty state when no expenses
+                <div className="h-40 sm:h-48 md:h-64 xl:h-80 2xl:h-96 flex-1 flex flex-col items-center justify-center text-center">
+                  <div className="text-6xl mb-4 opacity-20">📊</div>
+                  <h3 className="text-lg font-medium text-foreground mb-2">{t("noExpensesYet")}</h3>
+                  <p className="text-sm text-muted-foreground max-w-xs">{t("startAddingExpenses")}</p>
+                </div>
+              ) : (
+                <>
+                  <div className="h-40 sm:h-48 md:h-64 xl:h-80 2xl:h-96 flex-1 flex items-center justify-center">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={chartData.expensesByCategory}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius="25%"
+                          outerRadius="70%"
+                          paddingAngle={3}
+                          dataKey="value"
+                        >
+                          {chartData.expensesByCategory.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <ChartTooltip
+                          content={({ active, payload }) => {
+                            if (active && payload && payload.length) {
+                              const data = payload[0].payload;
+                              return (
+                                <div className="bg-background border border-border rounded-lg p-2 shadow-md">
+                                  <p className="font-medium text-sm">{data.name}</p>
+                                  <p className="text-primary text-sm">{formatCurrency(data.value)}</p>
+                                </div>
+                              );
+                            }
+                            return null;
+                          }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
                   </div>
-                ))}
-              </div>
+                  
+                  {/* Legend */}
+                  <div className="mt-3 sm:mt-4 space-y-2">
+                    {chartData.expensesByCategory.map((item, index) => (
+                      <div key={index} className="flex items-center justify-between text-xs sm:text-sm">
+                        <div className="flex items-center flex-1 min-w-0">
+                          <div 
+                            className="w-3 h-3 rounded-full mr-2 shrink-0" 
+                            style={{ backgroundColor: item.color }}
+                          />
+                          <span className="text-muted-foreground truncate">{item.name}</span>
+                        </div>
+                        <span className="text-foreground font-medium ml-2 shrink-0">
+                          {formatCurrency(item.value)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </CardContent>
           </Card>
         </StaggerItem>
