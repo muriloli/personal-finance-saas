@@ -175,15 +175,32 @@ export default function FinancialTrendChart() {
     let adjustedExpenseChange = expenseAnalysis.change * factors.trendFactor;
     let adjustedBalanceChange = balanceAnalysis.change * factors.trendFactor;
     
-    // Apply negative boost
-    if (adjustedIncomeChange < 0) adjustedIncomeChange *= factors.negativeBoost;
-    if (adjustedExpenseChange > 0) adjustedExpenseChange *= factors.negativeBoost;
-    if (adjustedBalanceChange < 0) adjustedBalanceChange *= factors.negativeBoost;
+    // Apply perspective-specific adjustments
+    if (trendPerspective === 'pessimistic') {
+      // In pessimistic mode: reduce income growth, increase expense growth
+      if (adjustedIncomeChange > 0) adjustedIncomeChange *= 0.3; // Reduce positive income trends
+      if (adjustedExpenseChange < 0) adjustedExpenseChange *= 0.3; // Reduce positive expense reductions
+      adjustedIncomeChange -= 5; // Add a pessimistic penalty to income
+      adjustedExpenseChange += 8; // Add a pessimistic penalty to expenses
+    } else if (trendPerspective === 'optimistic') {
+      // In optimistic mode: boost income, reduce expenses  
+      if (adjustedIncomeChange < 0) adjustedIncomeChange *= 0.3; // Reduce negative income trends
+      if (adjustedExpenseChange > 0) adjustedExpenseChange *= 0.3; // Reduce negative expense increases
+      adjustedIncomeChange += 8; // Add optimistic boost to income
+      adjustedExpenseChange -= 5; // Add optimistic reduction to expenses
+    }
+    
+    // Apply negative boost for realistic mode only
+    if (trendPerspective === 'realistic') {
+      if (adjustedIncomeChange < 0) adjustedIncomeChange *= factors.negativeBoost;
+      if (adjustedExpenseChange > 0) adjustedExpenseChange *= factors.negativeBoost;
+      if (adjustedBalanceChange < 0) adjustedBalanceChange *= factors.negativeBoost;
+    }
     
     // Calculate adjusted averages based on perspective
     const adjustedAvgIncome = avgIncome * (1 + (adjustedIncomeChange * 0.01));
     const adjustedAvgExpenses = avgExpenses * (1 + (adjustedExpenseChange * 0.01));
-    const adjustedAvgBalance = avgBalance * (1 + (adjustedBalanceChange * 0.01));
+    const adjustedAvgBalance = adjustedAvgIncome - adjustedAvgExpenses;
 
     setAnalysis({
       incomeDirection: incomeAnalysis.direction,
@@ -210,9 +227,24 @@ export default function FinancialTrendChart() {
       let incomeChangeAdjusted = incomeAnalysis.change * factors.trendFactor;
       let expenseChangeAdjusted = expenseAnalysis.change * factors.trendFactor;
       
-      // Adjust for negative trends based on perspective
-      if (incomeChangeAdjusted < 0) incomeChangeAdjusted *= factors.negativeBoost;
-      if (expenseChangeAdjusted > 0) expenseChangeAdjusted *= factors.negativeBoost;
+      // Apply perspective-specific adjustments for projections
+      if (trendPerspective === 'pessimistic') {
+        // In pessimistic mode: reduce income growth, increase expense growth
+        if (incomeChangeAdjusted > 0) incomeChangeAdjusted *= 0.3; // Reduce positive income trends
+        if (expenseChangeAdjusted < 0) expenseChangeAdjusted *= 0.3; // Reduce positive expense reductions
+        incomeChangeAdjusted -= 5; // Add a pessimistic penalty to income
+        expenseChangeAdjusted += 8; // Add a pessimistic penalty to expenses
+      } else if (trendPerspective === 'optimistic') {
+        // In optimistic mode: boost income, reduce expenses  
+        if (incomeChangeAdjusted < 0) incomeChangeAdjusted *= 0.3; // Reduce negative income trends
+        if (expenseChangeAdjusted > 0) expenseChangeAdjusted *= 0.3; // Reduce negative expense increases
+        incomeChangeAdjusted += 8; // Add optimistic boost to income
+        expenseChangeAdjusted -= 5; // Add optimistic reduction to expenses
+      } else {
+        // Realistic mode: apply negative boost
+        if (incomeChangeAdjusted < 0) incomeChangeAdjusted *= factors.negativeBoost;
+        if (expenseChangeAdjusted > 0) expenseChangeAdjusted *= factors.negativeBoost;
+      }
       
       // Cap the change rate and apply dampening
       const cappedIncomeChange = Math.min(Math.max(incomeChangeAdjusted, -factors.maxGrowth * 100), factors.maxGrowth * 100);
@@ -225,11 +257,20 @@ export default function FinancialTrendChart() {
       // Add some randomness to make it more realistic (±3%)
       const randomFactor = 0.97 + (Math.random() * 0.06);
       
-      // Add optimistic boost for the optimistic perspective
-      const optimisticBoost = trendPerspective === 'optimistic' ? 1.1 : 1.0;
+      // Apply perspective multipliers
+      let perspectiveIncomeMultiplier = 1.0;
+      let perspectiveExpenseMultiplier = 1.0;
       
-      const projectedIncome = Math.max(0, (avgIncome + incomeGrowth * randomFactor) * optimisticBoost);
-      const projectedExpenses = Math.max(0, avgExpenses + expenseGrowth * randomFactor);
+      if (trendPerspective === 'pessimistic') {
+        perspectiveIncomeMultiplier = 0.9; // Reduce income by 10%
+        perspectiveExpenseMultiplier = 1.1; // Increase expenses by 10%
+      } else if (trendPerspective === 'optimistic') {
+        perspectiveIncomeMultiplier = 1.1; // Increase income by 10%
+        perspectiveExpenseMultiplier = 0.9; // Reduce expenses by 10%
+      }
+      
+      const projectedIncome = Math.max(0, (avgIncome + incomeGrowth * randomFactor) * perspectiveIncomeMultiplier);
+      const projectedExpenses = Math.max(0, (avgExpenses + expenseGrowth * randomFactor) * perspectiveExpenseMultiplier);
       
       projectedMonths.push({
         month: monthName,
