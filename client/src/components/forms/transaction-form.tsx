@@ -67,7 +67,8 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/overview"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/charts"] });
       toast({
         title: t("successTitle"),
         description: t("transactionAdded"),
@@ -93,7 +94,8 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/overview"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/dashboard/charts"] });
       toast({
         title: t("successTitle"),
         description: t("transactionUpdated"),
@@ -113,11 +115,13 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     },
   });
 
-  const handleCancel = () => {
-    // Invalidate dashboard queries to refresh data when returning
-    queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
-    queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
-    queryClient.invalidateQueries({ queryKey: ["/api/settings"] });
+  const handleCancel = async () => {
+    // Force refetch dashboard queries to refresh data when returning
+    await Promise.all([
+      queryClient.refetchQueries({ queryKey: ["/api/dashboard/overview"] }),
+      queryClient.refetchQueries({ queryKey: ["/api/dashboard/charts"] }),
+      queryClient.refetchQueries({ queryKey: ["/api/transactions"] })
+    ]);
     
     // Navigate back to transactions
     setLocation("/transactions");

@@ -21,11 +21,13 @@ export default function Transactions() {
   const queryClient = useQueryClient();
   const [filters, setFilters] = useState<TransactionFilters>({});
 
-  const handleBackToDashboard = () => {
-    // Invalidate all dashboard-related queries to refresh data
-    queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
-    queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
-    queryClient.invalidateQueries({ queryKey: ["/api/settings"] });
+  const handleBackToDashboard = async () => {
+    // Force refetch all dashboard-related queries
+    await Promise.all([
+      queryClient.refetchQueries({ queryKey: ["/api/dashboard/overview"] }),
+      queryClient.refetchQueries({ queryKey: ["/api/dashboard/charts"] }),
+      queryClient.refetchQueries({ queryKey: ["/api/transactions"] })
+    ]);
     
     // Navigate to dashboard
     setLocation("/dashboard");
