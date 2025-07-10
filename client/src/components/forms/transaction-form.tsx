@@ -113,6 +113,16 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
     },
   });
 
+  const handleCancel = () => {
+    // Invalidate dashboard queries to refresh data when returning
+    queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
+    queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
+    queryClient.invalidateQueries({ queryKey: ["/api/settings"] });
+    
+    // Navigate back to transactions
+    setLocation("/transactions");
+  };
+
   const onSubmit = (data: TransactionFormData) => {
     if (transactionId) {
       editMutation.mutate(data);
@@ -362,7 +372,7 @@ export default function TransactionForm({ transactionId, onSuccess }: Transactio
               <Button 
                 type="button" 
                 variant="outline"
-                onClick={() => setLocation("/transactions")}
+                onClick={handleCancel}
                 disabled={createMutation.isPending || editMutation.isPending}
               >
 {t("cancel")}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Download, Plus, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
+import { useQueryClient } from "@tanstack/react-query";
 import TransactionFilters from "@/components/transactions/transaction-filters";
 import TransactionTable from "@/components/transactions/transaction-table";
 import { useI18n } from "@/lib/i18n";
@@ -17,7 +18,18 @@ export interface TransactionFilters {
 export default function Transactions() {
   const { t } = useI18n();
   const [, setLocation] = useLocation();
+  const queryClient = useQueryClient();
   const [filters, setFilters] = useState<TransactionFilters>({});
+
+  const handleBackToDashboard = () => {
+    // Invalidate all dashboard-related queries to refresh data
+    queryClient.invalidateQueries({ queryKey: ["/api/dashboard"] });
+    queryClient.invalidateQueries({ queryKey: ["/api/transactions"] });
+    queryClient.invalidateQueries({ queryKey: ["/api/settings"] });
+    
+    // Navigate to dashboard
+    setLocation("/dashboard");
+  };
 
   const handleExport = async () => {
     try {
@@ -57,7 +69,7 @@ export default function Transactions() {
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-4 w-full sm:w-auto">
-              <Button variant="outline" onClick={() => setLocation("/dashboard")} className="flex-1 sm:flex-none">
+              <Button variant="outline" onClick={handleBackToDashboard} className="flex-1 sm:flex-none">
                 <ArrowLeft className="mr-1 sm:mr-2 h-4 w-4" />
                 <span className="hidden sm:inline">{t("backToDashboard")}</span>
                 <span className="sm:hidden">Dashboard</span>
