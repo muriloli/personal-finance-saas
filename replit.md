@@ -107,6 +107,12 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
 - **Session Configuration**: Database-backed session storage
 
 ## Changelog
+- July 10, 2025. Removed "Principais Categorias" (Top Categories) component from dashboard per user request
+  - Eliminated sidebar with top spending categories display
+  - Recent Transactions component now uses full width instead of 2/3 grid layout
+  - Simplified dashboard layout for cleaner, more focused interface
+  - Removed unused TopCategory interface and related calculation functions
+  - Updated component structure to be more streamlined and efficient
 - July 08, 2025. Complete redesign of login page with glassmorphism aesthetic using system colors
   - Switched from purple/blue theme to system's white/black color palette for consistency
   - Implemented true glassmorphism effect with backdrop-blur and transparent backgrounds
