@@ -24,18 +24,19 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
     defaultValues: {
       cpf: "",
+      password: "",
     },
   });
 
   const onSubmit = async (data: LoginFormData) => {
     try {
       setIsLoading(true);
-      await login(data.cpf);
+      await login(data.cpf, data.password);
       // Redirect is now handled in the login function based on admin status
     } catch (error) {
-      form.setError("cpf", {
+      form.setError("root", {
         type: "manual",
-        message: "Invalid CPF or user not found",
+        message: "Invalid CPF or password",
       });
     } finally {
       setIsLoading(false);
@@ -127,6 +128,36 @@ export default function Login() {
                       </FormItem>
                     )}
                   />
+
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-semibold text-gray-700 dark:text-gray-200">Senha</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              type="password"
+                              placeholder="Digite sua senha"
+                              className="text-lg py-4 pl-12 pr-4 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg transition-all duration-300 focus:shadow-lg focus:scale-[1.02] focus:border-primary focus:bg-white dark:focus:bg-gray-600"
+                              {...field}
+                            />
+                            <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
+                              <Shield className="h-5 w-5 text-primary" />
+                            </div>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {form.formState.errors.root && (
+                    <div className="text-red-600 text-sm font-medium text-center">
+                      {form.formState.errors.root.message}
+                    </div>
+                  )}
 
                   <Button
                     type="submit"

@@ -4,16 +4,23 @@ import { storage } from "./storage";
 import { loginSchema, transactionFormSchema, insertUserSettingsSchema } from "@shared/schema";
 import { z } from "zod";
 import { authenticateUser } from "./middleware/auth";
+import bcrypt from "bcryptjs";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Authentication routes
   app.post("/api/auth/login", async (req, res) => {
     try {
-      const { cpf } = loginSchema.parse(req.body);
+      const { cpf, password } = loginSchema.parse(req.body);
       
       const user = await storage.getUserByCpf(cpf);
       if (!user || !user.isActive) {
-        return res.status(401).json({ message: "Invalid CPF or user not found" });
+        return res.status(401).json({ message: "Invalid CPF or password" });
+      }
+
+      // Verify password
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+        return res.status(401).json({ message: "Invalid CPF or password" });
       }
 
       // Create session
@@ -235,16 +242,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // User Registration route
   app.post("/api/users/register", authenticateUser, async (req, res) => {
     try {
-      const { name, cpf, phone } = req.body;
+      const { name, cpf, phone, password } = req.body;
       
       // Validate required fields
-      if (!name || !cpf || !phone) {
-        return res.status(400).json({ message: "Name, CPF, and phone are required" });
+      if (!name || !cpf || !phone || !password) {
+        return res.status(400).json({ message: "Name, CPF, phone, and password are required" });
       }
 
       // Validate CPF format (11 digits)
       if (!/^\d{11}$/.test(cpf)) {
         return res.status(400).json({ message: "CPF must be 11 digits" });
+      }
+
+      // Validate password length
+      if (password.length < 6) {
+        return res.status(400).json({ message: "Password must be at least 6 characters" });
       }
 
       // Check if user already exists
@@ -253,11 +265,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(409).json({ message: "User with this CPF already exists" });
       }
 
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+
       // Create new user
       const newUser = await storage.createUser({
         name,
         cpf,
         phone,
+        password: hashedPassword,
         isActive: true,
         admin: false
       });
@@ -289,6 +305,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Update user error:", error);
       res.status(500).json({ message: "Failed to update user" });
+    }
+  });
+
+  // Set password for existing user (temporary migration route)
+  app.post("/api/users/:id/set-password", authenticateUser, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { password } = req.body;
+      
+      if (!password || password.length < 6) {
+        return res.status(400).json({ message: "Password must be at least 6 characters" });
+      }
+
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const updatedUser = await storage.updateUser(id, {
+        password: hashedPassword,
+      });
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      res.json({ message: "Password set successfully" });
+    } catch (error) {
+      console.error("Set password error:", error);
+      res.status(500).json({ message: "Failed to set password" });
     }
   });
 

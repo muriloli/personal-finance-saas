@@ -9,6 +9,7 @@ export const users = pgTable("users", {
   name: varchar("name", { length: 255 }).notNull(),
   cpf: varchar("cpf", { length: 11 }).unique().notNull(),
   phone: varchar("phone", { length: 20 }).unique().notNull(),
+  password: varchar("password", { length: 255 }).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
   isActive: boolean("is_active").default(true),
@@ -176,6 +177,7 @@ export type SystemLog = typeof systemLogs.$inferSelect;
 // Additional validation schemas
 export const loginSchema = z.object({
   cpf: z.string().regex(/^\d{11}$/, "CPF must be 11 digits"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 export const transactionFormSchema = insertTransactionSchema.omit({

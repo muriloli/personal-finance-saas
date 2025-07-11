@@ -107,6 +107,16 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
 - **Session Configuration**: Database-backed session storage
 
 ## Changelog
+- July 11, 2025. Enhanced login system with password authentication
+  - Added password field to users schema and database structure
+  - Updated login form to include password input field with validation
+  - Implemented bcrypt password hashing for secure authentication
+  - Enhanced login API to verify both CPF and password
+  - Updated AuthService and useAuth hook to handle password parameter
+  - Added password field to user registration system with validation
+  - Created temporary migration route for setting passwords on existing users
+  - Test user (CPF: 12345678901) created with default password: "123456"
+  - Improved login security from CPF-only to CPF + password authentication
 - July 10, 2025. Successfully completed migration from Replit Agent to standard Replit environment
   - Enhanced "Despesas por Categoria" chart with empty state message when no expenses exist
   - Added multilingual support for empty state: "Nenhuma despesa registrada ainda" (Portuguese), "No expenses recorded yet" (English), "No hay gastos registrados aún" (Spanish)

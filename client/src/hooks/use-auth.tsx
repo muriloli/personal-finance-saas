@@ -10,7 +10,7 @@ interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
   isAdmin: boolean;
-  login: (cpf: string) => Promise<void>;
+  login: (cpf: string, password: string) => Promise<void>;
   logout: () => void;
   refetchUser: () => void;
 }
@@ -119,11 +119,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [error, isLoading, setLocation, toast]);
 
-  const login = async (cpf: string): Promise<void> => {
+  const login = async (cpf: string, password: string): Promise<void> => {
     try {
       console.log("Iniciando login para CPF:", cpf);
       
-      const { user: loggedInUser, sessionToken } = await AuthService.login(cpf);
+      const { user: loggedInUser, sessionToken } = await AuthService.login(cpf, password);
       
       console.log("Login bem-sucedido:", loggedInUser);
       console.log("Token salvo:", !!sessionToken);

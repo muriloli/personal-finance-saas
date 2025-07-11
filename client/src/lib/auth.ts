@@ -70,14 +70,14 @@ export const AuthService = {
   },
   
   // API calls
-  login: async (cpf: string): Promise<LoginResponse> => {
+  login: async (cpf: string, password: string): Promise<LoginResponse> => {
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ cpf }),
+        body: JSON.stringify({ cpf, password }),
       });
       
       const data = await response.json();

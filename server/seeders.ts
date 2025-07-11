@@ -1,4 +1,5 @@
 import { storage } from "./storage";
+import bcrypt from "bcryptjs";
 
 const defaultCategories = [
   // Income categories
@@ -49,14 +50,19 @@ export async function createTestUser() {
     if (!existingUser) {
       console.log("Creating test user...");
       
+      // Hash the default password
+      const hashedPassword = await bcrypt.hash("123456", 10);
+      
       const testUser = await storage.createUser({
         name: "Usuário Teste",
         cpf: "12345678901",
         phone: "+5511999999999",
+        password: hashedPassword,
         isActive: true,
       });
       
       console.log(`✅ Created test user: ${testUser.name} (CPF: ${testUser.cpf})`);
+      console.log(`📝 Default password: 123456`);
     } else {
       console.log(`ℹ️ Test user already exists: ${existingUser.name}`);
     }
