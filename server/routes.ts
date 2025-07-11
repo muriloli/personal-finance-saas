@@ -354,6 +354,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Temporary migration route to set passwords for existing users (no auth required)
+  app.post("/api/migrate/set-password", async (req, res) => {
+    try {
+      const { cpf, password } = req.body;
+      
+      if (!cpf || !password) {
+        return res.status(400).json({ message: "CPF and password are required" });
+      }
+
+      if (password.length < 6) {
+        return res.status(400).json({ message: "Password must be at least 6 characters" });
+      }
+
+      // Find user by CPF
+      const user = await storage.getUserByCpf(cpf);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Update user with hashed password
+      const updatedUser = await storage.updateUser(user.id, { password: hashedPassword });
+      
+      if (updatedUser) {
+        res.json({ message: "Password set successfully", user: { id: updatedUser.id, name: updatedUser.name, cpf: updatedUser.cpf } });
+      } else {
+        res.status(500).json({ message: "Failed to update password" });
+      }
+    } catch (error) {
+      console.error("Migration error:", error);
+      res.status(500).json({ message: "Failed to set password" });
+    }
+  });
+
   // Export routes
   app.get("/api/export/transactions", authenticateUser, async (req, res) => {
     try {

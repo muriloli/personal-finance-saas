@@ -71,9 +71,54 @@ export async function createTestUser() {
   }
 }
 
+export async function createSupabaseUser() {
+  try {
+    // Check if the user from the screenshot exists
+    const existingUser = await storage.getUserByCpf("22222222222");
+    
+    if (!existingUser) {
+      console.log("Creating Supabase user...");
+      
+      // Hash the default password
+      const hashedPassword = await bcrypt.hash("123456", 10);
+      
+      const supabaseUser = await storage.createUser({
+        name: "Murilo Lima",
+        cpf: "22222222222", 
+        phone: "+5511888888888",
+        password: hashedPassword,
+        isActive: true,
+      });
+      
+      console.log(`✅ Created Supabase user: ${supabaseUser.name} (CPF: ${supabaseUser.cpf})`);
+      console.log(`📝 Default password: 123456`);
+    } else {
+      // User exists but may not have password, let's update it
+      if (!existingUser.password) {
+        console.log("Updating existing user with password...");
+        const hashedPassword = await bcrypt.hash("123456", 10);
+        
+        const updatedUser = await storage.updateUser(existingUser.id, { 
+          password: hashedPassword 
+        });
+        
+        if (updatedUser) {
+          console.log(`✅ Updated user password: ${updatedUser.name} (CPF: ${updatedUser.cpf})`);
+          console.log(`📝 Default password: 123456`);
+        }
+      } else {
+        console.log(`ℹ️ Supabase user already exists with password: ${existingUser.name}`);
+      }
+    }
+  } catch (error) {
+    console.error("❌ Error creating/updating Supabase user:", error);
+  }
+}
+
 export async function runSeeders() {
   console.log("🌱 Running database seeders...");
   await seedDefaultCategories();
   await createTestUser();
+  await createSupabaseUser();
   console.log("✅ Database seeding completed!");
 }
