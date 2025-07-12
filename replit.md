@@ -107,6 +107,13 @@ This is a comprehensive Personal Finance Micro SaaS web application built with m
 - **Session Configuration**: Database-backed session storage
 
 ## Changelog
+- July 12, 2025. Successfully completed migration from Replit Agent to standard Replit environment
+  - Fixed timezone issue where transaction dates were appearing one day earlier than selected
+  - Implemented proper local timezone handling in backend by adjusting for timezone offset
+  - Added debug logging to track date processing through the system
+  - Enhanced date processing to prevent UTC interpretation issues with PostgreSQL date fields
+  - Transaction dates now correctly reflect the user's selected date regardless of timezone
+  - Migration completed with all functionality working including authentication, transactions, and dashboard
 - July 11, 2025. Enhanced login system with password authentication
   - Added password field to users schema and database structure
   - Updated login form to include password input field with validation
