@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, PieChart, Pie, Cell } from "recharts";
+import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, PieChart, Pie, Cell, Tooltip } from "recharts";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useI18n } from "@/lib/i18n";
 import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/layout/page-transition";
@@ -30,6 +30,35 @@ const chartConfig = {
     label: "Expenses", 
     color: "#EF4444", // Red color for expenses
   },
+};
+
+// Custom tooltip component for Income vs Expenses chart
+const CustomTooltip = ({ active, payload, label, t }: any) => {
+  if (active && payload && payload.length) {
+    const formatCurrency = (value: number) => {
+      return new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(value);
+    };
+
+    return (
+      <div className="bg-background border border-border rounded-lg shadow-lg p-3 min-w-[200px]">
+        <p className="text-foreground font-medium mb-2">{label}</p>
+        {payload.map((entry: any, index: number) => (
+          <p 
+            key={index} 
+            className="text-sm"
+            style={{ color: entry.color }}
+          >
+            {entry.dataKey === 'income' ? t('income').toLowerCase() : t('expense').toLowerCase()}: {formatCurrency(entry.value)}
+          </p>
+        ))}
+      </div>
+    );
+  }
+
+  return null;
 };
 
 export default function Charts() {
@@ -138,10 +167,7 @@ export default function Charts() {
                       tick={{ fill: textColor }}
                       stroke={textColor}
                     />
-                    <ChartTooltip 
-                      content={<ChartTooltipContent />}
-                      formatter={(value) => [formatCurrency(value as number)]}
-                    />
+                    <Tooltip content={<CustomTooltip t={t} />} />
                     <Line
                       type="monotone"
                       dataKey="income"
