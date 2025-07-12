@@ -135,19 +135,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = transactionFormSchema.parse(req.body);
       
-      // Debug: log the original date received
-      console.log("Original date received:", validatedData.transactionDate);
-      
-      // Fix timezone issue: force local timezone interpretation
-      // Convert to local timezone by adding 'T00:00:00' and getting the local date
-      const inputDate = new Date(validatedData.transactionDate + 'T00:00:00');
-      const localOffset = inputDate.getTimezoneOffset() * 60000; // offset in milliseconds
-      const localDate = new Date(inputDate.getTime() - localOffset);
-      const dateToUse = localDate.toISOString().split('T')[0];
-      
-      console.log("Date being saved to database:", dateToUse);
-      console.log("Input date object:", inputDate);
-      console.log("Local adjusted date:", localDate);
+      // Use the date exactly as received from frontend (already in YYYY-MM-DD format)
+      const dateToUse = validatedData.transactionDate;
       
       const transaction = await storage.createTransaction({
         ...validatedData,
@@ -171,16 +160,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { id } = req.params;
       const validatedData = transactionFormSchema.parse(req.body);
       
-      // Debug: log the original date received
-      console.log("Update - Original date received:", validatedData.transactionDate);
-      
-      // Fix timezone issue: force local timezone interpretation
-      const inputDate = new Date(validatedData.transactionDate + 'T00:00:00');
-      const localOffset = inputDate.getTimezoneOffset() * 60000; // offset in milliseconds
-      const localDate = new Date(inputDate.getTime() - localOffset);
-      const dateToUse = localDate.toISOString().split('T')[0];
-      
-      console.log("Update - Date being saved to database:", dateToUse);
+      // Use the date exactly as received from frontend (already in YYYY-MM-DD format)
+      const dateToUse = validatedData.transactionDate;
       
       const transaction = await storage.updateTransaction(id, {
         ...validatedData,

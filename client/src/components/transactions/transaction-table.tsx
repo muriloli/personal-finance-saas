@@ -103,7 +103,10 @@ export default function TransactionTable({ filters }: TransactionTableProps) {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("pt-BR");
+    // Fix timezone issue: parse date as local date to avoid UTC conversion
+    const [year, month, day] = dateString.split('-');
+    const localDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    return localDate.toLocaleDateString("pt-BR");
   };
 
   const handleDelete = (id: string) => {

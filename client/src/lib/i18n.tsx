@@ -764,7 +764,12 @@ export function formatCurrency(amount: number, language: Language = "pt-BR"): st
 }
 
 export function formatDate(date: Date | string, language: Language = "pt-BR"): string {
-  const dateObj = typeof date === "string" ? new Date(date) : date;
+  // Fix timezone issue: parse string dates as local dates
+  const dateObj = typeof date === "string" ? 
+    (() => {
+      const [year, month, day] = date.split('-');
+      return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    })() : date;
   const locale = language === "pt-BR" ? "pt-BR" : language === "en" ? "en-US" : "es-ES";
   
   return dateObj.toLocaleDateString(locale);

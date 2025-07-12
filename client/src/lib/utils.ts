@@ -21,7 +21,12 @@ export function formatDate(
   format: "short" | "long" | "relative" = "short",
   locale: string = "pt-BR"
 ): string {
-  const dateObj = typeof date === "string" ? new Date(date) : date;
+  // Fix timezone issue: parse string dates as local dates
+  const dateObj = typeof date === "string" ? 
+    (() => {
+      const [year, month, day] = date.split('-');
+      return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    })() : date;
   
   if (format === "relative") {
     const now = new Date();

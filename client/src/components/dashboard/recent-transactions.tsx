@@ -43,7 +43,9 @@ export default function RecentTransactions() {
   };
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
+    // Fix timezone issue: parse date as local date to avoid UTC conversion
+    const [year, month, day] = dateString.split('-');
+    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
