@@ -141,6 +141,7 @@ export default function GaugeChart() {
     const circumference = radius * 2 * Math.PI;
     const halfCircumference = circumference / 2;
     
+    // Fix: Ensure proper calculation for complete semicircle
     const progressOffset = expenseLimit 
       ? halfCircumference - (percentage / 100) * halfCircumference
       : halfCircumference;
@@ -187,7 +188,7 @@ export default function GaugeChart() {
                 fill="none"
                 stroke={getColor()}
                 strokeWidth={strokeWidth}
-                strokeDasharray={`${halfCircumference} ${circumference}`}
+                strokeDasharray={`${halfCircumference} ${halfCircumference}`}
                 strokeDashoffset={progressOffset}
                 strokeLinecap="round"
                 className="transition-all duration-700 ease-out"
