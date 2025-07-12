@@ -51,7 +51,7 @@ const CustomTooltip = ({ active, payload, label, t }: any) => {
             className="text-sm"
             style={{ color: entry.color }}
           >
-            {entry.dataKey === 'income' ? t('income').toLowerCase() : t('expense').toLowerCase()}: {formatCurrency(entry.value)}
+            {entry.dataKey === 'income' ? t('income') : t('expense')}: {formatCurrency(entry.value)}
           </p>
         ))}
       </div>
