@@ -289,12 +289,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/users/:id", authenticateUser, async (req, res) => {
     try {
       const { id } = req.params;
-      const { name, cpf, phone } = req.body;
+      const { name, cpf, phone, isActive } = req.body;
       
       const updatedUser = await storage.updateUser(id, {
         name,
         cpf,
         phone,
+        isActive,
       });
 
       if (!updatedUser) {

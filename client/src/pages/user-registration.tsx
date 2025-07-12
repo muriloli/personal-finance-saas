@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -21,9 +23,19 @@ const userRegistrationSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   cpf: z.string().regex(/^\d{11}$/, "CPF must be 11 digits"),
   phone: z.string().min(10, "Phone must be at least 10 digits"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  isActive: z.boolean().optional(),
+});
+
+const userUpdateSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  cpf: z.string().regex(/^\d{11}$/, "CPF must be 11 digits"),
+  phone: z.string().min(10, "Phone must be at least 10 digits"),
+  isActive: z.boolean().optional(),
 });
 
 type UserRegistrationForm = z.infer<typeof userRegistrationSchema>;
+type UserUpdateForm = z.infer<typeof userUpdateSchema>;
 
 interface User {
   id: string;
@@ -51,7 +63,7 @@ export default function UserRegistration() {
   // Create user mutation
   const createUserMutation = useMutation({
     mutationFn: async (data: UserRegistrationForm) => {
-      const response = await apiRequest("/api/users/register", "POST", data);
+      const response = await apiRequest("POST", "/api/users/register", data);
       return response.json();
     },
     onSuccess: () => {
@@ -73,8 +85,8 @@ export default function UserRegistration() {
 
   // Update user mutation
   const updateUserMutation = useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: Partial<UserRegistrationForm> }) => {
-      const response = await apiRequest(`/api/users/${id}`, "PUT", data);
+    mutationFn: async ({ id, data }: { id: string; data: UserUpdateForm }) => {
+      const response = await apiRequest("PUT", `/api/users/${id}`, data);
       return response.json();
     },
     onSuccess: () => {
@@ -97,7 +109,7 @@ export default function UserRegistration() {
   // Delete user mutation
   const deleteUserMutation = useMutation({
     mutationFn: async (id: string) => {
-      const response = await apiRequest(`/api/users/${id}`, "DELETE");
+      const response = await apiRequest("DELETE", `/api/users/${id}`);
       return response.json();
     },
     onSuccess: () => {
@@ -116,20 +128,24 @@ export default function UserRegistration() {
     },
   });
 
-  const form = useForm<UserRegistrationForm>({
-    resolver: zodResolver(userRegistrationSchema),
+  const form = useForm<UserRegistrationForm | UserUpdateForm>({
+    resolver: zodResolver(editingUser ? userUpdateSchema : userRegistrationSchema),
     defaultValues: {
       name: "",
       cpf: "",
       phone: "",
+      password: "",
+      isActive: true,
     },
   });
 
-  const onSubmit = async (data: UserRegistrationForm) => {
+  const onSubmit = async (data: UserRegistrationForm | UserUpdateForm) => {
     if (editingUser) {
-      updateUserMutation.mutate({ id: editingUser.id, data });
+      const updateData = data as UserUpdateForm;
+      updateUserMutation.mutate({ id: editingUser.id, data: updateData });
     } else {
-      createUserMutation.mutate(data);
+      const createData = data as UserRegistrationForm;
+      createUserMutation.mutate(createData);
     }
   };
 
@@ -139,6 +155,7 @@ export default function UserRegistration() {
       name: user.name,
       cpf: user.cpf,
       phone: user.phone,
+      isActive: user.isActive,
     });
     setIsDialogOpen(true);
   };
@@ -153,6 +170,8 @@ export default function UserRegistration() {
       name: "",
       cpf: "",
       phone: "",
+      password: "",
+      isActive: true,
     });
     setIsDialogOpen(true);
   };
@@ -165,6 +184,8 @@ export default function UserRegistration() {
         name: "",
         cpf: "",
         phone: "",
+        password: "",
+        isActive: true,
       });
     }
   };
@@ -381,6 +402,47 @@ export default function UserRegistration() {
                   </FormItem>
                 )}
               />
+              {!editingUser && (
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Senha</FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="password" 
+                          placeholder="Digite a senha (mínimo 6 caracteres)" 
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+              {editingUser && (
+                <FormField
+                  control={form.control}
+                  name="isActive"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                      <div className="space-y-0.5">
+                        <FormLabel>Status do Usuário</FormLabel>
+                        <div className="text-sm text-muted-foreground">
+                          Ativar ou desativar acesso do usuário
+                        </div>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              )}
               <div className="flex justify-end space-x-2 pt-4">
                 <Button
                   type="button"
