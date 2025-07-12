@@ -59,7 +59,7 @@ const translations = {
     historicalData: "Dados Históricos",
     projectionBased: "Projeção (baseada em tendências)",
     insufficientData: "Dados Insuficientes",
-    insufficientDataMessage: "Para gerar a análise de tendência, você precisa ter pelo menos 3 transações registradas. Continue registrando suas transações para unlock esta funcionalidade.",
+    insufficientDataMessage: "Para gerar a análise de tendência, você precisa ter transações registradas em pelo menos 3 meses diferentes. Continue registrando suas transações ao longo do tempo para desbloquear esta funcionalidade.",
     
     // Trend Perspective Options
     trendPerspective: "Perspectiva",
@@ -290,7 +290,7 @@ const translations = {
     historicalData: "Historical Data",
     projectionBased: "Projection (based on trends)",
     insufficientData: "Insufficient Data",
-    insufficientDataMessage: "To generate the trend analysis, you need to have at least 3 recorded transactions. Continue recording your transactions to unlock this feature.",
+    insufficientDataMessage: "To generate the trend analysis, you need to have transactions recorded in at least 3 different months. Continue recording your transactions over time to unlock this feature.",
     
     // Trend Perspective Options
     trendPerspective: "Perspective",
@@ -522,7 +522,7 @@ const translations = {
     historicalData: "Datos Históricos",
     projectionBased: "Proyección (basada en tendencias)",
     insufficientData: "Datos Insuficientes",
-    insufficientDataMessage: "Para generar el análisis de tendencias, necesitas tener al menos 3 transacciones registradas. Continúa registrando tus transacciones para desbloquear esta funcionalidad.",
+    insufficientDataMessage: "Para generar el análisis de tendencias, necesitas tener transacciones registradas en al menos 3 meses diferentes. Continúa registrando tus transacciones a lo largo del tiempo para desbloquear esta funcionalidad.",
     
     // Trend Perspective Options
     trendPerspective: "Perspectiva",

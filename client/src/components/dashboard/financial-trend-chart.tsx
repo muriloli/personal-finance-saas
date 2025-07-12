@@ -98,9 +98,8 @@ export default function FinancialTrendChart() {
     // Count months that have any transactions (income OR expenses > 0)
     const activeMonths = months.filter(m => m.income > 0 || m.expenses > 0);
     
-    // For now, let's be less strict and show the chart if we have any transactions
-    // This allows users to see the trend analysis even with less than 3 months
-    const hasMinimum = transactions.length >= 3; // At least 3 transactions instead of 3 months
+    // Require at least 3 months with transactions for meaningful trend analysis
+    const hasMinimum = activeMonths.length >= 3;
     
     // Remove debug logs for production
     
