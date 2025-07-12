@@ -135,10 +135,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = transactionFormSchema.parse(req.body);
       
+      // Fix timezone issue: ensure date is interpreted as local date
+      const localDate = new Date(validatedData.transactionDate + 'T12:00:00'); // Add noon time to avoid timezone issues
+      const formattedDate = localDate.toISOString().split('T')[0]; // Convert back to YYYY-MM-DD format
+      
       const transaction = await storage.createTransaction({
         ...validatedData,
         userId: req.session!.userId,
         amount: validatedData.amount.toString(),
+        transactionDate: formattedDate,
       });
       
       res.status(201).json(transaction);
@@ -156,10 +161,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { id } = req.params;
       const validatedData = transactionFormSchema.parse(req.body);
       
+      // Fix timezone issue: ensure date is interpreted as local date
+      const localDate = new Date(validatedData.transactionDate + 'T12:00:00'); // Add noon time to avoid timezone issues
+      const formattedDate = localDate.toISOString().split('T')[0]; // Convert back to YYYY-MM-DD format
+      
       const transaction = await storage.updateTransaction(id, {
         ...validatedData,
         userId: req.session!.userId,
         amount: validatedData.amount.toString(),
+        transactionDate: formattedDate,
       });
       
       if (!transaction) {
